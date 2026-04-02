@@ -1,5 +1,11 @@
 # ArtConnect Pro - Local Art Community Platform
 
+## Team 2: 
+- Antoine Richard
+- Jérémy Sagnard
+- Rémi Pyt
+- Matthieu Sirier
+  
 ## Overview
 ArtConnect Pro is a JavaFX-based management system for local art communities. It allows managing artists, artworks, exhibitions, galleries, workshops, and community members.
 
