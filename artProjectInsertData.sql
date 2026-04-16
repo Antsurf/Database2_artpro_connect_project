@@ -1,0 +1,15 @@
+use artproject;
+SELECT * FROM address;
+SELECT * FROM artist;
+SELECT * FROM artworks;
+SELECT * FROM booking;
+SELECT * FROM communitymember;
+SELECT * FROM created;
+SELECT * FROM discipline;
+SELECT * FROM exhibitions;
+SELECT * FROM favorite;
+SELECT * FROM galleries;
+SELECT * FROM is_specialized_in;
+SELECT * FROM presents;
+SELECT * FROM review;
+SELECT * FROM workshop;
