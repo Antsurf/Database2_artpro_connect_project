@@ -177,7 +177,7 @@ END //
 DELIMITER ;
 
 # Test:
-CALL get_exhibitions_by_city('Lyon');
+CALL get_exhibitions_by_city('Paris');
 
 
 # Returns all exhibitions whose theme is given in parameters with their gallery and city.
