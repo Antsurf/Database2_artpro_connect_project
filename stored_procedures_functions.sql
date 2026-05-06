@@ -206,8 +206,8 @@ END //
 DELIMITER ;
 
 # Test:
-CALL get_exhibitions_by_theme('impressionism');
-CALL get_exhibitions_by_theme('surrealism');
-CALL get_exhibitions_by_theme('modern art');
+CALL get_exhibitions_by_theme('Dutch Golden Age');
+CALL get_exhibitions_by_theme('History');
+CALL get_exhibitions_by_theme('Baroque');
 
 
