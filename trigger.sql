@@ -1,4 +1,4 @@
-drop trigger stop_delete_with_if_in_workshop;
+drop trigger if exists stop_delete_with_if_in_workshop;
 
 delimiter //
 CREATE trigger stop_delete_with_if_in_workshop
@@ -15,6 +15,7 @@ END
 //
 delimiter ;
 
+drop trigger if exists sold_artwork;
 
 delimiter //
 CREATE trigger sold_artwork
@@ -28,7 +29,7 @@ END
 //
 delimiter ;
 
-drop trigger check_date_workshop;
+drop trigger if exists check_date_workshop;
 
 
 delimiter //
@@ -44,12 +45,14 @@ END
 //
 delimiter ;
 
+drop trigger if exists check_price_artwork;
+
 delimiter //
 CREATE trigger check_price_artwork
 BEFORE INSERT ON artworks
 FOR EACH ROW 
 BEGIN 
-    if(new.artwork_price < 0) then
+    if(new.artwork_price <= 0) then
 		signal SQLSTATE '45000'
 		SET MESSAGE_TEXT ='The price cannot be negative';
 	end if;
