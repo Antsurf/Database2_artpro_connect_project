@@ -112,7 +112,7 @@ BEGIN
 END //
 DELIMITER ;
 
-CALL sell_artwork(1);
+CALL sell_artwork(101);
 
 
 
