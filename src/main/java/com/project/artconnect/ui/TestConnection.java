@@ -9,7 +9,7 @@ import java.sql.SQLException;
 public class TestConnection {
 
     public static void main(String[] args) {
-        System.out.println("Attempting to connect to the School database...");
+        System.out.println("Attempting to connect to the artproject database...");
         try (Connection conn = ConnectionManager.getConnection()) {
             System.out.println("[OK] Connection to the ArtProject database successful!");
             System.out.println("Catalog: " + conn.getCatalog());
