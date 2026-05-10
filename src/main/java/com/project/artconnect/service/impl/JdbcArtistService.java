@@ -47,12 +47,12 @@ public class JdbcArtistService implements ArtistService{
     public List<Discipline> getAllDisciplines() {
         List<Discipline> disciplines = new ArrayList<>();
         try(Connection connection = ConnectionManager.getConnection()){
-            String sql = "SELECT discipline_name FROM discipline";
+            String sql = "SELECT * FROM discipline";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             ResultSet resultSet = preparedStatement.executeQuery();
 
             while(resultSet.next()){
-                disciplines.add(new Discipline(resultSet.getString("discipline_name")));
+                disciplines.add(new Discipline(resultSet.getInt("discipline_id"), resultSet.getString("discipline_name")));
             }
         }
         catch (SQLException e){
