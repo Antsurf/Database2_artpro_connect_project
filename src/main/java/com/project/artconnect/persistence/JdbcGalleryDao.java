@@ -146,8 +146,7 @@ public class JdbcGalleryDao implements GalleryDao {
         try (Connection conn = ConnectionManager.getConnection()) {
             PreparedStatement ps = conn.prepareStatement(sql);
 
-            Address address = gallery.getAddress();
-            ps.setInt(1, address.getId());
+            ps.setInt(1, gallery.getId());
 
             ps.executeUpdate();
         } catch (SQLException e) {

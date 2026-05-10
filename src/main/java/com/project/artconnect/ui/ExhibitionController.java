@@ -41,10 +41,8 @@ public class ExhibitionController {
     }
 
     private void refreshData() {
-        List<Exhibition> all = new ArrayList<>();
-        for (Gallery g : galleryService.getAllGalleries()) {
-            all.addAll(g.getExhibitions());
-        }
+        List<Exhibition> all = ServiceProvider.getExhibitionService().findAll();
         exhibitionTable.setItems(FXCollections.observableArrayList(all));
+
     }
 }
