@@ -24,6 +24,6 @@ public class JdbcGalleryService implements GalleryService {
     // TODO: once Remi implemented JdbcGalleryDao, check if the result is loaded inside gallery->exhibitions
     @Override
     public List<Exhibition> getExhibitionsByGallery(Gallery gallery) {
-        return gallery.getExhibitions();
+        return List.of();
     }
 }
