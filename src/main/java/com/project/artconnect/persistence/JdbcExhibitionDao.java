@@ -18,15 +18,18 @@ public class JdbcExhibitionDao implements ExhibitionDao{
     private Exhibition mapRow(ResultSet rs) throws SQLException {
         Exhibition exhibition = new Exhibition();
         exhibition.setId(rs.getInt("exhibition_id"));
+        exhibition.setTitle(rs.getString("exhibition_title"));
         exhibition.setDescription(rs.getString("exhibition_description"));
         exhibition.setTheme(rs.getString("exhibition_theme"));
         exhibition.setCuratorName(rs.getString("exhibition_curatorName"));
         exhibition.setStartDate(rs.getDate("exhibition_startDate").toLocalDate());
         exhibition.setEndDate(rs.getDate("exhibition_endDate").toLocalDate());
 
-        GalleryDao galleryDao = new JdbcGalleryDao();
-        Gallery gallery = galleryDao.findById(rs.getInt("gallery_id"));
-        exhibition.setGallery(gallery);
+        int galleryId = rs.getInt("gallery_id");
+        if (galleryId > 0) {
+            GalleryDao galleryDao = new JdbcGalleryDao();
+            exhibition.setGallery(galleryDao.findById(galleryId));
+        }
 
         ArtworkDao artworkDao = new JdbcArtworkDao();
         List<Artwork> list = artworkDao.findAll();
@@ -56,7 +59,8 @@ public class JdbcExhibitionDao implements ExhibitionDao{
     @Override
     public List<Exhibition> findAll(){
         List<Exhibition> list = new ArrayList<>();
-        String sql = "SELECT * FROM Exhibitions";
+        String sql = "SELECT e.*, p.gallery_id FROM Exhibitions e " +
+                "JOIN presents p ON e.exhibition_id = p.exhibition_id";
         try (Connection conn = ConnectionManager.getConnection()) {
             PreparedStatement ps = conn.prepareStatement(sql);
 
@@ -73,7 +77,9 @@ public class JdbcExhibitionDao implements ExhibitionDao{
     @Override
     public List<Exhibition> findAllByGallery(int id){
         List<Exhibition> list = new ArrayList<>();
-        String sql = "SELECT * FROM Exhibitions WHERE gallery_id = ?";
+        String sql = "SELECT e.* FROM Exhibitions e " +
+                "JOIN presents p ON e.exhibition_id = p.exhibition_id " +
+                "WHERE p.gallery_id = ?";
         try (Connection conn = ConnectionManager.getConnection()) {
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setInt(1, id);
@@ -83,7 +89,7 @@ public class JdbcExhibitionDao implements ExhibitionDao{
                 list.add(mapRow(rs));
             }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            System.out.println(e.getMessage());
         }
         return list;
     }
