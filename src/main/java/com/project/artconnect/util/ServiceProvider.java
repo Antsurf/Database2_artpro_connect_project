@@ -15,6 +15,7 @@ public class ServiceProvider {
     private static final GalleryService   galleryService   = new JdbcGalleryService();
     private static final WorkshopService  workshopService  = new JdbcWorkshopService();
     private static final CommunityService communityService = new JdbcCommunityMemberService();
+    private static final ExhibitionService exhibitionService = new JdbcExhibitionService();
 
     // No static init block needed
 
@@ -37,4 +38,6 @@ public class ServiceProvider {
     public static CommunityService getCommunityService() {
         return communityService;
     }
+
+    public static ExhibitionService getExhibitionService(){ return exhibitionService;}
 }
