@@ -16,7 +16,20 @@ import java.util.List;
  * JDBC implementation for ArtistDao.
  */
 public class JdbcArtistDao implements ArtistDao {
-
+    private Artist mapArtist(ResultSet rs) throws SQLException {
+        Artist artist = new Artist();
+        artist.setId(rs.getInt("artist_id"));
+        artist.setName(rs.getString("artist_name"));
+        artist.setBio(rs.getString("artist_bio"));
+        artist.setBirthYear(rs.getInt("artist_birthYear"));
+        artist.setContactEmail(rs.getString("artist_contactEmail"));
+        artist.setPhone(rs.getString("artist_phone"));
+        artist.setCity(rs.getString("artist_city"));
+        artist.setWebsite(rs.getString("artist_website"));
+        artist.setSocialMedia(rs.getString("artist_socialMedia"));
+        artist.setActive(rs.getBoolean("artist_isActive"));
+        return artist;
+    }
     @Override
     public List<Artist> findAll() {
 
@@ -27,17 +40,7 @@ public class JdbcArtistDao implements ArtistDao {
             ResultSet resultSet = preparedStatement.executeQuery();
 
             while(resultSet.next()){
-                int id = resultSet.getInt("artist_id");
-                String name = resultSet.getString("artist_name");
-                String bio = resultSet.getString("artist_bio");
-                int birthYear = resultSet.getInt("artist_birthYear");
-                String mail = resultSet.getString("artist_contactEmail");
-                String phone = resultSet.getString("artist_phone");
-                String city = resultSet.getString("artist_city");
-                String website = resultSet.getString("artist_website");
-                String socialMedia = resultSet.getString("artist_socialMedia");
-                boolean active = resultSet.getBoolean("artist_isActive");
-                artists.add(new Artist(id, name, bio, birthYear, mail, phone, city, website, socialMedia, active));
+                artists.add(mapArtist(resultSet));
             }
         }
         catch (SQLException e){
@@ -55,19 +58,7 @@ public class JdbcArtistDao implements ArtistDao {
             preparedStatement.setString(1, Integer.toString(id));
             ResultSet resultSet =preparedStatement.executeQuery();
             while(resultSet.next()){
-                int artist_id = resultSet.getInt("artist_id");
-                String name = resultSet.getString("artist_name");
-                String bio = resultSet.getString("artist_bio");
-                int birthYear = resultSet.getInt("artist_birthYear");
-                String mail = resultSet.getString("artist_contactEmail");
-                String phone = resultSet.getString("artist_phone");
-                String city = resultSet.getString("artist_city");
-                String website = resultSet.getString("artist_website");
-                String socialMedia = resultSet.getString("artist_socialMedia");
-                boolean active = resultSet.getBoolean("artist_isActive");
-
-                Artist artist = new Artist(id, name, bio, birthYear, mail, phone, city, website, socialMedia, active);
-                return artist;
+                return mapArtist(resultSet);
             }
         }
         catch (SQLException e){
@@ -163,16 +154,8 @@ public class JdbcArtistDao implements ArtistDao {
             ResultSet resultSet = preparedStatement.executeQuery();
 
             while(resultSet.next()){
-                int id = resultSet.getInt("artist_id");
-                String name = resultSet.getString("artist_name");
-                String bio = resultSet.getString("artist_bio");
-                int birthYear = resultSet.getInt("artist_birthYear");
-                String mail = resultSet.getString("artist_contactEmail");
-                String phone = resultSet.getString("artist_phone");
-                String website = resultSet.getString("artist_website");
-                String socialMedia = resultSet.getString("artist_socialMedia");
-                boolean active = resultSet.getBoolean("artist_isActive");
-                artists.add(new Artist(id, name, bio, birthYear, mail, phone, city, website, socialMedia, active));
+                artists.add(mapArtist(resultSet));
+
             }
         }
         catch (SQLException e){
