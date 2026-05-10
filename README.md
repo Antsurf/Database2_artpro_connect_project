@@ -33,9 +33,10 @@ mvn clean javafx:run
 The application runs "out-of-the-box" using **In-Memory Services** (`InMemoryArtistService`, etc.) located in `com.project.artconnect.service.impl`. This allows immediate demonstration of the UI with dummy data.
 
 ## Verify database connection 
+```
 mvn compile
 mvn exec:java -Dexec.mainClass="com.project.artconnect.ui.TestConnection"
-
+```
 ## OOP-First Design (Object-Oriented Programming)
 Unlike typical database-centric skeletons, ArtConnect Pro follows strict OOP best practices:
 - **No Explicit IDs**: Model classes (`Artist`, `Artwork`, etc.) do **not** have `id` fields. In Java, an object's identity is its memory address/reference, not a numeric ID.
