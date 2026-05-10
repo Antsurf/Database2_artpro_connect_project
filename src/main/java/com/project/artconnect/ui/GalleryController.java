@@ -3,48 +3,31 @@ package com.project.artconnect.ui;
 import com.project.artconnect.model.Gallery;
 import com.project.artconnect.service.GalleryService;
 import com.project.artconnect.util.ServiceProvider;
-import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.ListView;
 
 public class GalleryController {
-
     @FXML
-    private TableView<Gallery> galleryTable;
-    @FXML
-    private TableColumn<Gallery, String> nameColumn;
-    @FXML
-    private TableColumn<Gallery, String> ownerColumn;
-    @FXML
-    private TableColumn<Gallery, String> addressColumn;
-    @FXML
-    private TableColumn<Gallery, Double> ratingColumn;
+    private ListView<Gallery> galleryList;
 
     private final GalleryService galleryService = ServiceProvider.getGalleryService();
 
     @FXML
     public void initialize() {
-        // Basic properties
-        nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
-        ownerColumn.setCellValueFactory(new PropertyValueFactory<>("ownerName"));
-        ratingColumn.setCellValueFactory(new PropertyValueFactory<>("rating"));
+        galleryList.setItems(FXCollections.observableArrayList(galleryService.getAllGalleries()));
 
-        // Complex property: Extracting city/street from the Address object
-        addressColumn.setCellValueFactory(cellData -> {
-            if (cellData.getValue().getAddress() != null) {
-                return new SimpleStringProperty(cellData.getValue().getAddress().getCity_name());
-            } else {
-                return new SimpleStringProperty("Unknown");
+        // Custom cell factory to show more info
+        galleryList.setCellFactory(lv -> new javafx.scene.control.ListCell<>() {
+            @Override
+            protected void updateItem(Gallery item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty || item == null) {
+                    setText(null);
+                } else {
+                    setText(item.getName() + " - " + item.getAddress() + " (" + item.getRating() + "/5.0)");
+                }
             }
         });
-
-        refreshData();
-    }
-
-    private void refreshData() {
-        galleryTable.setItems(FXCollections.observableArrayList(galleryService.getAllGalleries()));
     }
 }
