@@ -9,6 +9,8 @@ import java.util.List;
 public interface ArtistDao {
     List<Artist> findAll();
 
+    Artist findById(int id);
+
     void save(Artist artist);
 
     void update(Artist artist);

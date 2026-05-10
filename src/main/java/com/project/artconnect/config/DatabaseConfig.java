@@ -2,10 +2,10 @@ package com.project.artconnect.config;
 
 /**
  * Database configuration constants.
- * TODO: Students should update these with their own MySQL credentials.
  */
 public class DatabaseConfig {
-    public static final String URL = "jdbc:mysql://localhost:3306/artconnect_db";
-    public static final String USER = "root";
-    public static final String PASSWORD = "Antoine-972"; // CHANGE ME
+    public static final String URL = "jdbc:mysql://localhost:3306/artproject?useSSL=false&serverTimezone=UTC";
+    public static final String USER = "project";
+    public static final String PASSWORD = "projectPW";
+
 }
