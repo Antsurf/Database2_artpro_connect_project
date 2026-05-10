@@ -140,9 +140,17 @@ public class JdbcArtistDao implements ArtistDao {
 
 
     @Override
-    public void delete(String artistName) {
+    public void delete(int artistId) {
         // TODO: Implement DELETE FROM artist WHERE name = ?
-        throw new UnsupportedOperationException("JDBC Implementation not yet provided.");
+        try(Connection connection = ConnectionManager.getConnection()){
+            String sql = "DELETE FROM artist WHERE artist_id = ?";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, Integer.toString(artistId));
+            preparedStatement.execute();
+        }
+        catch (SQLException e){
+            System.out.println(e.getMessage());
+        }
     }
 
     @Override

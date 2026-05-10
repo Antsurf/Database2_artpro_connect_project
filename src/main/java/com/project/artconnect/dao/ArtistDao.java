@@ -15,7 +15,7 @@ public interface ArtistDao {
 
     void update(Artist artist);
 
-    void delete(String artistName);
+    public void delete(int artistId);
 
     List<Artist> findByCity(String city);
 }
