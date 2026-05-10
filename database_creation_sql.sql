@@ -2,7 +2,7 @@ CREATE DATABASE ARTPROJECT;
 USE ARTPROJECT;
 
 CREATE TABLE Address( 
-   address_id VARCHAR(50), 
+   address_id INT, 
    city_name VARCHAR(50), 
    postal_code INT, 
    street_name VARCHAR(50), 
@@ -19,7 +19,7 @@ CREATE TABLE Galleries(
    gallery_contactPhone VARCHAR(50), 
    gallery_website VARCHAR(50) NOT NULL, 
    gallery_rating DECIMAL(15,2) NOT NULL, 
-   address_id VARCHAR(50) NOT NULL, 
+   address_id INT NOT NULL, 
    PRIMARY KEY(gallery_id), 
    UNIQUE(address_id), 
    FOREIGN KEY(address_id) REFERENCES Address(address_id) ON DELETE CASCADE

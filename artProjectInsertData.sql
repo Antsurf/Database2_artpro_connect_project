@@ -3,6 +3,9 @@ USE artproject;
 -- STEP 0: CLEAR DATA (In reverse dependency order)
 -- ==========================================================
 -- We clear the child tables first to avoid foreign key violations
+
+SET SQL_SAFE_UPDATES = 0;
+
 DELETE FROM review;
 DELETE FROM favorite;
 DELETE FROM is_specialized_in;
@@ -24,16 +27,16 @@ DELETE FROM Address;
 
 -- Addresses
 INSERT INTO Address (address_id, city_name, postal_code, street_name, country_name, street_number) VALUES
-('ADDR001', 'Paris', 75001, 'Rue de Rivoli', 'France', 99),
-('ADDR002', 'London', 10001, 'Great Russell St', 'UK', 20),
-('ADDR003', 'New York', 10001, '5th Ave', 'USA', 1000),
-('ADDR004', 'Paris', 75004, 'Place Georges-Pompidou', 'France', 1),
-('ADDR005', 'Florence', 50122, 'Piazzale degli Uffizi', 'Italy', 6),
-('ADDR006', 'Berlin', 10117, 'Bodestrasse', 'Germany', 1),
-('ADDR007', 'Madrid', 28014, 'Calle de Ruiz de Alarcon', 'Spain', 23),
-('ADDR008', 'Tokyo', 11000, 'Uenokoen', 'Japan', 7),
-('ADDR009', 'Amsterdam', 1071, 'Museumstraat', 'Netherlands', 1),
-('ADDR010', 'Bilbao', 48009, 'Avenida Abandoibarra', 'Spain', 2);
+(1, 'Paris', 75001, 'Rue de Rivoli', 'France', 99),
+(2, 'London', 10001, 'Great Russell St', 'UK', 20),
+(3, 'New York', 10001, '5th Ave', 'USA', 1000),
+(4, 'Paris', 75004, 'Place Georges-Pompidou', 'France', 1),
+(5, 'Florence', 50122, 'Piazzale degli Uffizi', 'Italy', 6),
+(6, 'Berlin', 10117, 'Bodestrasse', 'Germany', 1),
+(7, 'Madrid', 28014, 'Calle de Ruiz de Alarcon', 'Spain', 23),
+(8, 'Tokyo', 11000, 'Uenokoen', 'Japan', 7),
+(9, 'Amsterdam', 1071, 'Museumstraat', 'Netherlands', 1),
+(10, 'Bilbao', 48009, 'Avenida Abandoibarra', 'Spain', 2);
 
 -- Artists
 INSERT INTO Artist (artist_id, artist_name, artist_bio, artist_birthYear, artist_contactEmail, artist_phone, artist_city, artist_website, artist_socialMedia, artist_isActive) VALUES
@@ -72,14 +75,14 @@ INSERT INTO CommunityMember (cm_id, cm_name, cm_email, cm_birthYear, cm_phone, c
 
 -- Galleries
 INSERT INTO Galleries (gallery_id, gallery_name, gallery_ownerName, gallery_openingHour, gallery_contactPhone, gallery_website, gallery_rating, address_id) VALUES
-(1, 'Louvre Art House', 'Jean-Luc Martinez', '09:00-18:00', '0140205050', 'louvre.fr', 4.9, 'ADDR001'),
-(2, 'The British Gallery', 'Nicholas Cullinan', '10:00-20:00', '02073238000', 'britishmuseum.org', 4.7, 'ADDR002'),
-(3, 'Metropolitan Hub', 'Max Hollein', '10:00-21:00', '2125357710', 'metmuseum.org', 4.8, 'ADDR003'),
-(4, 'Pompidou Center', 'Laurent Le Bon', '11:00-21:00', '0144781233', 'centrepompidou.fr', 4.5, 'ADDR004'),
-(5, 'Uffizi Gallery', 'Eike Schmidt', '08:15-18:30', '0552388651', 'uffizi.it', 4.9, 'ADDR005'),
-(6, 'Prado Hall', 'Miguel Falomir', '10:00-20:00', '34913302800', 'museodelprado.es', 4.8, 'ADDR007'),
-(7, 'Rijksmuseum', 'Taco Dibbits', '09:00-17:00', '310206747000', 'rijksmuseum.nl', 4.7, 'ADDR009'),
-(8, 'Guggenheim Bilbao', 'Juan Ignacio Vidarte', '10:00-19:00', '34944359000', 'guggenheim-bilbao.eus', 4.6, 'ADDR010');
+(1, 'Louvre Art House', 'Jean-Luc Martinez', '09:00-18:00', '0140205050', 'louvre.fr', 4.9, 1),
+(2, 'The British Gallery', 'Nicholas Cullinan', '10:00-20:00', '02073238000', 'britishmuseum.org', 4.7, 2),
+(3, 'Metropolitan Hub', 'Max Hollein', '10:00-21:00', '2125357710', 'metmuseum.org', 4.8, 3),
+(4, 'Pompidou Center', 'Laurent Le Bon', '11:00-21:00', '0144781233', 'centrepompidou.fr', 4.5, 4),
+(5, 'Uffizi Gallery', 'Eike Schmidt', '08:15-18:30', '0552388651', 'uffizi.it', 4.9, 5),
+(6, 'Prado Hall', 'Miguel Falomir', '10:00-20:00', '34913302800', 'museodelprado.es', 4.8, 7),
+(7, 'Rijksmuseum', 'Taco Dibbits', '09:00-17:00', '310206747000', 'rijksmuseum.nl', 4.7, 9),
+(8, 'Guggenheim Bilbao', 'Juan Ignacio Vidarte', '10:00-19:00', '34944359000', 'guggenheim-bilbao.eus', 4.6, 10);
 
 -- Exhibitions
 INSERT INTO Exhibitions (exhibition_id, gallery_id, exhibition_title, exhibition_startDate, exhibition_endDate, exhibition_description, exhibition_curatorName, exhibition_theme) VALUES
