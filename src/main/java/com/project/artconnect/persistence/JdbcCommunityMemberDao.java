@@ -11,8 +11,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class JdbcCommunityMemberDao {
-    public CommunityMember findById(Integer id) {
+public class JdbcCommunityMemberDao implements CommunityMemberDao{
+
+    @Override
+    public Optional<CommunityMember> findById(Integer id) {
         CommunityMember cm = new CommunityMember();
         try(Connection connection = ConnectionManager.getConnection()){
             String sql = "SELECT * FROM communitymember WHERE cm_id = ?";
@@ -31,9 +33,10 @@ public class JdbcCommunityMemberDao {
         catch(SQLException s){
             System.out.println(s.getMessage());
         }
-        return cm;
+        return Optional.of(cm);
     }
 
+    @Override
     public List<CommunityMember> findAll() {
         List<CommunityMember> lst_member = new ArrayList<>();
         try(Connection connection = ConnectionManager.getConnection()){
