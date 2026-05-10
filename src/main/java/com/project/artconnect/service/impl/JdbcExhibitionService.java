@@ -26,6 +26,6 @@ public class JdbcExhibitionService implements ExhibitionService {
 
     @Override
     public void delete(String title) {
-        exhibitionDao.delete(title);
+        //exhibitionDao.delete(title);
     }
 }

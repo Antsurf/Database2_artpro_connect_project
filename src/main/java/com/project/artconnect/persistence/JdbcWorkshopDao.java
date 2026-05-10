@@ -48,7 +48,7 @@ public class JdbcWorkshopDao implements WorkshopDao {
     }
 
     @Override
-    public Workshop findById(int id) throws SQLException {
+    public Workshop findById(int id) {
         Workshop workshop = new Workshop();
         String sql = "SELECT * FROM Workshop WHERE workshop_id = ?";
         try (Connection conn = ConnectionManager.getConnection()) {
@@ -58,12 +58,15 @@ public class JdbcWorkshopDao implements WorkshopDao {
             if (rs.next()) {
                 workshop = mapRow(rs);
             }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
+
         return workshop;
     }
 
     @Override
-    public List<Workshop> findAll() throws SQLException {
+    public List<Workshop> findAll() {
         List<Workshop> workshops = new ArrayList<>();
 
         String sql = "SELECT * FROM Workshop";
@@ -74,12 +77,14 @@ public class JdbcWorkshopDao implements WorkshopDao {
             while (rs.next()) {
                 workshops.add(mapRow(rs));
             }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
         return workshops;
     }
 
     @Override
-    public void save(Workshop workshop) throws SQLException {
+    public void save(Workshop workshop) {
         String sql = "INSERT INTO Workshop (workshop_id, workshop_title, workshop_date, workshop_durationMinutes, workshop_maxParticipants, workshop_price, workshop_description, workshop_level, artist_id, gallery_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try (Connection conn = ConnectionManager.getConnection()) {
             PreparedStatement ps = conn.prepareStatement(sql);
@@ -110,11 +115,13 @@ public class JdbcWorkshopDao implements WorkshopDao {
             ps.setInt(10, workshop.getGallery().getId());
 
             ps.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
     }
 
     @Override
-    public void update(Workshop workshop) throws SQLException {
+    public void update(Workshop workshop){
         String sql = "UPDATE workshop set workshop_title=?, workshop_date=?, workshop_durationMinutes=?, workshop_maxParticipants=?, workshop_price=?, workshop_description=?, workshop_level=?, artist_id=?, gallery_id=? WHERE workshop_id = ?";
         try (Connection conn = ConnectionManager.getConnection()) {
             PreparedStatement ps = conn.prepareStatement(sql);
@@ -148,17 +155,24 @@ public class JdbcWorkshopDao implements WorkshopDao {
             ps.setInt(12, workshop.getId());
 
             ps.execute();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
+
     }
 
     @Override
-    public void delete(Workshop workshop) throws SQLException {
+    public void delete(Workshop workshop){
         String sql = "DELETE FROM workshop WHERE Workshop_id = ?;";
         try (Connection conn = ConnectionManager.getConnection()) {
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setInt(1,workshop.getId());
 
             ps.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
+
     }
+
 }

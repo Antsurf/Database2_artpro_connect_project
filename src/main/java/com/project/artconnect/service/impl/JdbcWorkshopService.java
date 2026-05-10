@@ -23,7 +23,7 @@ public class JdbcWorkshopService implements WorkshopService {
     // getAllWorkshops
     // ----------------------------------------------------------------
     @Override
-    public List<Workshop> getAllWorkshops() {
+    public List<Workshop> getAllWorkshops()  {
         return workshopDao.findAll();
     }
 
@@ -31,7 +31,7 @@ public class JdbcWorkshopService implements WorkshopService {
     // getWorkshopByTitle
     // ----------------------------------------------------------------
     @Override
-    public Optional<Workshop> getWorkshopByTitle(String title) {
+    public Optional<Workshop> getWorkshopByTitle(String title)  {
         return workshopDao.findAll().stream()
                 .filter(w -> w.getTitle().equalsIgnoreCase(title))
                 .findFirst();

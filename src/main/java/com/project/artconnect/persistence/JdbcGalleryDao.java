@@ -48,7 +48,7 @@ public class JdbcGalleryDao implements GalleryDao {
     }
 
     @Override
-    public Gallery findById(int id) throws SQLException {
+    public Gallery findById(int id){
         Gallery gallery = null;
         String sql = "SELECT * FROM Galleries WHERE gallery_id = ?;";
         try (Connection conn = ConnectionManager.getConnection()) {
@@ -58,12 +58,14 @@ public class JdbcGalleryDao implements GalleryDao {
             if (rs.next()) {
                 gallery = mapRow(rs);
             }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
         return gallery;
     }
 
     @Override
-    public List<Gallery> findAll() throws SQLException {
+    public List<Gallery> findAll(){
         List<Gallery> galleries = new ArrayList<>();
         String sql = "SELECT * FROM Galleries;";
         try (Connection conn = ConnectionManager.getConnection()) {
@@ -71,13 +73,15 @@ public class JdbcGalleryDao implements GalleryDao {
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 galleries.add(mapRow(rs));
-            }e
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
         }
         return galleries;
     }
 
     @Override
-    public void save(Gallery gallery) throws SQLException{
+    public void save(Gallery gallery){
         String sql = "INSERT INTO Galleries (gallery_id, gallery_name, gallery_ownerName, gallery_openingHour, gallery_contactPhone, gallery_website, gallery_rating, address_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         try (Connection conn = ConnectionManager.getConnection()) {
 
@@ -103,11 +107,13 @@ public class JdbcGalleryDao implements GalleryDao {
                 ps.executeUpdate();
             }
 
-        }
+    } catch (SQLException e) {
+        System.out.println(e.getMessage());
+    }
     }
 
     @Override
-    public void update(Gallery gallery) throws SQLException{
+    public void update(Gallery gallery){
         String sql = "UPDATE Galleries set gallery_id=?, gallery_name=?, gallery_ownerName=?, gallery_openingHour=?, gallery_contactPhone=?, gallery_website=?, gallery_rating=?,address_id=? WHERE gallery_id = ?";
         try (Connection conn = ConnectionManager.getConnection()) {
             PreparedStatement ps = conn.prepareStatement(sql);
@@ -127,11 +133,15 @@ public class JdbcGalleryDao implements GalleryDao {
             jdbcAddressDao.update(address);
 
             ps.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
+
     }
 
+
     @Override
-    public void delete(Gallery gallery) throws SQLException{
+    public void delete(Gallery gallery){
         String sql = "DELETE FROM Galleries WHERE gallery_id = ?";
         try (Connection conn = ConnectionManager.getConnection()) {
             PreparedStatement ps = conn.prepareStatement(sql);
@@ -140,6 +150,8 @@ public class JdbcGalleryDao implements GalleryDao {
             ps.setInt(1, address.getId());
 
             ps.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
 
     }

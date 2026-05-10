@@ -10,14 +10,14 @@ import java.util.List;
 
 public interface WorkshopDao {
 
-    Workshop findById(int id) throws SQLException;
+    Workshop findById(int id);
 
-    List<Workshop> findAll() throws SQLException;
+    List<Workshop> findAll();
 
-    void save(Workshop workshop) throws SQLException;
+    void save(Workshop workshop);
 
-    void update(Workshop workshop) throws SQLException;
+    void update(Workshop workshop);
 
-    void delete(Workshop workshop) throws SQLException;
+    void delete(Workshop workshop);
 
 }

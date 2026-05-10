@@ -8,13 +8,13 @@ import java.util.List;
 import java.util.Optional;
 
 public interface GalleryDao {
-    Gallery findById(int id) throws SQLException;
+    Gallery findById(int id) ;
 
-    List<Gallery> findAll() throws SQLException;
+    List<Gallery> findAll();
 
-    void save(Gallery gallery) throws SQLException;
+    void save(Gallery gallery);
 
-    void update(Gallery gallery) throws SQLException;
+    void update(Gallery gallery);
 
-    void delete(Gallery gallery) throws SQLException;
+    void delete(Gallery gallery);
 }

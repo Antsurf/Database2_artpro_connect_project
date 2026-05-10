@@ -36,7 +36,7 @@ public class JdbcExhibitionDao implements ExhibitionDao{
     }
 
     @Override
-    public Exhibition findById(int id) throws SQLException{
+    public Exhibition findById(int id){
         Exhibition exhibition = null;
         String sql = "SELECT * FROM Exhibitions WHERE exhibition_id = ?";
         try (Connection conn = ConnectionManager.getConnection()) {
@@ -47,12 +47,14 @@ public class JdbcExhibitionDao implements ExhibitionDao{
             if (rs.next()) {
                 exhibition = mapRow(rs);
             }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
         return exhibition;
     }
 
     @Override
-    public List<Exhibition> findAll() throws SQLException{
+    public List<Exhibition> findAll(){
         List<Exhibition> list = new ArrayList<>();
         String sql = "SELECT * FROM Exhibitions";
         try (Connection conn = ConnectionManager.getConnection()) {
@@ -62,12 +64,14 @@ public class JdbcExhibitionDao implements ExhibitionDao{
             while (rs.next()) {
                 list.add(mapRow(rs));
             }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
         return list;
     }
 
     @Override
-    public List<Exhibition> findAllByGallery(int id) throws SQLException{
+    public List<Exhibition> findAllByGallery(int id){
         List<Exhibition> list = new ArrayList<>();
         String sql = "SELECT * FROM Exhibitions WHERE gallery_id = ?";
         try (Connection conn = ConnectionManager.getConnection()) {
@@ -78,18 +82,20 @@ public class JdbcExhibitionDao implements ExhibitionDao{
             while (rs.next()) {
                 list.add(mapRow(rs));
             }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
         return list;
     }
 
     @Override
-    public void getListArtworks(Exhibition exhibition) throws SQLException{
+    public void getListArtworks(Exhibition exhibition){
         exhibition.getArtworks();
     }
 
 
     @Override
-    public void save(Exhibition exhibition) throws SQLException{
+    public void save(Exhibition exhibition){
         String sql = "INSERT INTO Exhibitions (exhibition_id, gallery_id, exhibition_title, exhibition_startDate, exhibition_endDate, exhibition_description, exhibition_curatorName, exhibition_theme) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         try (Connection conn = ConnectionManager.getConnection()) {
             PreparedStatement ps = conn.prepareStatement(sql);
@@ -110,11 +116,13 @@ public class JdbcExhibitionDao implements ExhibitionDao{
             ps.setInt(2, exhibition.getGallery().getId());
 
             ps.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
     }
 
     @Override
-    public void update(Exhibition exhibition) throws SQLException{
+    public void update(Exhibition exhibition){
         String sql = "UPDATE Exhibitions SET exhibition_id=?, gallery_id=?, exhibition_title=?, exhibition_startDate=?, exhibition_endDate=?, exhibition_description=?, exhibition_curatorName=?, exhibition_theme=? WHERE  exhibition_id=?";
         try (Connection conn = ConnectionManager.getConnection()) {
             PreparedStatement ps = conn.prepareStatement(sql);
@@ -136,17 +144,21 @@ public class JdbcExhibitionDao implements ExhibitionDao{
             }
 
             ps.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
     }
 
     @Override
-    public void delete(Exhibition exhibition) throws SQLException{
+    public void delete(Exhibition exhibition){
         String sql = "DELETE FROM Exhibitions WHERE exhibition_id = ?";
         try (Connection conn = ConnectionManager.getConnection()) {
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setInt(1, exhibition.getId());
 
             ps.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
 
     }
