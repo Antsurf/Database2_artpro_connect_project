@@ -140,14 +140,44 @@ public class JdbcArtistDao implements ArtistDao {
 
 
     @Override
-    public void delete(String artistName) {
-        // TODO: Implement DELETE FROM artist WHERE name = ?
-        throw new UnsupportedOperationException("JDBC Implementation not yet provided.");
+    public void delete(int artistId) {
+
+        try(Connection connection = ConnectionManager.getConnection()){
+            String sql = "DELETE FROM artist WHERE artist_id = ?";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, Integer.toString(artistId));
+            preparedStatement.execute();
+        }
+        catch (SQLException e){
+            System.out.println(e.getMessage());
+        }
     }
 
     @Override
     public List<Artist> findByCity(String city) {
-        // TODO: Implement SELECT * FROM artist WHERE city = ?
-        throw new UnsupportedOperationException("JDBC Implementation not yet provided.");
+        List<Artist> artists = new ArrayList<>();
+        try(Connection connection = ConnectionManager.getConnection()){
+            String sql = "SELECT * FROM artist where artist_city = ?";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, city);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while(resultSet.next()){
+                int id = resultSet.getInt("artist_id");
+                String name = resultSet.getString("artist_name");
+                String bio = resultSet.getString("artist_bio");
+                int birthYear = resultSet.getInt("artist_birthYear");
+                String mail = resultSet.getString("artist_contactEmail");
+                String phone = resultSet.getString("artist_phone");
+                String website = resultSet.getString("artist_website");
+                String socialMedia = resultSet.getString("artist_socialMedia");
+                boolean active = resultSet.getBoolean("artist_isActive");
+                artists.add(new Artist(id, name, bio, birthYear, mail, phone, city, website, socialMedia, active));
+            }
+        }
+        catch (SQLException e){
+            System.out.println(e.getMessage());
+        }
+        return artists;
     }
 }
