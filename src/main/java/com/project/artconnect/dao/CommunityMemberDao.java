@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Optional;
 
 public interface CommunityMemberDao {
-    Optional<CommunityMember> findById(Integer id);
-
+    CommunityMember findById(Integer id);
     List<CommunityMember> findAll();
 }

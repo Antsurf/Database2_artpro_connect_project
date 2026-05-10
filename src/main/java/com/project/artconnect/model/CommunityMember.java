@@ -79,6 +79,10 @@ public class CommunityMember {
         this.favoriteDisciplines = favoriteDisciplines;
     }
 
+    public void addFavoriteDiscipline(Discipline favoriteDiscipline) {
+        this.favoriteDisciplines.add(favoriteDiscipline);
+    }
+
     public String getMembershipType() {
         return membershipType;
     }
@@ -112,6 +116,17 @@ public class CommunityMember {
 
     @Override
     public String toString() {
-        return name;
+        return "CommunityMember{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", email='" + email + '\'' +
+                ", birthYear=" + birthYear +
+                ", phone='" + phone + '\'' +
+                ", city='" + city + '\'' +
+                ", favoriteDisciplines=" + favoriteDisciplines +
+                ", membershipType='" + membershipType + '\'' +
+                ", bookings=" + bookings +
+                ", reviews=" + reviews +
+                '}';
     }
 }
