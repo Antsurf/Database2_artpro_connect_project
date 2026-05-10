@@ -3,25 +3,36 @@ package com.project.artconnect.model;
 import java.time.LocalDateTime;
 
 public class Workshop {
+    private int id;
     private String title;
     private LocalDateTime date;
     private int durationMinutes;
     private int maxParticipants;
     private double price;
     private Artist instructor;
-    private String location;
+    private Gallery gallery;
     private String description;
     private String level; // beginner, intermediate, advanced
 
     public Workshop() {
     }
 
-    public Workshop(String title, LocalDateTime date, Artist instructor, double price) {
+    public Workshop(int id, String title, LocalDateTime date, int durationMinutes, int maxParticipants, double price, Artist instructor, Gallery gallery, String description, String level) {
+        this.id = id;
         this.title = title;
         this.date = date;
-        this.instructor = instructor;
+        this.durationMinutes = durationMinutes;
+        this.maxParticipants = maxParticipants;
         this.price = price;
+        this.instructor = instructor;
+        this.gallery = gallery;
+        this.description = description;
+        this.level = level;
     }
+
+    public int getId() {return id;}
+
+    public void setId(int id) {this.id = id;}
 
     public String getTitle() {
         return title;
@@ -71,12 +82,12 @@ public class Workshop {
         this.instructor = instructor;
     }
 
-    public String getLocation() {
-        return location;
+    public Gallery getGallery() {
+        return gallery;
     }
 
-    public void setLocation(String location) {
-        this.location = location;
+    public void setGallery(Gallery gallery) {
+        this.gallery = gallery;
     }
 
     public String getDescription() {
@@ -97,6 +108,17 @@ public class Workshop {
 
     @Override
     public String toString() {
-        return title;
+        return "Workshop{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", date=" + date +
+                ", durationMinutes=" + durationMinutes +
+                ", maxParticipants=" + maxParticipants +
+                ", price=" + price +
+                ", instructor=" + instructor +
+                ", gallery=" + gallery +
+                ", description='" + description + '\'' +
+                ", level='" + level + '\'' +
+                '}';
     }
 }
