@@ -57,7 +57,7 @@ public class JdbcArtistDao implements ArtistDao {
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, Integer.toString(id));
             ResultSet resultSet =preparedStatement.executeQuery();
-            while(resultSet.next()){
+            if (resultSet.next()){
                 return mapArtist(resultSet);
             }
         }
