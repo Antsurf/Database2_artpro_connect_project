@@ -102,6 +102,51 @@ public class JdbcArtworkDao implements ArtworkDao {
     }
 
     @Override
+    public List<Artwork> findByArtistId(int id) {
+        List<Artwork> artworks = new ArrayList<>();
+        // same query as above juste with a specified id
+        String sql = "SELECT aw.*, ar.* FROM Artworks aw " +
+                "JOIN created c ON aw.artwork_id = c.artwork_id " +
+                "JOIN Artist ar ON c.artist_id = ar.artist_id " +
+                "WHERE ar.artist_id = ?";
+        try (Connection conn = ConnectionManager.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, Integer.toString(id));
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    Artwork artwork = mapArtwork(rs);
+                    artwork.setArtist(mapArtist(rs));
+                    artworks.add(artwork);
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return artworks;
+    }
+
+    @Override
+    public boolean inDatabase(Artwork artwork){
+        boolean inDB = false;
+        try(Connection connection = ConnectionManager.getConnection()){
+            String sql = "SELECT * FROM artwork WHERE artwork_id = ? or artwork_title =?";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, Integer.toString(artwork.getId()));
+            preparedStatement.setString(2, artwork.getTitle());
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if(resultSet.next()){
+                inDB = true;
+            }
+            return inDB;
+        }
+        catch (SQLException e){
+            System.out.println(e.getMessage());
+        }
+        return inDB;
+    }
+
+
+    @Override
     public void save(Artwork artwork) {
         String sql = "INSERT INTO Artworks (artwork_title, artwork_creationYear, artwork_type, " +
                 "artwork_medium, artwork_dimensions, artwork_description, artwork_price, artwork_status) " +

@@ -84,6 +84,10 @@ public class Artist {
         return disciplines;
     }
 
+    public void addDiscipline(Discipline discipline){
+        this.disciplines.add(discipline);
+    }
+
     public void setDisciplines(List<Discipline> disciplines) {
         this.disciplines = disciplines;
     }
@@ -143,7 +147,6 @@ public class Artist {
     public void setArtworks(List<Artwork> artworks) {
         this.artworks = artworks;
     }
-
 
     public void addArtwork(Artwork artwork) {
         this.artworks.add(artwork);

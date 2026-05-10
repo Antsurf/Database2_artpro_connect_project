@@ -7,7 +7,7 @@ import java.util.List;
  * Artwork entity representing a piece created by an artist.
  */
 public class Artwork {
-    private Integer id;
+    private int id;
     private String title;
     private Integer creationYear;
     private String type; // painting, sculpture, etc.
@@ -18,6 +18,7 @@ public class Artwork {
     private Status status; // FOR_SALE, SOLD, EXHIBITED
     private Artist artist;
     private List<ArtworkTag> tags = new ArrayList<>();
+
     public enum Status {
         FOR_SALE, SOLD, EXHIBITED
     }
@@ -117,6 +118,7 @@ public class Artwork {
     public void setTags(List<ArtworkTag> tags) {
         this.tags = tags;
     }
+
     @Override
     public String toString() {
         return title;

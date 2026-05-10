@@ -9,13 +9,15 @@ import java.util.List;
 public interface ArtistDao {
     List<Artist> findAll();
 
+    Artist findByName(String name);
+
     Artist findById(int id);
 
     void save(Artist artist);
 
     void update(Artist artist);
 
-    public void delete(int artistId);
+    void delete(int artistId);
 
     List<Artist> findByCity(String city);
 }
