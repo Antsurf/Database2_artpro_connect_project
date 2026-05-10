@@ -147,6 +147,24 @@ public class JdbcArtworkDao implements ArtworkDao {
 
 
     @Override
+    public Artwork findById(int artworkId) {
+        Artwork artwork = new Artwork();
+        // same query as above juste with a specified id
+        String sql = "SELECT * FROM artwork WHERE artwork_id = ?";
+        try (Connection conn = ConnectionManager.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, String.valueOf(artworkId));
+            try (ResultSet rs = ps.executeQuery()) {
+                artwork = mapArtwork(rs);
+                artwork.setArtist(mapArtist(rs));
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return artwork;
+    }
+
+    @Override
     public void save(Artwork artwork) {
         String sql = "INSERT INTO Artworks (artwork_title, artwork_creationYear, artwork_type, " +
                 "artwork_medium, artwork_dimensions, artwork_description, artwork_price, artwork_status) " +
