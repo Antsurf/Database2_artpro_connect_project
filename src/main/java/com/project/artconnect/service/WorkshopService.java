@@ -9,9 +9,9 @@ import java.util.List;
 import java.util.Optional;
 
 public interface WorkshopService {
-    List<Workshop> getAllWorkshops() throws SQLException;
+    List<Workshop> getAllWorkshops();
 
-    Optional<Workshop> getWorkshopByTitle(String title) throws SQLException;
+    Optional<Workshop> getWorkshopByTitle(String title);
 
     void bookWorkshop(Workshop workshop, CommunityMember member);
 
