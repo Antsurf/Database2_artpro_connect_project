@@ -2,6 +2,8 @@ package com.project.artconnect.model;
 
 import java.util.ArrayList;
 import java.util.List;
+import com.project.artconnect.model.Gallery;
+import com.project.artconnect.model.Exhibition;
 
 /**
  * Artwork entity representing a piece created by an artist.
@@ -18,6 +20,7 @@ public class Artwork {
     private Status status; // FOR_SALE, SOLD, EXHIBITED
     private Artist artist;
     private List<ArtworkTag> tags = new ArrayList<>();
+    private Exhibition exhibition;
     public enum Status {
         FOR_SALE, SOLD, EXHIBITED
     }
@@ -25,16 +28,23 @@ public class Artwork {
     public Artwork() {
     }
 
-    public Artwork(String title, Integer creationYear, String type, double price, Artist artist) {
+    public Artwork(String title, Integer creationYear, String type, double price, Artist artist, Exhibition exhibition) {
         this.title = title;
         this.creationYear = creationYear;
         this.type = type;
         this.price = price;
         this.artist = artist;
         this.status = Status.FOR_SALE;
+        this.exhibition = exhibition;
     }
 
     // Getters and Setters
+
+
+    public Exhibition getExhibition() {return exhibition;}
+
+    public void setExhibition(Exhibition exhibition) {this.exhibition = exhibition;}
+
     public Integer getId() {return id;}
     public void setId(Integer id) {this.id = id;}
 

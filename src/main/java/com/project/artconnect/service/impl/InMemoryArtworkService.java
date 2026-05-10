@@ -2,6 +2,7 @@ package com.project.artconnect.service.impl;
 
 import com.project.artconnect.model.Artist;
 import com.project.artconnect.model.Artwork;
+import com.project.artconnect.model.Exhibition;
 import com.project.artconnect.service.ArtistService;
 import com.project.artconnect.service.ArtworkService;
 import java.util.*;
@@ -14,6 +15,7 @@ public class InMemoryArtworkService implements ArtworkService {
     }
 
     public void initData(ArtistService artistService) {
+        /**
         addArtwork("Mona Lisa", 1503, "Painting", 850000000.0,
                 artistService.getArtistByName("Leonardo Vinci").orElse(null));
         addArtwork("The Thinker", 1904, "Sculpture", 15000000.0,
@@ -26,12 +28,13 @@ public class InMemoryArtworkService implements ArtworkService {
                 artistService.getArtistByName("Ansel Adams").orElse(null));
         addArtwork("The Last Supper", 1498, "Painting", 450000000.0,
                 artistService.getArtistByName("Leonardo Vinci").orElse(null));
+         **/
     }
 
-    private void addArtwork(String title, int year, String type, double price, Artist artist) {
+    private void addArtwork(String title, int year, String type, double price, Artist artist, Exhibition exhibition) {
         if (artist == null)
             return;
-        Artwork a = new Artwork(title, year, type, price, artist);
+        Artwork a = new Artwork(title, year, type, price, artist, exhibition);
         a.setMedium("Traditional " + type);
         a.setDimensions("Varies");
         a.setDescription("A legendary masterpiece by " + artist.getName());

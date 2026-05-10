@@ -32,6 +32,8 @@ public class JdbcExhibitionDao implements ExhibitionDao{
         List<Artwork> list = artworkDao.findAll();
         exhibition.setArtworks(list);
 
+        System.out.printf("afterGallery\n");
+
         return exhibition;
     }
 

@@ -16,21 +16,21 @@ public class InMemoryWorkshopService implements WorkshopService {
     }
 
     public void initData(ArtistService artistService) {
-        addWorkshop("Mastering Oil Painting", LocalDateTime.now().plusDays(5),
+        addWorkshop(1,"Mastering Oil Painting", LocalDateTime.now().plusDays(5),
                 artistService.getArtistByName("Leonardo Vinci").orElse(null), 150.0, "Intermediate", "Florence Studio");
-        addWorkshop("Impressionist Landscapes", LocalDateTime.now().plusDays(10),
+        addWorkshop(2,"Impressionist Landscapes", LocalDateTime.now().plusDays(10),
                 artistService.getArtistByName("Claude Monet").orElse(null), 120.0, "Beginner", "Giverny Gardens");
-        addWorkshop("Sculpting Modernity", LocalDateTime.now().plusDays(15),
+        addWorkshop(3,"Sculpting Modernity", LocalDateTime.now().plusDays(15),
                 artistService.getArtistByName("Auguste Rodin").orElse(null), 200.0, "Advanced", "Paris Workshop");
     }
 
-    private void addWorkshop(String title, LocalDateTime date, Artist instructor, double price, String level,
+    private void addWorkshop(int id, String title, LocalDateTime date, Artist instructor, double price, String level,
             String location) {
         if (instructor == null)
             return;
-        Workshop w = new Workshop(title, date, instructor, price);
+        Workshop w = new Workshop();
         w.setLevel(level);
-        w.setLocation(location);
+        //w.setLocation(location);
         w.setDurationMinutes(180);
         w.setMaxParticipants(10);
         workshops.put(title, w);
