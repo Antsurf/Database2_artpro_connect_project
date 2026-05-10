@@ -25,6 +25,14 @@ public class JdbcGalleryDao implements GalleryDao {
         gallery.setRating(rs.getDouble("gallery_rating"));
         gallery.setWebsite(rs.getString("gallery_website"));
 
+
+        /** create an infinit loop think that we don't need them
+        List<Exhibition> exhibitions = new ArrayList<>();
+        ExhibitionDao exhibitionDao = new JdbcExhibitionDao();
+        exhibitions = exhibitionDao.findAllByGallery(gallery.getId());
+        gallery.setExhibitions(exhibitions);
+         **/
+
         int address_id = rs.getInt("address_id");
         String sql = "SELECT * FROM Address WHERE address_id = ?;";
         try (Connection conn = ConnectionManager.getConnection()) {
@@ -63,7 +71,7 @@ public class JdbcGalleryDao implements GalleryDao {
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 galleries.add(mapRow(rs));
-            }
+            }e
         }
         return galleries;
     }

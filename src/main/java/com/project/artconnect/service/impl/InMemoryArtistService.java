@@ -23,18 +23,16 @@ public class InMemoryArtistService implements ArtistService {
         addDiscipline("Music");
 
         // Artists
-        /**
-        addArtist(1,"Leonardo Vinci", "Renaissance master and polymath.", 1452, "leo@vincistudio.it", "Florence",
+        addArtist("Leonardo Vinci", "Renaissance master and polymath.", 1452, "leo@vincistudio.it", "Florence",
                 "Painting", "Sculpture");
-        addArtist(2,"Claude Monet", "Founder of French Impressionist painting.", 1840, "claude@monet.fr", "Giverny",
+        addArtist("Claude Monet", "Founder of French Impressionist painting.", 1840, "claude@monet.fr", "Giverny",
                 "Painting");
-        addArtist(3,"Ansel Adams", "American landscape photographer and environmentalist.", 1902, "ansel@adams.co",
+        addArtist("Ansel Adams", "American landscape photographer and environmentalist.", 1902, "ansel@adams.co",
                 "San Francisco", "Photography");
-        addArtist(4,"Frida Kahlo", "Mexican painter known for her many portraits and self-portraits.", 1907,
+        addArtist("Frida Kahlo", "Mexican painter known for her many portraits and self-portraits.", 1907,
                 "frida@kahlo.mx", "Mexico City", "Painting");
-        addArtist(5, "Auguste Rodin", "French sculptor, generally considered the founder of modern sculpture.", 1840,
+        addArtist("Auguste Rodin", "French sculptor, generally considered the founder of modern sculpture.", 1840,
                 "auguste@rodin.fr", "Paris", "Sculpture");
-         **/
     }
 
     private void addDiscipline(String name) {

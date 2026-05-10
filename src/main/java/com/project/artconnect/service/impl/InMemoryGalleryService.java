@@ -1,6 +1,5 @@
 package com.project.artconnect.service.impl;
 
-import com.project.artconnect.model.Address;
 import com.project.artconnect.model.Gallery;
 import com.project.artconnect.model.Exhibition;
 import com.project.artconnect.model.Artwork;
@@ -17,11 +16,9 @@ public class InMemoryGalleryService implements GalleryService {
     }
 
     public void initData(ArtworkService artworkService) {
-        /**
-        Address add1 = new Address(1, "Rue de Rivoli", "Paris");
-        Gallery louvre = addGallery(1,"Louvre Art House", "Rue de Rivoli, Paris", 4.9);
-        Gallery british = addGallery(2, "The British Gallery", "Great Russell St, London", 4.7);
-        Gallery met = addGallery(3,"Metropolitan Hub", "1000 5th Ave, New York", 4.8);
+        Gallery louvre = addGallery("Louvre Art House", "Rue de Rivoli, Paris", 4.9);
+        Gallery british = addGallery("The British Gallery", "Great Russell St, London", 4.7);
+        Gallery met = addGallery("Metropolitan Hub", "1000 5th Ave, New York", 4.8);
 
         // Add Exhibitions
         addExhibition("Renaissance Revival", LocalDate.now().minusMonths(1), LocalDate.now().plusMonths(2), louvre,
@@ -36,19 +33,17 @@ public class InMemoryGalleryService implements GalleryService {
         addExhibition("Impressionist Dreams", LocalDate.now().minusMonths(2), LocalDate.now().plusMonths(3), met,
                 "Sarah Jenkins", "Light and Color",
                 artworkService.getArtworkByTitle("Water Lilies").orElse(null));
-         **/
     }
-    /**
-    private Gallery addGallery(int id, String name, Address address, double rating) {
-        Gallery g = new Gallery(id, name, address, rating);
+
+    private Gallery addGallery(String name, String address, double rating) {
+        Gallery g = new Gallery(name, address, rating);
         galleries.put(name, g);
         return g;
     }
-     **/
 
-    private void addExhibition(int id, String title, LocalDate start, LocalDate end, Gallery gallery, String curator,
+    private void addExhibition(String title, LocalDate start, LocalDate end, Gallery gallery, String curator,
             String theme, Artwork... artworks) {
-        Exhibition e = new Exhibition(id, title, start, end, gallery);
+        Exhibition e = new Exhibition(title, start, end, gallery);
         e.setCuratorName(curator);
         e.setTheme(theme);
         for (Artwork a : artworks) {

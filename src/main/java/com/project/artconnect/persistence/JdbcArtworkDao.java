@@ -1,15 +1,8 @@
 package com.project.artconnect.persistence;
 
 import com.project.artconnect.dao.ArtworkDao;
-import com.project.artconnect.dao.ExhibitionDao;
 import com.project.artconnect.model.Artwork;
 import com.project.artconnect.model.Artist;
-import com.project.artconnect.dao.ArtistDao;
-import com.project.artconnect.dao.GalleryDao;
-import com.project.artconnect.model.Exhibition;
-import com.project.artconnect.model.Gallery;
-import com.project.artconnect.persistence.JdbcGalleryDao;
-import com.project.artconnect.persistence.JdbcExhibitionDao;
 import com.project.artconnect.util.ConnectionManager;
 
 import java.sql.*;
@@ -150,7 +143,7 @@ public class JdbcArtworkDao implements ArtworkDao {
     public void update(Artwork artwork) {
         String sql = "UPDATE Artworks SET artwork_title = ?, artwork_creationYear = ?, artwork_type = ?, " +
                 "artwork_medium = ?, artwork_dimensions = ?, artwork_description = ?, " +
-                "artwork_price = ?, artwork_status = ?, exhibition_id = ? WHERE artwork_id = ?";
+                "artwork_price = ?, artwork_status = ? WHERE artwork_id = ?";
         try (Connection conn = ConnectionManager.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, artwork.getTitle());
@@ -161,8 +154,7 @@ public class JdbcArtworkDao implements ArtworkDao {
             ps.setString(6, artwork.getDescription());
             ps.setDouble(7, artwork.getPrice());
             ps.setString(8, artwork.getStatus() != null ? artwork.getStatus().name().toLowerCase() : "for_sale");
-            ps.setInt(9, artwork.getExhibition().getId());
-            ps.setInt(10, artwork.getId());
+            ps.setInt(9, artwork.getId());
             ps.executeUpdate();
         } catch (SQLException e) {
             System.out.println(e.getMessage());
