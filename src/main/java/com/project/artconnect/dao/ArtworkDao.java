@@ -6,6 +6,8 @@ import java.util.List;
 public interface ArtworkDao {
     List<Artwork> findAll();
 
+    Artwork findById(int id);
+
     public List<Artwork> findByArtistId(int id);
 
     void save(Artwork artwork);

@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Exhibition {
+    private int id;
     private String title;
     private LocalDate startDate;
     private LocalDate endDate;
@@ -17,12 +18,17 @@ public class Exhibition {
     public Exhibition() {
     }
 
-    public Exhibition(String title, LocalDate startDate, LocalDate endDate, Gallery gallery) {
+    public Exhibition(int id, String title, LocalDate startDate, LocalDate endDate, Gallery gallery) {
+        this.id = id;
         this.title = title;
         this.startDate = startDate;
         this.endDate = endDate;
         this.gallery = gallery;
     }
+
+    public void setId(int id){this.id = id;}
+
+    public int getId() {return id;}
 
     public String getTitle() {
         return title;
@@ -90,6 +96,16 @@ public class Exhibition {
 
     @Override
     public String toString() {
-        return title;
+        return "Exhibition{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", startDate=" + startDate +
+                ", endDate=" + endDate +
+                ", description='" + description + '\'' +
+                ", gallery=" + gallery +
+                ", curatorName='" + curatorName + '\'' +
+                ", theme='" + theme + '\'' +
+                ", artworks=" + artworks +
+                '}';
     }
 }

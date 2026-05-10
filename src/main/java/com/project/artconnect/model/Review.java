@@ -1,18 +1,19 @@
 package com.project.artconnect.model;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 public class Review {
     private CommunityMember reviewer;
     private Artwork artwork;
-    private int rating; // 1-5
+    private BigDecimal rating; // 1-5
     private String comment;
     private LocalDate reviewDate;
 
     public Review() {
     }
 
-    public Review(CommunityMember reviewer, Artwork artwork, int rating, String comment) {
+    public Review(CommunityMember reviewer, Artwork artwork, BigDecimal rating, String comment) {
         this.reviewer = reviewer;
         this.artwork = artwork;
         this.rating = rating;
@@ -36,11 +37,11 @@ public class Review {
         this.artwork = artwork;
     }
 
-    public int getRating() {
+    public BigDecimal getRating() {
         return rating;
     }
 
-    public void setRating(int rating) {
+    public void setRating(BigDecimal rating) {
         this.rating = rating;
     }
 

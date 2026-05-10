@@ -1,10 +1,12 @@
 package com.project.artconnect.persistence;
 import com.project.artconnect.dao.CommunityMemberDao;
-import com.project.artconnect.model.CommunityMember;
+import com.project.artconnect.model.*;
 import com.project.artconnect.util.ConnectionManager;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -14,26 +16,74 @@ import java.util.Optional;
 public class JdbcCommunityMemberDao implements CommunityMemberDao{
 
     @Override
-    public Optional<CommunityMember> findById(Integer id) {
+    public CommunityMember findById(Integer id) {
         CommunityMember cm = new CommunityMember();
-        try(Connection connection = ConnectionManager.getConnection()){
+        try (Connection connection = ConnectionManager.getConnection()) {
             String sql = "SELECT * FROM communitymember WHERE cm_id = ?";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, String.valueOf(id));
             ResultSet resultSet = preparedStatement.executeQuery();
-            resultSet.next();
-            cm.setId(resultSet.getInt("cm_id"));
-            cm.setName(resultSet.getString("cm_name"));
-            cm.setEmail(resultSet.getString("cm_email"));
-            cm.setBirthYear(resultSet.getInt("cm_birthYear"));
-            cm.setPhone(resultSet.getString("cm_phone"));
-            cm.setCity(resultSet.getString("cm_city"));
-            cm.setMembershipType(resultSet.getString("cm_membershipType"));
+            while (resultSet.next()) {
+                cm.setId(resultSet.getInt("cm_id"));
+                cm.setName(resultSet.getString("cm_name"));
+                cm.setEmail(resultSet.getString("cm_email"));
+                cm.setBirthYear(resultSet.getInt("cm_birthYear"));
+                cm.setPhone(resultSet.getString("cm_phone"));
+                cm.setCity(resultSet.getString("cm_city"));
+                cm.setMembershipType(resultSet.getString("cm_membershipType"));
+            }
+        } catch (SQLException s) {
+            System.out.println(s.getMessage());
+        }
+        try (Connection connection = ConnectionManager.getConnection()) {
+            String sql = "SELECT d.discipline_name FROM communitymember AS cm JOIN favorite AS f ON cm.cm_id = f.cm_id JOIN discipline AS d ON f.discipline_id = d.discipline_id WHERE cm.cm_id = ?";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, String.valueOf(id));
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                Discipline discipline = new Discipline(resultSet.getString("discipline_name"));
+                cm.addFavoriteDiscipline(discipline);
+            }
+        } catch (SQLException s) {
+            System.out.println(s.getMessage());
+        }
+        try (Connection connection = ConnectionManager.getConnection()) {
+            String sql = "SELECT w.id, b.booking_bookingDate, b.booking_paymentStatus FROM booking AS b JOIN communitymember AS cm ON b.cm_id = cm.cm_id JOIN workshop AS w ON b.workshop_id = w.workshop_id WHERE cm.cm_id = ?";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, String.valueOf(id));
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                Booking booking = new Booking();
+                JdbcWorkshopDao w = new JdbcWorkshopDao();
+                booking.setWorkshop(w.findById(resultSet.getInt("workshop_id")));
+                booking.setMember(cm);
+                booking.setBookingDate(resultSet.getObject("booking_bookingDate", LocalDateTime.class));
+                booking.setPaymentStatus(resultSet.getString("booking_paymentStatus"));
+                cm.addBooking(booking);
+            }
         }
         catch(SQLException s){
             System.out.println(s.getMessage());
         }
-        return Optional.of(cm);
+        try (Connection connection = ConnectionManager.getConnection()) {
+            String sql = "SELECT * FROM review WHERE cm_id = ?";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, String.valueOf(id));
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                Review r = new Review();
+                JdbcArtworkDao a = new JdbcArtworkDao();
+                r.setArtwork(a.findById(resultSet.getInt("artwork_id")));
+                r.setReviewer(cm);
+                r.setRating(resultSet.getBigDecimal("review_rating"));
+                r.setComment(resultSet.getString("review_comment"));
+                r.setReviewDate(resultSet.getObject("review_date", LocalDate.class));
+            }
+        }
+        catch(SQLException s){
+            System.out.println(s.getMessage());
+        }
+        return cm;
     }
 
     @Override

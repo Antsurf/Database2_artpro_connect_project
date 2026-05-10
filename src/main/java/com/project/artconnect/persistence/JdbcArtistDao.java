@@ -107,8 +107,8 @@ public class JdbcArtistDao implements ArtistDao {
         catch (SQLException e){
             System.out.println(e.getMessage());
         }
-
-        return null;
+        Artist artist = null;
+        return artist;
     }
 
 
@@ -143,8 +143,8 @@ public class JdbcArtistDao implements ArtistDao {
         try(Connection connection = ConnectionManager.getConnection()){
             String sql = "INSERT INTO Artist (artist_name, artist_bio," +
                     " artist_birthYear, artist_contactEmail, artist_phone, artist_city," +
-                    " artist_website, artist_socialMedia, artist_isActive) " +
-                    "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                    " artist_website, artist_socialMedia, artist_isActive, artist_id) " +
+                    "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, artist.getName());
             preparedStatement.setString(2, artist.getBio());
@@ -160,6 +160,7 @@ public class JdbcArtistDao implements ArtistDao {
             else{
                 preparedStatement.setString(9, "0");
             }
+            preparedStatement.setInt(10, artist.getId());
             preparedStatement.execute();
 
             ArtworkDao jdbcArtworkDao = new JdbcArtworkDao();

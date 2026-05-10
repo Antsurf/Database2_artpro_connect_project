@@ -4,8 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Gallery {
+    private int id;
     private String name;
-    private String address;
+    private Address address;
     private String ownerName;
     private String openingHours;
     private String contactPhone;
@@ -16,11 +17,20 @@ public class Gallery {
     public Gallery() {
     }
 
-    public Gallery(String name, String address, double rating) {
+    public Gallery(int id, String name, Address address, String openingHours, String contactPhone, String ownerName, String website, double rating) {
+        this.id = id;
         this.name = name;
         this.address = address;
+        this.openingHours = openingHours;
+        this.contactPhone = contactPhone;
+        this.ownerName = ownerName;
+        this.website = website;
         this.rating = rating;
     }
+
+    public int getId() {return id;}
+
+    public void setId(int id) {this.id = id;}
 
     public String getName() {
         return name;
@@ -30,11 +40,9 @@ public class Gallery {
         this.name = name;
     }
 
-    public String getAddress() {
-        return address;
-    }
+    public Address getAddress() { return address;}
 
-    public void setAddress(String address) {
+    public void setAddress(Address address) {
         this.address = address;
     }
 
@@ -95,6 +103,16 @@ public class Gallery {
 
     @Override
     public String toString() {
-        return name;
+        return "Gallery{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", address=" + address +
+                ", ownerName='" + ownerName + '\'' +
+                ", openingHours='" + openingHours + '\'' +
+                ", contactPhone='" + contactPhone + '\'' +
+                ", rating=" + rating +
+                ", website='" + website + '\'' +
+                ", exhibitions=" + exhibitions +
+                '}';
     }
 }
