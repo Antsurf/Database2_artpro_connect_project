@@ -22,4 +22,8 @@
             <TableColumn fx:id="yearColumn" text="Birth Year" prefWidth="100" />
         </columns>
     </TableView>
+    <HBox spacing="10.0" alignment="CENTER_LEFT">
+        <Button text="Delete" onAction="#handleDelete"/>
+        <Button text="Delete" onAction="#handleDelete"/>
+    </HBox>
 </VBox>

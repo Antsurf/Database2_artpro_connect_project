@@ -12,6 +12,7 @@ import java.util.stream.Collectors;
 import com.project.artconnect.dao.ArtistDao;
 import com.project.artconnect.persistence.JdbcArtistDao;
 import com.project.artconnect.util.ConnectionManager;
+import java.util.Optional;
 
 public class JdbcArtistService implements ArtistService{
     // made by using mainly what is done in "inmemoryartistservice.java"
@@ -39,9 +40,10 @@ public class JdbcArtistService implements ArtistService{
     }
 
     @Override
-    public void deleteArtist(String name) {
-        getArtistByName(name).ifPresent(a->artistDao.delete(a.getId()));
-    }
+    public void deleteArtist(String name) {getArtistByName(name).ifPresent(a->artistDao.delete(a.getId()));}
+
+    @Override
+    public void deleteArtistById(Artist artist) {artistDao.delete(artist.getId());}
 
     @Override
     // not very clear because no parameters, I guess return all types of all disciplines ?
@@ -74,5 +76,7 @@ public class JdbcArtistService implements ArtistService{
                         .anyMatch(d -> d.getName().equalsIgnoreCase(disciplineName)))
                 .collect(Collectors.toList());
     }
+
+
 
 }

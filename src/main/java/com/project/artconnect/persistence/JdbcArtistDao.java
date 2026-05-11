@@ -224,6 +224,7 @@ public class JdbcArtistDao implements ArtistDao {
 
     @Override
     public void delete(int artistId) {
+        System.out.println(artistId);
 
         try(Connection connection = ConnectionManager.getConnection()){
             String sql = "DELETE FROM artist WHERE artist_id = ?";
