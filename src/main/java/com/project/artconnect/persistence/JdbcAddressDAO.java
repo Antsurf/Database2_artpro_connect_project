@@ -55,15 +55,14 @@ public class JdbcAddressDAO implements AddressDAO {
 
     @Override
     public void save(Address address) throws SQLException{
-        String sql = "INSERT INTO Address (address_id, city_name, postal_code, street_name, country_name, street_number) VALUES (?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO Address (city_name, postal_code, street_name, country_name, street_number) VALUES (?, ?, ?, ?, ?)";
         try (Connection conn = ConnectionManager.getConnection()) {
             PreparedStatement ps = conn.prepareStatement(sql);
-            ps.setInt(1, address.getId());
-            ps.setString(2, address.getCity_name());
-            ps.setInt(3, address.getPostal_code());
-            ps.setString(4, address.getStreet_name());
-            ps.setString(5, address.getCountry_name());
-            ps.setInt(6, address.getStreet_number());
+            ps.setString(1, address.getCity_name());
+            ps.setInt(2, address.getPostal_code());
+            ps.setString(3, address.getStreet_name());
+            ps.setString(4, address.getCountry_name());
+            ps.setInt(5, address.getStreet_number());
             ps.executeUpdate();
         }
     }

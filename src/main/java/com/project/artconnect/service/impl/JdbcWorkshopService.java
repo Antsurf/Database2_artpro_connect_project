@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Optional;
 
 public class JdbcWorkshopService implements WorkshopService {
-
+    
     // TODO: check if working after merge
     private final WorkshopDao workshopDao = new JdbcWorkshopDao();
 
