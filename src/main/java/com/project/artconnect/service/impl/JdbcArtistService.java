@@ -24,7 +24,8 @@ public class JdbcArtistService implements ArtistService{
 
     @Override
     public Optional<Artist> getArtistByName(String name) {
-        return Optional.empty();
+        // to handle null values
+        return Optional.ofNullable(artistDao.findByName(name));
     }
 
     @Override
@@ -65,10 +66,10 @@ public class JdbcArtistService implements ArtistService{
     @Override
     public List<Artist> searchArtists(String query, String disciplineName, String city) {
         return artistDao.findAll().stream()
-            .filter(a->query == null || query.isEmpty() || a.getName().toLowerCase().contains(query.toLowerCase()))
+            .filter(a->query == null || a.getName().toLowerCase().contains(query.toLowerCase()))
                 .filter(a -> city == null || city.isEmpty()
                         || a.getCity().equalsIgnoreCase(city))
-                .filter(a -> disciplineName == null || disciplineName.isEmpty()
+                .filter(a -> disciplineName == null
                         || a.getDisciplines().stream()
                         .anyMatch(d -> d.getName().equalsIgnoreCase(disciplineName)))
                 .collect(Collectors.toList());

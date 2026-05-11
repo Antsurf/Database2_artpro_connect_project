@@ -82,7 +82,7 @@ public class JdbcGalleryDao implements GalleryDao {
 
     @Override
     public void save(Gallery gallery){
-        String sql = "INSERT INTO Galleries (gallery_id, gallery_name, gallery_ownerName, gallery_openingHour, gallery_contactPhone, gallery_website, gallery_rating, address_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO Galleries ( gallery_name, gallery_ownerName, gallery_openingHour, gallery_contactPhone, gallery_website, gallery_rating, address_id) VALUES (?, ?, ?, ?, ?, ?, ?)";
         try (Connection conn = ConnectionManager.getConnection()) {
 
             JdbcAddressDAO jdbcAddressDao = new JdbcAddressDAO();
@@ -94,15 +94,14 @@ public class JdbcGalleryDao implements GalleryDao {
                 jdbcAddressDao.save(gallery.getAddress());
 
                 PreparedStatement ps = conn.prepareStatement(sql);
-                ps.setInt(1, gallery.getId());
-                ps.setString(2, gallery.getName());
-                ps.setString(3, gallery.getOwnerName());
-                ps.setString(4, gallery.getOpeningHours());
-                ps.setString(5, gallery.getContactPhone());
-                ps.setString(6, gallery.getWebsite());
-                ps.setDouble(7, gallery.getRating());
+                ps.setString(1, gallery.getName());
+                ps.setString(2, gallery.getOwnerName());
+                ps.setString(3, gallery.getOpeningHours());
+                ps.setString(4, gallery.getContactPhone());
+                ps.setString(5, gallery.getWebsite());
+                ps.setDouble(6, gallery.getRating());
                 Address address = gallery.getAddress();
-                ps.setInt(8, address.getId());
+                ps.setInt(7, address.getId());
 
                 ps.executeUpdate();
             }
@@ -114,20 +113,19 @@ public class JdbcGalleryDao implements GalleryDao {
 
     @Override
     public void update(Gallery gallery){
-        String sql = "UPDATE Galleries set gallery_id=?, gallery_name=?, gallery_ownerName=?, gallery_openingHour=?, gallery_contactPhone=?, gallery_website=?, gallery_rating=?,address_id=? WHERE gallery_id = ?";
+        String sql = "UPDATE Galleries set gallery_name=?, gallery_ownerName=?, gallery_openingHour=?, gallery_contactPhone=?, gallery_website=?, gallery_rating=?,address_id=? WHERE gallery_id = ?";
         try (Connection conn = ConnectionManager.getConnection()) {
             PreparedStatement ps = conn.prepareStatement(sql);
 
-            ps.setInt(1, gallery.getId());
-            ps.setString(2, gallery.getName());
-            ps.setString(3, gallery.getOwnerName());
-            ps.setString(4, gallery.getOpeningHours());
-            ps.setString(5, gallery.getContactPhone());
-            ps.setString(6, gallery.getWebsite());
-            ps.setDouble(7, gallery.getRating());
+            ps.setString(1, gallery.getName());
+            ps.setString(2, gallery.getOwnerName());
+            ps.setString(3, gallery.getOpeningHours());
+            ps.setString(4, gallery.getContactPhone());
+            ps.setString(5, gallery.getWebsite());
+            ps.setDouble(6, gallery.getRating());
             Address address = gallery.getAddress();
-            ps.setInt(8, address.getId());
-            ps.setInt(9, gallery.getId());
+            ps.setInt(7, address.getId());
+            ps.setInt(8, gallery.getId());
 
             JdbcAddressDAO jdbcAddressDao = new JdbcAddressDAO();
             jdbcAddressDao.update(address);

@@ -66,10 +66,10 @@ public class JdbcWorkshopDao implements WorkshopDao {
 
     @Override
     public void save(Workshop workshop) {
-        String sql = "INSERT INTO Workshop (workshop_id, workshop_title, workshop_date, " +
+        String sql = "INSERT INTO Workshop ( workshop_title, workshop_date, " +
                 "workshop_durationMinutes, workshop_maxParticipants, workshop_price, " +
                 "workshop_description, workshop_level, artist_id, gallery_id) " +
-                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                "VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try (Connection conn = ConnectionManager.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
 
@@ -85,16 +85,15 @@ public class JdbcWorkshopDao implements WorkshopDao {
                 jdbcGalleryDao.save(workshop.getGallery());
             }
 
-            ps.setInt(1, workshop.getId());
-            ps.setString(2, workshop.getTitle());
-            ps.setObject(3, workshop.getDate());
-            ps.setInt(4, workshop.getDurationMinutes());
-            ps.setInt(5, workshop.getMaxParticipants());
-            ps.setDouble(6, workshop.getPrice());
-            ps.setString(7, workshop.getDescription());
-            ps.setString(8, workshop.getLevel());
-            ps.setInt(9, workshop.getInstructor().getId());
-            ps.setInt(10, workshop.getGallery().getId());
+            ps.setString(1, workshop.getTitle());
+            ps.setObject(2, workshop.getDate());
+            ps.setInt(3, workshop.getDurationMinutes());
+            ps.setInt(4, workshop.getMaxParticipants());
+            ps.setDouble(5, workshop.getPrice());
+            ps.setString(6, workshop.getDescription());
+            ps.setString(7, workshop.getLevel());
+            ps.setInt(8, workshop.getInstructor().getId());
+            ps.setInt(9, workshop.getGallery().getId());
             ps.executeUpdate();
 
         } catch (SQLException e) {
