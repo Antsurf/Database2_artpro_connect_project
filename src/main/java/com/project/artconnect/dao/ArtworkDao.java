@@ -1,6 +1,8 @@
 package com.project.artconnect.dao;
 
 import com.project.artconnect.model.Artwork;
+
+import java.math.BigDecimal;
 import java.util.List;
 
 public interface ArtworkDao {
@@ -19,4 +21,6 @@ public interface ArtworkDao {
     void delete(String title);
 
     List<Artwork> findByArtistName(String artistName);
-}
+
+    public BigDecimal loadAvgRating(Artwork artwork);
+ }

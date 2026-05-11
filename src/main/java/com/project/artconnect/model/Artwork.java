@@ -1,5 +1,6 @@
 package com.project.artconnect.model;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,6 +19,7 @@ public class Artwork {
     private Status status; // FOR_SALE, SOLD, EXHIBITED
     private Artist artist;
     private List<ArtworkTag> tags = new ArrayList<>();
+    private BigDecimal avgRating;
 
     public enum Status {
         FOR_SALE, SOLD, EXHIBITED
@@ -37,6 +39,7 @@ public class Artwork {
 
     // Getters and Setters
     public Integer getId() {return id;}
+
     public void setId(Integer id) {this.id = id;}
 
     public String getTitle() {
@@ -117,6 +120,15 @@ public class Artwork {
 
     public void setTags(List<ArtworkTag> tags) {
         this.tags = tags;
+    }
+
+    public void setAvgRating(BigDecimal rating){
+        this.avgRating = rating;
+    }
+
+    public String getAvgRatingString() {
+        if (avgRating == null) return "Not rated";
+        return avgRating.toPlainString();
     }
 
     @Override

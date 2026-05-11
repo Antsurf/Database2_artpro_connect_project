@@ -5,6 +5,7 @@ import com.project.artconnect.model.Artwork;
 import com.project.artconnect.model.Artist;
 import com.project.artconnect.util.ConnectionManager;
 
+import java.math.BigDecimal;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -73,6 +74,9 @@ public class JdbcArtworkDao implements ArtworkDao {
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
+        }
+        for (Artwork a: artworks) {
+            a.setAvgRating(loadAvgRating(a));
         }
         return artworks;
     }
@@ -242,5 +246,20 @@ public class JdbcArtworkDao implements ArtworkDao {
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
+    }
+
+    public BigDecimal loadAvgRating(Artwork artwork) {
+        String sql = "SELECT get_average_artwork_rating(?) as Average";
+        try (Connection conn = ConnectionManager.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, artwork.getId());
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getBigDecimal("Average");
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return BigDecimal.valueOf(-1);
     }
 }

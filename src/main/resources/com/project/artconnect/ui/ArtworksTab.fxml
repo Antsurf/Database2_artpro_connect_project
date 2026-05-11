@@ -15,6 +15,7 @@
             <TableColumn fx:id="typeColumn" text="Type" prefWidth="100" />
             <TableColumn fx:id="priceColumn" text="Price" prefWidth="100" />
             <TableColumn fx:id="statusColumn" text="Status" prefWidth="150" />
+            <TableColumn fx:id="avgRatingColumn" text="Average rating" prefWidth="100" />
         </columns>
     </TableView>
 </VBox>
