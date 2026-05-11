@@ -110,4 +110,28 @@ public class JdbcCommunityMemberDao implements CommunityMemberDao{
         }
         return lst_member;
     }
+
+    @Override
+    public List<Review> findReviewsByMemberId(Integer id){
+        List<Review> reviews = new ArrayList<>();
+        String sql = "SELECT * FROM review r JOIN Artworks a ON r.artwork_id = a.artwork_id WHERE r.cm_id = ?";
+
+        try (Connection conn = ConnectionManager.getConnection()) {
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setInt(1, id);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                Review review = new Review();
+                review.setComment(rs.getString("review_comment"));
+                review.setRating(rs.getBigDecimal("review_rating"));
+                review.setReviewDate(rs.getDate("review_date").toLocalDate());
+
+                reviews.add(review);
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return reviews;
+    }
 }

@@ -77,7 +77,10 @@ public class JdbcExhibitionDao implements ExhibitionDao{
     @Override
     public List<Exhibition> findAllByGallery(int id){
         List<Exhibition> list = new ArrayList<>();
-        String sql = "SELECT * FROM Exhibitions WHERE gallery_id = ?";
+        // need to pass the gallery_id to avoid confict in the map row
+        String sql = "SELECT e.*, p.gallery_id FROM Exhibitions e " +
+                "JOIN presents p ON e.exhibition_id = p.exhibition_id " +
+                "WHERE p.gallery_id = ?";
         try (Connection conn = ConnectionManager.getConnection()) {
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setInt(1, id);
@@ -87,8 +90,8 @@ public class JdbcExhibitionDao implements ExhibitionDao{
                 list.add(mapRow(rs));
             }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+            System.out.println(e.getMessage());
+            }
         return list;
     }
 
@@ -121,7 +124,7 @@ public class JdbcExhibitionDao implements ExhibitionDao{
 
             ps.executeUpdate();
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            System.out.println(e.getMessage());
         }
     }
 
@@ -162,7 +165,7 @@ public class JdbcExhibitionDao implements ExhibitionDao{
 
             ps.executeUpdate();
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            System.out.println(e.getMessage());
         }
 
     }

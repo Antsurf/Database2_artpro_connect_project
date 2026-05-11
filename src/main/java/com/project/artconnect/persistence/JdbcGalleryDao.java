@@ -108,7 +108,7 @@ public class JdbcGalleryDao implements GalleryDao {
             }
 
     } catch (SQLException e) {
-        System.out.println(e.getMessage());
+            System.out.println(e.getMessage());
     }
     }
 
@@ -134,7 +134,7 @@ public class JdbcGalleryDao implements GalleryDao {
 
             ps.executeUpdate();
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            System.out.println(e.getMessage());
         }
 
     }
@@ -150,7 +150,7 @@ public class JdbcGalleryDao implements GalleryDao {
 
             ps.executeUpdate();
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            System.out.println(e.getMessage());
         }
 
     }

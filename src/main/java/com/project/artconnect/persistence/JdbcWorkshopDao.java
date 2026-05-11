@@ -104,7 +104,6 @@ public class JdbcWorkshopDao implements WorkshopDao {
 
     @Override
     public void update(Workshop workshop) {
-        // SQL has 10 parameters: 9 SET + 1 WHERE
         String sql = "UPDATE Workshop SET " +
                 "workshop_title = ?, " +          // 1
                 "workshop_date = ?, " +            // 2
