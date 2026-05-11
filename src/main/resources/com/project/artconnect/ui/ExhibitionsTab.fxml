@@ -14,6 +14,7 @@
             <TableColumn fx:id="galleryColumn" text="Gallery" prefWidth="150" />
             <TableColumn fx:id="dateColumn" text="Start Date" prefWidth="120" />
             <TableColumn fx:id="themeColumn" text="Theme" prefWidth="180" />
+            <TableColumn fx:id="artworksColumn" text="Artworks" prefWidth="250" />
         </columns>
     </TableView>
 </VBox>
