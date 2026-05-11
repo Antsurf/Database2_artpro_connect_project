@@ -28,13 +28,14 @@ public class JdbcCommunityMemberService implements CommunityService {
         return communityMemberDao.findAll().stream().filter(m->m.getName().equalsIgnoreCase(name)).findFirst();
     }
 
-    // TODO : verify if it works after complete implementation of community member jdbc
     @Override
     public List<Review> getReviewsByMember(CommunityMember member) {
-        if (!member.getReviews().isEmpty()) {
-            return member.getReviews();
+        if (member == null) return List.of();
+        if (member.getReviews().isEmpty()) {
+            List<Review> dbReviews = communityMemberDao.findReviewsByMemberId(member.getId());
+            member.setReviews(dbReviews); // Update the object so we don't query again
         }
-        return List.of();
 
+        return member.getReviews();
     }
 }
