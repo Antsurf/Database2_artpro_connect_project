@@ -6,6 +6,7 @@ import com.project.artconnect.model.CommunityMember;
 import com.project.artconnect.model.Workshop;
 import com.project.artconnect.persistence.JdbcWorkshopDao;
 import com.project.artconnect.service.WorkshopService;
+import com.project.artconnect.ui.WorkshopController;
 import com.project.artconnect.util.ConnectionManager;
 
 import java.sql.*;
@@ -35,6 +36,13 @@ public class JdbcWorkshopService implements WorkshopService {
         return workshopDao.findAll().stream()
                 .filter(w -> w.getTitle().equalsIgnoreCase(title))
                 .findFirst();
+    }
+
+    @Override
+    public String getNumberOfBooking(Workshop workshop){
+        int numberOfBookings = workshopDao.getNumberOfBooking(workshop);
+        int numberMax = workshop.getMaxParticipants();
+        return numberOfBookings + "/" + numberMax;
     }
 
     // ----------------------------------------------------------------

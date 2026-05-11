@@ -26,12 +26,6 @@ public class JdbcExhibitionDao implements ExhibitionDao{
         exhibition.setStartDate(rs.getDate("exhibition_startDate").toLocalDate());
         exhibition.setEndDate(rs.getDate("exhibition_endDate").toLocalDate());
 
-        int galleryId = rs.getInt("gallery_id");
-        if (galleryId > 0) {
-            GalleryDao galleryDao = new JdbcGalleryDao();
-            exhibition.setGallery(galleryDao.findById(galleryId));
-        }
-
         ArtworkDao artworkDao = new JdbcArtworkDao();
         List<Artwork> list = artworkDao.findAll();
         exhibition.setArtworks(list);

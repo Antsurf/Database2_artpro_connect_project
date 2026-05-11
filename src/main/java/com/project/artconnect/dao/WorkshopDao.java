@@ -20,4 +20,5 @@ public interface WorkshopDao {
 
     void delete(Workshop workshop);
 
+    int getNumberOfBooking(Workshop workshop);
 }

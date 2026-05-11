@@ -24,6 +24,8 @@ public class WorkshopController {
     private TableColumn<Workshop, Double> priceColumn;
     @FXML
     private TableColumn<Workshop, String> levelColumn;
+    @FXML
+    private TableColumn<Workshop, String> nbUserInWorkshopColumn;
 
     private final WorkshopService workshopService = ServiceProvider.getWorkshopService();
 
@@ -33,6 +35,10 @@ public class WorkshopController {
         dateColumn.setCellValueFactory(new PropertyValueFactory<>("date"));
         priceColumn.setCellValueFactory(new PropertyValueFactory<>("price"));
         levelColumn.setCellValueFactory(new PropertyValueFactory<>("level"));
+
+        nbUserInWorkshopColumn.setCellValueFactory(cellData ->new SimpleStringProperty(
+                workshopService.getNumberOfBooking(cellData.getValue())
+        ));
 
         instructorColumn.setCellValueFactory(cellData -> new SimpleStringProperty(
                 cellData.getValue().getInstructor() != null ? cellData.getValue().getInstructor().getName()

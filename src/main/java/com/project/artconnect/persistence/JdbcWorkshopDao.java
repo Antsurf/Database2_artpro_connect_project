@@ -157,4 +157,22 @@ public class JdbcWorkshopDao implements WorkshopDao {
             System.out.println(e.getMessage());
         }
     }
+
+    @Override
+    public int getNumberOfBooking(Workshop workshop){
+        try(Connection connection = ConnectionManager.getConnection()){
+            String sql = "SELECT get_workshop_participant_count(?) as count";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, Integer.toString(workshop.getId()));
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()){
+                return resultSet.getInt("count");
+            }
+        }
+        catch(SQLException e){
+            System.out.println(e.getMessage());
+        }
+        return -1;
+    }
 }
