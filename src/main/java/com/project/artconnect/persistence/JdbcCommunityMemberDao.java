@@ -48,7 +48,7 @@ public class JdbcCommunityMemberDao implements CommunityMemberDao{
             System.out.println(s.getMessage());
         }
         try (Connection connection = ConnectionManager.getConnection()) {
-            String sql = "SELECT w.id, b.booking_bookingDate, b.booking_paymentStatus FROM booking AS b JOIN communitymember AS cm ON b.cm_id = cm.cm_id JOIN workshop AS w ON b.workshop_id = w.workshop_id WHERE cm.cm_id = ?";
+            String sql = "SELECT w.workshop_id, b.booking_bookingDate, b.booking_paymentStatus FROM booking AS b JOIN communitymember AS cm ON b.cm_id = cm.cm_id JOIN workshop AS w ON b.workshop_id = w.workshop_id WHERE cm.cm_id = ?";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, String.valueOf(id));
             ResultSet resultSet = preparedStatement.executeQuery();
@@ -78,6 +78,7 @@ public class JdbcCommunityMemberDao implements CommunityMemberDao{
                 r.setRating(resultSet.getBigDecimal("review_rating"));
                 r.setComment(resultSet.getString("review_comment"));
                 r.setReviewDate(resultSet.getObject("review_date", LocalDate.class));
+                cm.addReview(r);
             }
         }
         catch(SQLException s){

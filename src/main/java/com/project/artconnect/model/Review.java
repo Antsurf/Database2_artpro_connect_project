@@ -60,4 +60,14 @@ public class Review {
     public void setReviewDate(LocalDate reviewDate) {
         this.reviewDate = reviewDate;
     }
+
+    @Override
+    public String toString() {
+        return  "reviewer =" + reviewer.getName() +
+                "\nartwork=" + artwork.getTitle() +
+                "\nrating=" + rating +
+                "\ncomment='" + comment + '\'' +
+                "\nreviewDate=" + reviewDate +
+                "\n";
+    }
 }

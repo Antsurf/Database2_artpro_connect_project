@@ -1,6 +1,8 @@
 package com.project.artconnect;
 
+import com.project.artconnect.dao.CommunityMemberDao;
 import com.project.artconnect.model.*;
+import com.project.artconnect.persistence.JdbcCommunityMemberDao;
 import com.project.artconnect.service.*;
 import com.project.artconnect.util.ServiceProvider;
 
@@ -71,7 +73,7 @@ public class IntegrationTest {
         section("2. CREATE — inserting a new artist");
 
         Artist newArtist = new Artist();
-        newArtist.setName("TEST_INTEGRATION_ARTIST2");
+        newArtist.setName("TEST_INTEGRATION_ARTIST3");
         newArtist.setBio("Created by integration test");
         newArtist.setBirthYear(1990);
         newArtist.setContactEmail("test@integration.com");
@@ -80,10 +82,10 @@ public class IntegrationTest {
         newArtist.setWebsite("www.test.com");
         newArtist.setSocialMedia("@test");
         newArtist.setActive(true);
-
+        System.out.println(newArtist);
         artistService.createArtist(newArtist);
 
-        Optional<Artist> found = artistService.getArtistByName("TEST_INTEGRATION_ARTIST2");
+        Optional<Artist> found = artistService.getArtistByName("TEST_INTEGRATION_ARTIST3");
         if (found.isPresent()) {
             System.out.println("Artist found!");
 
@@ -103,7 +105,7 @@ public class IntegrationTest {
             artistService.updateArtist(a);
         });
 
-        Optional<Artist> afterUpdate = artistService.getArtistByName("TEST_INTEGRATION_ARTIST2");
+        Optional<Artist> afterUpdate = artistService.getArtistByName("TEST_INTEGRATION_ARTIST3");
         check("City updated to 'UpdatedCity'",
                 afterUpdate.isPresent() && "UpdatedCity".equals(afterUpdate.get().getCity()));
         afterUpdate.ifPresent(a -> info("After update: " + a.getName() + " | " + a.getCity()));
@@ -113,9 +115,9 @@ public class IntegrationTest {
         // ============================================================
         section("4. DELETE — removing test artist");
 
-        artistService.deleteArtist("TEST_INTEGRATION_ARTIST2");
+        artistService.deleteArtist("TEST_INTEGRATION_ARTIST3");
 
-        Optional<Artist> afterDelete = artistService.getArtistByName("TEST_INTEGRATION_ARTIST2");
+        Optional<Artist> afterDelete = artistService.getArtistByName("TEST_INTEGRATION_ARTIST3");
         check("Artist gone after deleteArtist()", afterDelete.isEmpty());
         info(afterDelete.isEmpty() ? "Correctly deleted" : "ERROR: still present!");
 
@@ -158,6 +160,8 @@ public class IntegrationTest {
         section("8. COMMUNITY — reviews");
 
         if (!members.isEmpty()) {
+            CommunityMemberDao communityMemberDao = new JdbcCommunityMemberDao();
+            System.out.println(communityMemberDao.findById(1));
             CommunityMember firstMember = members.get(0);
             List<?> reviews = communityService.getReviewsByMember(firstMember);
             check("getReviewsByMember() returns list (can be empty)", reviews != null);
