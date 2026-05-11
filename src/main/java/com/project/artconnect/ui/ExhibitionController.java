@@ -1,5 +1,6 @@
 package com.project.artconnect.ui;
 
+import com.project.artconnect.model.Artwork;
 import com.project.artconnect.model.Exhibition;
 import com.project.artconnect.model.Gallery;
 import com.project.artconnect.service.GalleryService;
@@ -25,7 +26,8 @@ public class ExhibitionController {
     private TableColumn<Exhibition, String> themeColumn;
     @FXML
     private TableColumn<Exhibition, String> galleryColumn;
-
+    @FXML
+    private TableColumn<Exhibition, String> artworksColumn;
     private final GalleryService galleryService = ServiceProvider.getGalleryService();
 
     @FXML
@@ -37,6 +39,18 @@ public class ExhibitionController {
         galleryColumn.setCellValueFactory(cellData -> new SimpleStringProperty(
                 cellData.getValue().getGallery() != null ? cellData.getValue().getGallery().getName() : "Unknown"));
 
+        artworksColumn.setCellValueFactory(cellData -> {
+            List<Artwork> artworks = cellData.getValue().getArtworks();
+            if (artworks == null || artworks.isEmpty()) {
+                return new SimpleStringProperty("No artworks");
+            }
+            // Join all artwork titles with a comma
+            String titles = artworks.stream()
+                    .map(Artwork::getTitle)
+                    .reduce((a, b) -> a + ", " + b)
+                    .orElse("");
+            return new SimpleStringProperty(titles);
+        });
         refreshData();
     }
 

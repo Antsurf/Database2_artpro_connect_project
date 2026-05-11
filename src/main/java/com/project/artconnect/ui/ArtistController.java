@@ -56,4 +56,17 @@ public class ArtistController {
     private void refreshTable() {
         artistTable.setItems(FXCollections.observableArrayList(artistService.getAllArtists()));
     }
+
+    @FXML
+    private void handleDelete() {
+
+        Artist selectedPerson = artistTable.getSelectionModel().getSelectedItem();
+        if (selectedPerson != null) {
+            artistService.deleteArtistById(selectedPerson);
+            System.out.println("Artist has been deleted :  " + selectedPerson.getName());
+        }
+        refreshTable();
+    }
+
+
 }

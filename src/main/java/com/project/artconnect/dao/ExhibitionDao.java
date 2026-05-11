@@ -1,5 +1,6 @@
 package com.project.artconnect.dao;
 
+import com.project.artconnect.model.Artwork;
 import com.project.artconnect.model.Exhibition;
 
 import java.sql.SQLException;
@@ -12,7 +13,7 @@ public interface ExhibitionDao {
 
     Exhibition findById(int id);
 
-    void getListArtworks(Exhibition exhibition) ;
+    List<Artwork> getListArtworks(int id) ;
 
     void save(Exhibition exhibition);
 

@@ -15,7 +15,7 @@ public class JdbcArtworkDao implements ArtworkDao {
 
 
     // mapping to avoid code repetition
-    private Artwork mapArtwork(ResultSet rs) throws SQLException {
+    public static Artwork mapArtwork(ResultSet rs) throws SQLException {
         Artwork artwork = new Artwork();
         artwork.setId(rs.getInt("artwork_id"));
         artwork.setTitle(rs.getString("artwork_title"));

@@ -26,9 +26,12 @@ public class JdbcExhibitionDao implements ExhibitionDao{
         exhibition.setStartDate(rs.getDate("exhibition_startDate").toLocalDate());
         exhibition.setEndDate(rs.getDate("exhibition_endDate").toLocalDate());
 
-        ArtworkDao artworkDao = new JdbcArtworkDao();
-        List<Artwork> list = artworkDao.findAll();
-        exhibition.setArtworks(list);
+        GalleryDao galleryDao = new JdbcGalleryDao();
+        exhibition.setGallery(galleryDao.findById((Integer) rs.getObject("gallery_id")));
+
+        ExhibitionDao exhibitionDao = new JdbcExhibitionDao();
+        exhibition.setArtworks(exhibitionDao.getListArtworks(rs.getInt("exhibition_id")));
+
 
         return exhibition;
     }
@@ -46,15 +49,17 @@ public class JdbcExhibitionDao implements ExhibitionDao{
                 exhibition = mapRow(rs);
             }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+            System.out.println(e.getMessage());
+            }
         return exhibition;
     }
 
     @Override
     public List<Exhibition> findAll(){
         List<Exhibition> list = new ArrayList<>();
-        String sql = "SELECT * FROM Exhibitions";
+        String sql = "SELECT e.*, g.* FROM Exhibitions e \n" +
+                "JOIN presents p ON e.exhibition_id = p.exhibition_id\n" +
+                "JOIN Galleries g ON p.gallery_id = g.gallery_id ";
         try (Connection conn = ConnectionManager.getConnection()) {
             PreparedStatement ps = conn.prepareStatement(sql);
 
@@ -63,8 +68,8 @@ public class JdbcExhibitionDao implements ExhibitionDao{
                 list.add(mapRow(rs));
             }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+            System.out.println(e.getMessage());
+                    }
         return list;
     }
 
@@ -90,8 +95,24 @@ public class JdbcExhibitionDao implements ExhibitionDao{
     }
 
     @Override
-    public void getListArtworks(Exhibition exhibition){
-        exhibition.getArtworks();
+    // get list artworks for a given exhibition
+    public List<Artwork> getListArtworks(int id){
+        List<Artwork> artworks = new ArrayList<>();
+        String sql = "SELECT a.*, e.* FROM artworks a\n" +
+                "JOIN exhibitions e ON a.exhibition_id = e.exhibition_id\n WHERE e.exhibition_id = ? ";
+        try (Connection conn = ConnectionManager.getConnection()){
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setInt(1, id);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()){
+                // implemented from jdbcartworkdao.java
+                artworks.add(JdbcArtworkDao.mapArtwork(rs));
+            }
+        }
+        catch(SQLException e){
+            System.out.println(e.getMessage());
+        }
+        return artworks;
     }
 
 
