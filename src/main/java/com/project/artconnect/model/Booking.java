@@ -49,4 +49,13 @@ public class Booking {
     public void setPaymentStatus(String paymentStatus) {
         this.paymentStatus = paymentStatus;
     }
+
+    @Override
+    public String toString() {
+        return  "workshop=" + workshop.getTitle() +
+                "\nmember=" + member.getName() +
+                "\nbookingDate=" + bookingDate +
+                "\npaymentStatus='" + paymentStatus +
+                '\n';
+    }
 }

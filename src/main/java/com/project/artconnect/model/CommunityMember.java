@@ -114,19 +114,25 @@ public class CommunityMember {
         }
     }
 
+    public void addReview(Review review) {
+        this.reviews.add(review);
+    }
+
     @Override
     public String toString() {
-        return "CommunityMember{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", email='" + email + '\'' +
-                ", birthYear=" + birthYear +
-                ", phone='" + phone + '\'' +
-                ", city='" + city + '\'' +
-                ", favoriteDisciplines=" + favoriteDisciplines +
-                ", membershipType='" + membershipType + '\'' +
-                ", bookings=" + bookings +
-                ", reviews=" + reviews +
-                '}';
+        return "CommunityMember id : " + id +
+                "\nname='" + name + '\'' +
+                "\nemail='" + email + '\'' +
+                "\nbirthYear=" + birthYear +
+                "\nphone='" + phone + '\'' +
+                "\ncity='" + city + '\'' +
+                "\nmembershipType='" + membershipType + '\'' +
+                "\n\nFavorite disciplines :\n" +
+                favoriteDisciplines +
+                "\n\nBookings :\n" +
+                bookings +
+                "\n\nReviews\n" +
+                reviews +
+                '\n';
     }
 }

@@ -129,7 +129,7 @@ public class JdbcArtworkDao implements ArtworkDao {
     public boolean inDatabase(Artwork artwork){
         boolean inDB = false;
         try(Connection connection = ConnectionManager.getConnection()){
-            String sql = "SELECT * FROM artwork WHERE artwork_id = ? or artwork_title =?";
+            String sql = "SELECT * FROM artworks WHERE artwork_id = ? or artwork_title =?";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, Integer.toString(artwork.getId()));
             preparedStatement.setString(2, artwork.getTitle());
@@ -150,7 +150,10 @@ public class JdbcArtworkDao implements ArtworkDao {
     public Artwork findById(int artworkId) {
         Artwork artwork = new Artwork();
         // same query as above juste with a specified id
-        String sql = "SELECT * FROM artwork WHERE artwork_id = ?";
+        String sql = "SELECT aw.*, ar.* FROM Artworks aw " +
+                "JOIN created c ON aw.artwork_id = c.artwork_id " +
+                "JOIN Artist ar ON c.artist_id = ar.artist_id " +
+                "WHERE aw.artwork_id = ?";
         try (Connection conn = ConnectionManager.getConnection()){
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setString(1, String.valueOf(artworkId));
