@@ -23,7 +23,7 @@ BEFORE UPDATE ON artworks
 FOR EACH ROW 
 BEGIN 
     if(new.artwork_status = "sold") then
-		set new.gallery_id = NULL;
+		set new.exhibition_id = NULL;
 	end if;
 END 
 //

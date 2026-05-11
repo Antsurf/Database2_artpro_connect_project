@@ -106,7 +106,7 @@ BEGIN
         a.artwork_title   AS title,
         a.artwork_price   AS price,
         a.artwork_status  AS status,
-        a.gallery_id      AS gallery_id   -- NULL if trigger happened
+        a.exhibition_id   AS exhibition_id   -- NULL if trigger happened
     FROM Artworks a
     WHERE a.artwork_id = p_artwork_id;
 END //
@@ -168,7 +168,8 @@ BEGIN
         g.gallery_name           AS gallery,
         ad.city_name             AS city
     FROM Exhibitions e
-             JOIN Galleries g  ON e.gallery_id = g.gallery_id
+             JOIN presents p   ON e.exhibition_id = p.exhibition_id
+             JOIN Galleries g  ON p.gallery_id = g.gallery_id
              JOIN Address   ad ON g.address_id = ad.address_id
     WHERE ad.city_name = p_city
       AND e.exhibition_endDate >= CURDATE()
@@ -198,7 +199,8 @@ BEGIN
         g.gallery_name           AS gallery,
         ad.city_name             AS city
     FROM Exhibitions e
-             JOIN Galleries g  ON e.gallery_id = g.gallery_id
+             JOIN presents p   ON e.exhibition_id = p.exhibition_id
+             JOIN Galleries g  ON p.gallery_id = g.gallery_id
              JOIN Address   ad ON g.address_id = ad.address_id
     WHERE LOWER(e.exhibition_theme) = LOWER(p_theme)
     ORDER BY e.exhibition_startDate;

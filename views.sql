@@ -110,7 +110,8 @@ SELECT
 FROM Artworks art
 JOIN created c ON art.artwork_id = c.artwork_id
 JOIN Artist a ON c.artist_id = a.artist_id
-JOIN Galleries g ON art.gallery_id = g.gallery_id
+JOIN presents p ON p.exhibition_id = art.exhibition_id
+JOIN Galleries g ON p.gallery_id = g.gallery_id
 JOIN Address ad ON g.address_id = ad.address_id
 WHERE art.artwork_status = 'sold';
 
