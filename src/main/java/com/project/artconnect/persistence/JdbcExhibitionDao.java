@@ -103,16 +103,15 @@ public class JdbcExhibitionDao implements ExhibitionDao{
 
     @Override
     public void save(Exhibition exhibition){
-        String sql = "INSERT INTO Exhibitions (exhibition_id, gallery_id, exhibition_title, exhibition_startDate, exhibition_endDate, exhibition_description, exhibition_curatorName, exhibition_theme) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO Exhibitions ( gallery_id, exhibition_title, exhibition_startDate, exhibition_endDate, exhibition_description, exhibition_curatorName, exhibition_theme) VALUES (?, ?, ?, ?, ?, ?, ?)";
         try (Connection conn = ConnectionManager.getConnection()) {
             PreparedStatement ps = conn.prepareStatement(sql);
-            ps.setInt(1, exhibition.getId());
-            ps.setString(3,exhibition.getTitle());
-            ps.setString(4,exhibition.getStartDate().toString());
-            ps.setString(5,exhibition.getEndDate().toString());
-            ps.setString(6,exhibition.getDescription());
-            ps.setString(7,exhibition.getCuratorName());
-            ps.setString(8,exhibition.getTheme());
+            ps.setString(1,exhibition.getTitle());
+            ps.setString(2,exhibition.getStartDate().toString());
+            ps.setString(3,exhibition.getEndDate().toString());
+            ps.setString(4,exhibition.getDescription());
+            ps.setString(5,exhibition.getCuratorName());
+            ps.setString(6,exhibition.getTheme());
 
             Gallery gallery= null;
             GalleryDao galleryDao = new JdbcGalleryDao();
@@ -130,18 +129,17 @@ public class JdbcExhibitionDao implements ExhibitionDao{
 
     @Override
     public void update(Exhibition exhibition){
-        String sql = "UPDATE Exhibitions SET exhibition_id=?, gallery_id=?, exhibition_title=?, exhibition_startDate=?, exhibition_endDate=?, exhibition_description=?, exhibition_curatorName=?, exhibition_theme=? WHERE  exhibition_id=?";
+        String sql = "UPDATE Exhibitions SET gallery_id=?, exhibition_title=?, exhibition_startDate=?, exhibition_endDate=?, exhibition_description=?, exhibition_curatorName=?, exhibition_theme=? WHERE  exhibition_id=?";
         try (Connection conn = ConnectionManager.getConnection()) {
             PreparedStatement ps = conn.prepareStatement(sql);
-            ps.setInt(1, exhibition.getId());
-            ps.setInt(2, exhibition.getGallery().getId());
-            ps.setString(3,exhibition.getTitle());
-            ps.setString(4,exhibition.getStartDate().toString());
-            ps.setString(5,exhibition.getEndDate().toString());
-            ps.setString(6,exhibition.getDescription());
-            ps.setString(7,exhibition.getCuratorName());
-            ps.setString(8,exhibition.getTheme());
-            ps.setInt(9,exhibition.getId());
+            ps.setInt(1, exhibition.getGallery().getId());
+            ps.setString(2,exhibition.getTitle());
+            ps.setString(3,exhibition.getStartDate().toString());
+            ps.setString(4,exhibition.getEndDate().toString());
+            ps.setString(5,exhibition.getDescription());
+            ps.setString(6,exhibition.getCuratorName());
+            ps.setString(7,exhibition.getTheme());
+            ps.setInt(8,exhibition.getId());
 
             Gallery gallery= null;
             GalleryDao galleryDao = new JdbcGalleryDao();
