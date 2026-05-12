@@ -24,7 +24,7 @@ CREATE TABLE Artworks(
    artwork_tags VARCHAR(50),
    exhibition_id INT,
    PRIMARY KEY(artwork_id),
-   FOREIGN KEY(exhibition_id) REFERENCES Exhibitions(exhibition_id)
+   FOREIGN KEY(exhibition_id) REFERENCES Exhibitions(exhibition_id) ON DELETE CASCADE
 );
 
 CREATE TABLE Artist(
@@ -79,7 +79,7 @@ CREATE TABLE Galleries(
    address_id int NOT NULL,
    PRIMARY KEY(gallery_id),
    UNIQUE(address_id),
-   FOREIGN KEY(address_id) REFERENCES Address(address_id)
+   FOREIGN KEY(address_id) REFERENCES Address(address_id) ON DELETE CASCADE
 );
 
 CREATE TABLE Workshop(
@@ -94,24 +94,24 @@ CREATE TABLE Workshop(
    artist_id INT NOT NULL,
    gallery_id INT NOT NULL,
    PRIMARY KEY(workshop_id),
-   FOREIGN KEY(artist_id) REFERENCES Artist(artist_id),
-   FOREIGN KEY(gallery_id) REFERENCES Galleries(gallery_id)
+   FOREIGN KEY(artist_id) REFERENCES Artist(artist_id) ON DELETE CASCADE,
+   FOREIGN KEY(gallery_id) REFERENCES Galleries(gallery_id) ON DELETE CASCADE
 );
 
 CREATE TABLE created(
    artwork_id INT,
    artist_id INT,
    PRIMARY KEY(artwork_id, artist_id),
-   FOREIGN KEY(artwork_id) REFERENCES Artworks(artwork_id),
-   FOREIGN KEY(artist_id) REFERENCES Artist(artist_id)
+   FOREIGN KEY(artwork_id) REFERENCES Artworks(artwork_id) ON DELETE CASCADE,
+   FOREIGN KEY(artist_id) REFERENCES Artist(artist_id) ON DELETE CASCADE
 );
 
 CREATE TABLE presents(
    gallery_id INT,
    exhibition_id INT,
    PRIMARY KEY(gallery_id, exhibition_id),
-   FOREIGN KEY(gallery_id) REFERENCES Galleries(gallery_id),
-   FOREIGN KEY(exhibition_id) REFERENCES Exhibitions(exhibition_id)
+   FOREIGN KEY(gallery_id) REFERENCES Galleries(gallery_id) ON DELETE CASCADE,
+   FOREIGN KEY(exhibition_id) REFERENCES Exhibitions(exhibition_id) ON DELETE CASCADE
 );
 
 CREATE TABLE booking(
@@ -120,24 +120,24 @@ CREATE TABLE booking(
    booking_bookingDate DATETIME,
    booking_paymentStatus VARCHAR(50),
    PRIMARY KEY(workshop_id, cm_id),
-   FOREIGN KEY(workshop_id) REFERENCES Workshop(workshop_id),
-   FOREIGN KEY(cm_id) REFERENCES CommunityMember(cm_id)
+   FOREIGN KEY(workshop_id) REFERENCES Workshop(workshop_id) ON DELETE CASCADE,
+   FOREIGN KEY(cm_id) REFERENCES CommunityMember(cm_id) ON DELETE CASCADE
 );
 
 CREATE TABLE is_specialized_in(
    artist_id INT,
    discipline_id INT,
    PRIMARY KEY(artist_id, discipline_id),
-   FOREIGN KEY(artist_id) REFERENCES Artist(artist_id),
-   FOREIGN KEY(discipline_id) REFERENCES Discipline(discipline_id)
+   FOREIGN KEY(artist_id) REFERENCES Artist(artist_id) ON DELETE CASCADE,
+   FOREIGN KEY(discipline_id) REFERENCES Discipline(discipline_id) ON DELETE CASCADE
 );
 
 CREATE TABLE favorite(
    cm_id INT,
    discipline_id INT,
    PRIMARY KEY(cm_id, discipline_id),
-   FOREIGN KEY(cm_id) REFERENCES CommunityMember(cm_id),
-   FOREIGN KEY(discipline_id) REFERENCES Discipline(discipline_id)
+   FOREIGN KEY(cm_id) REFERENCES CommunityMember(cm_id) ON DELETE CASCADE,
+   FOREIGN KEY(discipline_id) REFERENCES Discipline(discipline_id) ON DELETE CASCADE
 );
 
 CREATE TABLE review(
@@ -148,6 +148,6 @@ CREATE TABLE review(
    review_date DATE,
    review_type VARCHAR(50),
    PRIMARY KEY(artwork_id, cm_id),
-   FOREIGN KEY(artwork_id) REFERENCES Artworks(artwork_id),
-   FOREIGN KEY(cm_id) REFERENCES CommunityMember(cm_id)
+   FOREIGN KEY(artwork_id) REFERENCES Artworks(artwork_id) ON DELETE CASCADE,
+   FOREIGN KEY(cm_id) REFERENCES CommunityMember(cm_id) ON DELETE CASCADE
 );
