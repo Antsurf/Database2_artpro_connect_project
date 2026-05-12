@@ -13,6 +13,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
 public class JdbcExhibitionDao implements ExhibitionDao{
 
     private Exhibition mapRow(ResultSet rs) throws SQLException {
@@ -181,5 +185,21 @@ public class JdbcExhibitionDao implements ExhibitionDao{
             System.out.println(e.getMessage());
         }
 
+    }
+
+    @Override
+    public List<Exhibition> filterExhibition(String query, String filter) {
+        if (query == null || query.isEmpty()) return findAll();
+        return findAll().stream()
+                .filter(e -> {
+                    String valueToCompare = switch (filter) {
+                        case "theme" -> e.getTheme();
+                        case "city" -> e.getGallery().getAddress().getCity_name();
+                        case "title" -> e.getTitle();
+                        default -> "";
+                    };
+                    return valueToCompare != null && valueToCompare.toLowerCase().contains(query.toLowerCase());
+                })
+                .collect(Collectors.toList());
     }
 }

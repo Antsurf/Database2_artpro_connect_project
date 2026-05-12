@@ -13,11 +13,13 @@ public interface ExhibitionDao {
 
     Exhibition findById(int id);
 
-    List<Artwork> getListArtworks(int id) ;
+    List<Artwork> getListArtworks(int id);
 
     void save(Exhibition exhibition);
 
     void update(Exhibition exhibition);
 
-    void delete(Exhibition exhibition) ;
+    void delete(Exhibition exhibition);
+
+    List<Exhibition> filterExhibition(String query, String filter);
 }

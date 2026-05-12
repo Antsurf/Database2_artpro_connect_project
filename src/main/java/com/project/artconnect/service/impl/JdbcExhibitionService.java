@@ -28,4 +28,7 @@ public class JdbcExhibitionService implements ExhibitionService {
     public void delete(Exhibition exhibition) {
         exhibitionDao.delete(exhibition);
     }
+
+    @Override
+    public List<Exhibition> filterExhibition(String query, String filter){return exhibitionDao.filterExhibition(query, filter);}
 }

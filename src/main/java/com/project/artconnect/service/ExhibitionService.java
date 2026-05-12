@@ -9,4 +9,5 @@ public interface ExhibitionService {
     public void save(Exhibition exhibition);
     public void update(Exhibition exhibition);
     public void delete(Exhibition exhibition);
+    public List<Exhibition> filterExhibition(String query, String filter);
 }

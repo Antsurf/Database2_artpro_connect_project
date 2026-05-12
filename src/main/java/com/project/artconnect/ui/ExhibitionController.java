@@ -1,15 +1,19 @@
 package com.project.artconnect.ui;
 
 import com.project.artconnect.model.Artwork;
+import com.project.artconnect.model.Discipline;
 import com.project.artconnect.model.Exhibition;
 import com.project.artconnect.model.Gallery;
+import com.project.artconnect.service.ExhibitionService;
 import com.project.artconnect.service.GalleryService;
 import com.project.artconnect.util.ServiceProvider;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -18,6 +22,10 @@ import java.util.List;
 public class ExhibitionController {
     @FXML
     private TableView<Exhibition> exhibitionTable;
+    @FXML
+    private TextField searchField;
+    @FXML
+    private ComboBox<String> filter;
     @FXML
     private TableColumn<Exhibition, String> titleColumn;
     @FXML
@@ -28,7 +36,8 @@ public class ExhibitionController {
     private TableColumn<Exhibition, String> galleryColumn;
     @FXML
     private TableColumn<Exhibition, String> artworksColumn;
-    private final GalleryService galleryService = ServiceProvider.getGalleryService();
+
+    private final ExhibitionService exhibitionService = ServiceProvider.getExhibitionService();
 
     @FXML
     public void initialize() {
@@ -51,11 +60,29 @@ public class ExhibitionController {
                     .orElse("");
             return new SimpleStringProperty(titles);
         });
+        filter.setItems(FXCollections.observableArrayList(null, "Title","Theme", "City"));
         refreshData();
+    }
+    @FXML
+    private void handleSearch() {
+        String query = searchField.getText();
+        String filterColumn = filter.getValue().toLowerCase();
+        exhibitionTable.setItems(FXCollections.observableArrayList(exhibitionService.filterExhibition(query, filterColumn)));
+    }
+
+    @FXML
+    private void handleReset() {
+        searchField.clear();
+        filter.setValue(null);
+        refreshTable();
+    }
+
+    private void refreshTable() {
+        exhibitionTable.setItems(FXCollections.observableArrayList(exhibitionService.findAll()));
     }
 
     private void refreshData() {
-        List<Exhibition> all = ServiceProvider.getExhibitionService().findAll();
+        List<Exhibition> all = exhibitionService.findAll();
         exhibitionTable.setItems(FXCollections.observableArrayList(all));
 
     }
