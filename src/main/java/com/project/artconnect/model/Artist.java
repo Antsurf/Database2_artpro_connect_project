@@ -45,6 +45,16 @@ public class Artist {
         this.contactEmail = contactEmail;
     }
 
+    public Artist( String text1,String text2, String text3, String text4, String text5, int int1, String text6) {
+        this.name = text1;
+        this.bio = text2;
+        this.contactEmail = text3;
+        this.city = text4;
+        this.phone = text5;
+        this.birthYear = int1;
+        this.website = text6;
+    }
+
     // Getters and Setters
 
 

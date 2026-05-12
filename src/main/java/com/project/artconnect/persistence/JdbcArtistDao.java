@@ -139,6 +139,7 @@ public class JdbcArtistDao implements ArtistDao {
     //TODO : if artist in the database -> update, else, insert
     @Override
     public void save(Artist artist) {
+        System.out.println("in artist save");
 
         try(Connection connection = ConnectionManager.getConnection()){
             String sql = "INSERT INTO Artist (artist_name, artist_bio," +

@@ -46,6 +46,9 @@ public class JdbcArtistService implements ArtistService{
     public void deleteArtistById(Artist artist) {artistDao.delete(artist.getId());}
 
     @Override
+    public void addArtist(Artist artist){artistDao.save(artist);}
+
+    @Override
     // not very clear because no parameters, I guess return all types of all disciplines ?
     public List<Discipline> getAllDisciplines() {
         List<Discipline> disciplines = new ArrayList<>();

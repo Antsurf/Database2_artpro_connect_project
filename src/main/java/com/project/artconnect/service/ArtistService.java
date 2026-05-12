@@ -18,6 +18,8 @@ public interface ArtistService {
 
     void deleteArtistById(Artist artist);
 
+    void addArtist(Artist artist);
+
     List<Discipline> getAllDisciplines();
 
     List<Artist> searchArtists(String query, String disciplineName, String city);

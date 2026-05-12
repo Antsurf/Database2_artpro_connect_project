@@ -8,6 +8,10 @@ import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.ColumnConstraints;
+import javafx.scene.layout.GridPane;
+
+import java.util.Optional;
 
 public class ArtistController {
     @FXML
@@ -66,6 +70,71 @@ public class ArtistController {
             System.out.println("Artist has been deleted :  " + selectedPerson.getName());
         }
         refreshTable();
+    }
+
+    @FXML
+    private void handleAdd(){
+        Dialog<Artist> dialog = createArtistDialog("Add New Artist");
+        Optional<Artist> result = dialog.showAndWait();
+
+        result.ifPresent(artist -> {
+            artistService.addArtist(artist);
+            System.out.println("Saved Artist: " + artist.getName());
+        });
+        refreshTable();
+    }
+
+    private Dialog<Artist> createArtistDialog(String title) {
+
+        Dialog<Artist> dialog = new Dialog<>();
+
+        dialog.setTitle(title);
+
+        dialog.setHeaderText(" Enter the information of Artist ");
+        TextField nameField = new TextField();
+        nameField.setPromptText("Name");
+        TextField emailField = new TextField();
+        emailField.setPromptText("Email");
+        TextField cityField = new TextField();
+        cityField.setPromptText("City");
+        TextField phoneField = new TextField();
+        phoneField.setPromptText("Phone");
+        TextField birthYearField = new TextField();
+        birthYearField.setPromptText("Birth Year");
+        TextField websiteField = new TextField();
+        websiteField.setPromptText("Website");
+        TextField bioField = new TextField();
+        bioField.setPromptText("Bio");
+
+
+        ButtonType buttonTypeSave = new ButtonType("Save", ButtonBar.ButtonData.OK_DONE);
+        dialog.getDialogPane().getButtonTypes().add(buttonTypeSave);
+
+        GridPane grid = new GridPane();
+        grid.getColumnConstraints().add(new ColumnConstraints(100)); // column 0 is 100 wide
+
+        grid.add(nameField, 1, 1);
+        grid.add(emailField, 1, 2);
+        grid.add(cityField, 1, 3);
+        grid.add(phoneField, 1, 4);
+        grid.add(birthYearField, 1, 5);
+        grid.add(websiteField, 1, 6);
+        grid.add(bioField, 1, 7);
+
+
+        System.out.println(nameField.getText());
+
+        dialog.getDialogPane().setContent(grid);
+
+        dialog.setResultConverter(dialogButton -> {
+            if (dialogButton == buttonTypeSave) {
+                return new Artist(nameField.getText(), bioField.getText(), emailField.getText(), cityField.getText(), phoneField.getText(), Integer.parseInt(birthYearField.getText()), websiteField.getText());
+            }
+            return null;
+        });
+
+        return  dialog;
+
     }
 
 

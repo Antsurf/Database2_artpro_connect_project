@@ -23,7 +23,7 @@
         </columns>
     </TableView>
     <HBox spacing="10.0" alignment="CENTER_LEFT">
-        <Button text="Delete" onAction="#handleDelete"/>
+        <Button text="Add" onAction="#handleAdd"/>
         <Button text="Delete" onAction="#handleDelete"/>
     </HBox>
 </VBox>
