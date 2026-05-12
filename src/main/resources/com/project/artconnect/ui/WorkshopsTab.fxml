@@ -16,7 +16,7 @@
             <TableColumn fx:id="dateColumn" text="Date" prefWidth="150" />
             <TableColumn fx:id="priceColumn" text="Price" prefWidth="80" />
             <TableColumn fx:id="levelColumn" text="Level" prefWidth="100" />
-            <TableColumn fx:id="nbUserInWorkshopColumn" text="Number of members in workshop" prefWidth="100" />
+            <TableColumn fx:id="nbUserInWorkshopColumn" text="Places booked" prefWidth="100" />
         </columns>
     </TableView>
 </VBox>
