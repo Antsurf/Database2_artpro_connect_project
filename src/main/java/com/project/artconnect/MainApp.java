@@ -2,6 +2,7 @@ package com.project.artconnect;
 
 import com.project.artconnect.config.DatabaseConfig;
 import com.project.artconnect.model.Artist;
+import com.project.artconnect.ui.popUpManager;
 import com.project.artconnect.util.ConnectionManager;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -26,47 +27,20 @@ public class MainApp extends Application {
         Scanner scanner = new Scanner(System.in);
         boolean connected = false;
         do {
-            Dialog<String> dialog = new Dialog<>();
-
-
-            dialog.setTitle("Connection");
-
-            dialog.setHeaderText(" Enter your credentials ");
-            TextField username = new TextField();
-            username.setPromptText("Username");
-            TextField password = new TextField();
-            password.setPromptText("Password");
-
-            ButtonType buttonTypeLogIn = new ButtonType("Log in", ButtonBar.ButtonData.OK_DONE);
-            dialog.getDialogPane().getButtonTypes().add(buttonTypeLogIn);
-
-            GridPane grid = new GridPane();
-            grid.getColumnConstraints().add(new ColumnConstraints(100)); // column 0 is 100 wide
-
-            grid.add(username, 1, 1);
-            grid.add(password, 1, 2);
-
-
-            System.out.println(username.getText());
-
-            dialog.getDialogPane().setContent(grid);
-
-            dialog.setResultConverter(dialogButton -> {
-                if (dialogButton == buttonTypeLogIn) {
-                    DatabaseConfig.setUSER(username.getText());
-                    DatabaseConfig.setPASSWORD(password.getText());
-                    return "done";
-                }
-                return "not done";
-            });
-            dialog.showAndWait();
-
-            try(Connection connection = ConnectionManager.getConnection()){
-                connected = true;
-                System.out.println("\nYou are connected, the page will be displayed shortly");
+            Dialog<String> dialog  = popUpManager.getConnectionPopUp();
+            Optional<String> result = dialog.showAndWait();
+            if(result.get().equals("stop")){
+                return;
             }
-            catch(SQLException e){
-                System.out.println("User or password wrong");
+
+            if(result.get().equals("connected")){
+                try(Connection connection = ConnectionManager.getConnection()){
+                    connected = true;
+                    System.out.println("\nYou are connected, the page will be displayed shortly");
+                }
+                catch(SQLException e){
+                    System.out.println("User or password wrong");
+                }
             }
 
         }while(!connected);

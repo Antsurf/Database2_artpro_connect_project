@@ -60,21 +60,13 @@ END
 //
 delimiter ;
 
-
+drop trigger t_workshop_available;
 DELIMITER //
 CREATE TRIGGER t_workshop_available
 BEFORE INSERT ON BOOKING
 FOR EACH ROW 
 Begin
-    DECLARE countBooking int;
-    DECLARE maxPlace int;
-    SELECT count(booking_paymentStatus) INTO countBooking FROM Booking
-    WHERE workshop_id = NEW.workshop_id;
-
-    SELECT workshop_maxParticipants INTO maxPlace FROM Workshop
-    WHERE workshop_id = NEW.workshop_id;
-
-    if countBooking >= maxPlace then
+    if is_workshop_full(NEW.workshop_id) = 1 then
         signal SQLSTATE '45000'
             SET MESSAGE_TEXT ='The workshop is full';
     end if;

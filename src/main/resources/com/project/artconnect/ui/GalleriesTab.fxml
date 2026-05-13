@@ -14,7 +14,7 @@
             <TableColumn fx:id="nameColumn" text="Gallery Name" prefWidth="150" />
             <TableColumn fx:id="ownerColumn" text="Owner" prefWidth="120" />
             <TableColumn fx:id="addressColumn" text="Location" prefWidth="200" />
-            <TableColumn fx:id="ratingColumn" text="Rating" prefWidth="80" />
+            <TableColumn fx:id="ratingColumn" text="Rating" />
         </columns>
     </TableView>
 </VBox>

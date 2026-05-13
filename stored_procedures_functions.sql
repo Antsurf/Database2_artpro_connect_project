@@ -213,3 +213,29 @@ CALL get_exhibitions_by_theme('History');
 CALL get_exhibitions_by_theme('Baroque');
 
 
+drop procedure if exists create_user_communitymember;
+
+DELIMITER //
+
+CREATE PROCEDURE create_user_communitymember(IN _username VARCHAR(55), IN _password VARCHAR(200))
+BEGIN
+	DECLARE _HOST CHAR(14) DEFAULT '@\'localhost\'';
+    
+    SET _username := CONCAT('\'', REPLACE(TRIM(`_username`), CHAR(39), CONCAT(CHAR(92), CHAR(39))), '\''),
+    _password := CONCAT('\'', REPLACE(`_password`, CHAR(39), CONCAT(CHAR(92), CHAR(39))), '\'');
+    
+    SET @sql := CONCAT('CREATE USER ', _username, _HOST, ' IDENTIFIED BY ', _password);
+    PREPARE stmt FROM @sql;SELECT User FROM mysql.user;
+    EXECUTE stmt;
+    
+    SET @sql := CONCAT('GRANT SELECT ON artproject.* to', _username, _HOST);
+	PREPARE stmt FROM @sql;
+    EXECUTE stmt;
+    
+    SET @sql := CONCAT('GRANT EXECUTE ON artproject.* to', _username, _HOST);
+	PREPARE stmt FROM @sql;
+    EXECUTE stmt;
+END //
+
+DELIMITER ;
+
