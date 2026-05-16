@@ -269,8 +269,6 @@ public class ArtworkController {
         // Pre-fill the tag field if the artwork already has tags
         TextField tagField = new TextField();
         if (oldArtwork.getTags() != null && !oldArtwork.getTags().isEmpty()) {
-            // Assuming your ArtworkTag class has a method to get the string, like getName() or toString()
-            // Change `.toString()` to `.getName()` or whatever your getter is called if needed!
             tagField.setText(oldArtwork.getTags().get(0).toString());
         } else {
             tagField.setPromptText("Artwork Tag");
@@ -372,7 +370,7 @@ public class ArtworkController {
                         typeField.getText(),
                         dimensionsField.getText(),
                         descriptionField.getText(),
-                        Integer.parseInt(priceField.getText().trim()),
+                        Double.parseDouble(priceField.getText().trim()),
                         tags
                 );
             }
