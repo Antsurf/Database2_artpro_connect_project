@@ -37,6 +37,21 @@ public class Artwork {
         this.status = Status.FOR_SALE;
     }
 
+    public Artwork(Status stat, Artist art,String title, Integer creationYear, String type, String medium, String dimensions, String description, double price, List<ArtworkTag> tags) {
+        this.status = stat;
+        this.artist = art;
+        this.title = title;
+        this.creationYear = creationYear;
+        this.type = type;
+        this.medium = medium;
+        this.dimensions = dimensions;
+        this.description = description;
+        this.price = price;
+        this.tags = tags;
+        this.status = Status.FOR_SALE;
+    }
+
+
     // Getters and Setters
     public Integer getId() {return id;}
 

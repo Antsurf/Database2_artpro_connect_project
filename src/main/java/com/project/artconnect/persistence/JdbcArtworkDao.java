@@ -177,6 +177,7 @@ public class JdbcArtworkDao implements ArtworkDao {
 
     @Override
     public void save(Artwork artwork) {
+        System.out.println("IN");
         String sql = "INSERT INTO Artworks (artwork_title, artwork_creationYear, artwork_type, " +
                 "artwork_medium, artwork_dimensions, artwork_description, artwork_price, artwork_status) " +
                 "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";

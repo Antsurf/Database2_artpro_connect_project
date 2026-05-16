@@ -67,45 +67,70 @@ public class ArtistController {
         Artist selectedPerson = artistTable.getSelectionModel().getSelectedItem();
         if (selectedPerson != null) {
             artistService.deleteArtistById(selectedPerson);
-            System.out.println("Artist has been deleted :  " + selectedPerson.getName());
         }
         refreshTable();
     }
 
     @FXML
     private void handleAdd(){
-        Dialog<Artist> dialog = createArtistDialog("Add New Artist");
+        Dialog<Artist> dialog = createArtistDialog();
         Optional<Artist> result = dialog.showAndWait();
 
-        result.ifPresent(artist -> {
-            artistService.addArtist(artist);
-            System.out.println("Saved Artist: " + artist.getName());
-        });
+        result.ifPresent(artist -> {artistService.addArtist(artist);});
         refreshTable();
     }
 
-    private Dialog<Artist> createArtistDialog(String title) {
+    @FXML
+    private void handleUpdate() {
+        Artist oldArtist = artistTable.getSelectionModel().getSelectedItem();
+        if (oldArtist != null) {
+            Dialog<Artist> dialog = updateArtistDialog(oldArtist);
+            Optional<Artist> result = dialog.showAndWait();
+
+            result.ifPresent(newArtist -> {
+                oldArtist.setName(newArtist.getName());
+                oldArtist.setCity(newArtist.getCity());
+                oldArtist.setContactEmail(newArtist.getContactEmail());
+                oldArtist.setBirthYear(newArtist.getBirthYear());
+                oldArtist.setPhone(newArtist.getPhone());
+                oldArtist.setWebsite(newArtist.getWebsite());
+                oldArtist.setBio(newArtist.getBio());
+
+                artistService.updateArtist(oldArtist);
+            });
+        }
+
+        refreshTable();
+    }
+
+    private Dialog<Artist> createArtistDialog() {
 
         Dialog<Artist> dialog = new Dialog<>();
 
-        dialog.setTitle(title);
+        String s = "Add New Artist";
+        dialog.setTitle(s);
 
         dialog.setHeaderText(" Enter the information of Artist ");
         TextField nameField = new TextField();
         nameField.setPromptText("Name");
+
         TextField emailField = new TextField();
         emailField.setPromptText("Email");
+
         TextField cityField = new TextField();
         cityField.setPromptText("City");
+
         TextField phoneField = new TextField();
         phoneField.setPromptText("Phone");
+
         TextField birthYearField = new TextField();
         birthYearField.setPromptText("Birth Year");
+
         TextField websiteField = new TextField();
         websiteField.setPromptText("Website");
+
         TextField bioField = new TextField();
         bioField.setPromptText("Bio");
-
 
         ButtonType buttonTypeSave = new ButtonType("Save", ButtonBar.ButtonData.OK_DONE);
         dialog.getDialogPane().getButtonTypes().add(buttonTypeSave);
@@ -121,8 +146,55 @@ public class ArtistController {
         grid.add(websiteField, 1, 6);
         grid.add(bioField, 1, 7);
 
+        dialog.getDialogPane().setContent(grid);
 
-        System.out.println(nameField.getText());
+        dialog.setResultConverter(dialogButton -> {
+            if (dialogButton == buttonTypeSave) {
+                return new Artist(nameField.getText(), bioField.getText(), emailField.getText(), cityField.getText(), phoneField.getText(), Integer.parseInt(birthYearField.getText()), websiteField.getText());
+            }
+            return null;
+        });
+        return  dialog;
+    }
+
+    private Dialog<Artist> updateArtistDialog(Artist artist) {
+        Dialog<Artist> dialog = new Dialog<>();
+
+        String s = "Update Artist";
+        dialog.setTitle(s);
+
+        dialog.setHeaderText("Enter the new information of Artist ");
+
+        dialog.setHeaderText(" Enter the information of Artist ");
+        TextField nameField = new TextField();
+        nameField.setText(artist.getName());
+        TextField emailField = new TextField();
+        emailField.setText(artist.getContactEmail());
+        TextField cityField = new TextField();
+        cityField.setText(artist.getCity());
+        TextField phoneField = new TextField();
+        phoneField.setText(artist.getPhone());
+        TextField birthYearField = new TextField();
+        birthYearField.setText(Integer.toString(artist.getBirthYear()));
+        TextField websiteField = new TextField();
+        websiteField.setText(artist.getWebsite());
+        TextField bioField = new TextField();
+        bioField.setText(artist.getBio());
+
+        ButtonType buttonTypeSave = new ButtonType("Save", ButtonBar.ButtonData.OK_DONE);
+        dialog.getDialogPane().getButtonTypes().add(buttonTypeSave);
+
+
+        GridPane grid = new GridPane();
+        grid.getColumnConstraints().add(new ColumnConstraints(100));
+
+        grid.add(nameField, 1, 1);
+        grid.add(emailField, 1, 2);
+        grid.add(cityField, 1, 3);
+        grid.add(phoneField, 1, 4);
+        grid.add(birthYearField, 1, 5);
+        grid.add(websiteField, 1, 6);
+        grid.add(bioField, 1, 7);
 
         dialog.getDialogPane().setContent(grid);
 
@@ -132,10 +204,7 @@ public class ArtistController {
             }
             return null;
         });
-
         return  dialog;
-
     }
-
 
 }
