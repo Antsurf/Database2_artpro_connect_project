@@ -112,25 +112,32 @@ public class ArtistController {
 
         dialog.setHeaderText(" Enter the information of Artist ");
         TextField nameField = new TextField();
-        nameField.setPromptText("Name");
+        nameField.setPromptText("Eg : John Cena");
+        Label name = new Label("Name: ");
 
         TextField emailField = new TextField();
-        emailField.setPromptText("Email");
+        emailField.setPromptText("Email@gmail.com");
+        Label email = new Label("Email: ");
 
         TextField cityField = new TextField();
-        cityField.setPromptText("City");
+        cityField.setPromptText("Eg : Paris");
+        Label city = new Label("City: ");
 
         TextField phoneField = new TextField();
-        phoneField.setPromptText("Phone");
+        phoneField.setPromptText("Eg : 911");
+        Label phone = new Label("Phone: ");
 
         TextField birthYearField = new TextField();
-        birthYearField.setPromptText("Birth Year");
+        birthYearField.setPromptText("Eg : 1999");
+        Label birthYear = new Label("Birth Year: ");
 
         TextField websiteField = new TextField();
-        websiteField.setPromptText("Website");
+        websiteField.setPromptText("Eg : website.com");
+        Label website = new Label("Website: ");
 
         TextField bioField = new TextField();
         bioField.setPromptText("Bio");
+        Label bio = new Label("Bio: ");
 
         ButtonType buttonTypeSave = new ButtonType("Save", ButtonBar.ButtonData.OK_DONE);
         dialog.getDialogPane().getButtonTypes().add(buttonTypeSave);
@@ -139,12 +146,19 @@ public class ArtistController {
         grid.getColumnConstraints().add(new ColumnConstraints(100)); // column 0 is 100 wide
 
         grid.add(nameField, 1, 1);
+        grid.add(name, 0, 1);
         grid.add(emailField, 1, 2);
+        grid.add(email, 0, 2);
         grid.add(cityField, 1, 3);
+        grid.add(city, 0, 3);
         grid.add(phoneField, 1, 4);
+        grid.add(phone, 0, 4);
         grid.add(birthYearField, 1, 5);
+        grid.add(birthYear, 0, 5);
         grid.add(websiteField, 1, 6);
+        grid.add(website, 0, 6);
         grid.add(bioField, 1, 7);
+        grid.add(bio, 0, 7);
 
         dialog.getDialogPane().setContent(grid);
 
@@ -168,18 +182,31 @@ public class ArtistController {
         dialog.setHeaderText(" Enter the information of Artist ");
         TextField nameField = new TextField();
         nameField.setText(artist.getName());
+        Label name = new Label("Name: ");
+
         TextField emailField = new TextField();
         emailField.setText(artist.getContactEmail());
+        Label email = new Label("Email: ");
+
         TextField cityField = new TextField();
         cityField.setText(artist.getCity());
+        Label city = new Label("City: ");
+
         TextField phoneField = new TextField();
         phoneField.setText(artist.getPhone());
+        Label phone = new Label("Phone: ");
+
         TextField birthYearField = new TextField();
         birthYearField.setText(Integer.toString(artist.getBirthYear()));
+        Label birthYear = new Label("Birth Year: ");
+
         TextField websiteField = new TextField();
         websiteField.setText(artist.getWebsite());
+        Label website = new Label("Website: ");
+
         TextField bioField = new TextField();
         bioField.setText(artist.getBio());
+        Label bio = new Label("Bio: ");
 
         ButtonType buttonTypeSave = new ButtonType("Save", ButtonBar.ButtonData.OK_DONE);
         dialog.getDialogPane().getButtonTypes().add(buttonTypeSave);
@@ -189,12 +216,19 @@ public class ArtistController {
         grid.getColumnConstraints().add(new ColumnConstraints(100));
 
         grid.add(nameField, 1, 1);
+        grid.add(name, 0, 1);
         grid.add(emailField, 1, 2);
+        grid.add(email, 0, 2);
         grid.add(cityField, 1, 3);
+        grid.add(city, 0, 3);
         grid.add(phoneField, 1, 4);
+        grid.add(phone, 0, 4);
         grid.add(birthYearField, 1, 5);
+        grid.add(birthYear, 0, 5);
         grid.add(websiteField, 1, 6);
+        grid.add(website, 0, 6);
         grid.add(bioField, 1, 7);
+        grid.add(bio, 0, 7);
 
         dialog.getDialogPane().setContent(grid);
 
