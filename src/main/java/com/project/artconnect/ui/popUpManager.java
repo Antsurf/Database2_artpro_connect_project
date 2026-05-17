@@ -24,7 +24,7 @@ public class popUpManager {
 
         dialog.setHeaderText(" Enter your credentials ");
         TextField username = new TextField();
-        username.setPromptText("Username");
+        username.setPromptText("email");
         TextField password = new TextField();
         password.setPromptText("Password");
 
@@ -72,7 +72,7 @@ public class popUpManager {
 
         dialog.setHeaderText(" Enter your credentials ");
         TextField username = new TextField();
-        username.setPromptText("Username");
+        username.setPromptText("email");
         TextField password = new TextField();
         password.setPromptText("Password");
         TextField confirmPassword = new TextField();

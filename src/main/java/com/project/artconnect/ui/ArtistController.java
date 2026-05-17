@@ -1,5 +1,6 @@
 package com.project.artconnect.ui;
 
+import com.project.artconnect.config.DatabaseConfig;
 import com.project.artconnect.model.Artist;
 import com.project.artconnect.model.Discipline;
 import com.project.artconnect.service.ArtistService;
@@ -11,6 +12,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 
+import java.util.Objects;
 import java.util.Optional;
 
 public class ArtistController {
@@ -28,6 +30,13 @@ public class ArtistController {
     private TableColumn<Artist, String> emailColumn;
     @FXML
     private TableColumn<Artist, Integer> yearColumn;
+    @FXML
+    private TableColumn<Artist, Integer> bioColumn;
+    @FXML
+    private TableColumn<Artist, Integer> socialColumn;
+    @FXML
+    private TableColumn<Artist, Integer> webColumn;
+
 
     private final ArtistService artistService = ServiceProvider.getArtistService();
 
@@ -37,6 +46,19 @@ public class ArtistController {
         cityColumn.setCellValueFactory(new PropertyValueFactory<>("city"));
         emailColumn.setCellValueFactory(new PropertyValueFactory<>("contactEmail"));
         yearColumn.setCellValueFactory(new PropertyValueFactory<>("birthYear"));
+        bioColumn.setCellValueFactory(new PropertyValueFactory<>("bio"));
+        socialColumn.setCellValueFactory(new PropertyValueFactory<>("socialMedia"));
+        webColumn.setCellValueFactory(new PropertyValueFactory<>("website"));
+
+//        Add a column phone if admin
+
+        if (Objects.equals(DatabaseConfig.getUSER(), "admin")){
+            TableColumn<Artist, String> phoneColumn = new TableColumn<>("phoneColumn");
+            phoneColumn.setCellValueFactory(new PropertyValueFactory<>("phone"));
+
+            artistTable.getColumns().add(phoneColumn);
+        }
+
 
         disciplineFilter.setItems(FXCollections.observableArrayList(artistService.getAllDisciplines()));
         refreshTable();

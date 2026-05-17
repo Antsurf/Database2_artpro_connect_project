@@ -19,4 +19,13 @@ public class DatabaseConfig {
     public static void setPASSWORD(String PASSWORD) {
         DatabaseConfig.PASSWORD = PASSWORD;
     }
+
+    public static String getURL() {
+        return URL;
+    }
+
+    public static String getUSER() {
+        return USER;
+    }
+
 }

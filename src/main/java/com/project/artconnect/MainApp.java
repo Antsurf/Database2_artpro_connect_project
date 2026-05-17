@@ -24,7 +24,6 @@ import java.util.Scanner;
 public class MainApp extends Application {
     @Override
     public void start(Stage stage) throws Exception {
-        Scanner scanner = new Scanner(System.in);
         boolean connected = false;
         do {
             Dialog<String> dialog  = popUpManager.getConnectionPopUp();
