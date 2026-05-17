@@ -12,7 +12,11 @@
         <columns>
             <TableColumn fx:id="titleColumn" text="Title" prefWidth="200" />
             <TableColumn fx:id="artistColumn" text="Artist" prefWidth="150" />
+            <TableColumn fx:id="yearColumn" text="Creation year" />
             <TableColumn fx:id="typeColumn" text="Type" prefWidth="100" />
+            <TableColumn fx:id="mediumComlumn" text="Medium" prefWidth="150" />
+            <TableColumn fx:id="dimensionColumn" text="Dimensions" prefWidth="150" />
+            <TableColumn fx:id="descriptionColumn" text="Description" prefWidth="150" />
             <TableColumn fx:id="priceColumn" text="Price" prefWidth="100" />
             <TableColumn fx:id="statusColumn" text="Status" prefWidth="150" />
             <TableColumn fx:id="avgRatingColumn" text="Average rating" prefWidth="100" />

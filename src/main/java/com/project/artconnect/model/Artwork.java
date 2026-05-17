@@ -38,7 +38,6 @@ public class Artwork {
     }
 
     public Artwork(Status stat, Artist art,String title, Integer creationYear, String type, String medium, String dimensions, String description, double price, List<ArtworkTag> tags) {
-        this.status = stat;
         this.artist = art;
         this.title = title;
         this.creationYear = creationYear;
