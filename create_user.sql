@@ -7,8 +7,9 @@ WITH GRANT OPTION;
 
 create user "admin" IDENTIFIEd BY "admin";
 
-GRANT SELECT 
+GRANT ALL PRIVILEGES
 ON artproject.*
-to "admin";
+TO 'admin'
+WITH GRANT OPTION;
 
 GRANT EXECUTE ON artproject.* TO "admin";
