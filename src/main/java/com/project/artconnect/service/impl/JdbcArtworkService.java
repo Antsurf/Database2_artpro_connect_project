@@ -40,7 +40,6 @@ public class JdbcArtworkService implements ArtworkService {
 
     @Override
     public void createArtwork(Artwork artwork) {
-        System.out.println("nearly in");
         artworkDao.save(artwork);
 
     }

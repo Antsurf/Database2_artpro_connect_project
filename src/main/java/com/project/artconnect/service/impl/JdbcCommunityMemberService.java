@@ -29,6 +29,11 @@ public class JdbcCommunityMemberService implements CommunityService {
     }
 
     @Override
+    public CommunityMember getByEmail(String email){
+        return communityMemberDao.findByEmail(email);
+    }
+
+    @Override
     public List<Review> getReviewsByMember(CommunityMember member) {
         if (member == null) return List.of();
         if (member.getReviews().isEmpty()) {
