@@ -22,6 +22,13 @@ public class GalleryController {
     private TableColumn<Gallery, String> addressColumn;
     @FXML
     private TableColumn<Gallery, Double> ratingColumn;
+    @FXML
+    private TableColumn<Gallery, String> openingHoursColumn;
+    @FXML
+    private TableColumn<Gallery, String> phoneColumn;
+    @FXML
+    private TableColumn<Gallery, String> websiteColumn;
+
 
     private final GalleryService galleryService = ServiceProvider.getGalleryService();
 
@@ -31,6 +38,9 @@ public class GalleryController {
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
         ownerColumn.setCellValueFactory(new PropertyValueFactory<>("ownerName"));
         ratingColumn.setCellValueFactory(new PropertyValueFactory<>("rating"));
+        openingHoursColumn.setCellValueFactory(new PropertyValueFactory<>("openingHours"));
+        phoneColumn.setCellValueFactory(new PropertyValueFactory<>("contactPhone"));
+        websiteColumn.setCellValueFactory(new PropertyValueFactory<>("website"));
 
         // Complex property: Extracting city/street from the Address object
         addressColumn.setCellValueFactory(cellData -> {

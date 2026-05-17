@@ -13,6 +13,9 @@
         <columns>
             <TableColumn fx:id="nameColumn" text="Gallery Name" prefWidth="150" />
             <TableColumn fx:id="ownerColumn" text="Owner" prefWidth="120" />
+            <TableColumn fx:id="openingHoursColumn" text="Opening hours" prefWidth="200" />
+            <TableColumn fx:id="phoneColumn" text="Contact" prefWidth="200" />
+            <TableColumn fx:id="websiteColumn" text="Website" prefWidth="200" />
             <TableColumn fx:id="addressColumn" text="Location" prefWidth="200" />
             <TableColumn fx:id="ratingColumn" text="Rating" />
         </columns>
