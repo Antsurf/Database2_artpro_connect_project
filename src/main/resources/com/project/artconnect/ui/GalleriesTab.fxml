@@ -25,7 +25,7 @@
 
     <Separator/>
 
-    <Label text="Expositions at the selected gallery" style="-fx-font-weight: bold; -fx-font-size: 14px;"/>
+    <Label text="Exhibition at the selected gallery" style="-fx-font-weight: bold; -fx-font-size: 14px;"/>
     <TableView fx:id="exhibitionTable" VBox.vgrow="ALWAYS">
         <placeholder>
             <Label text="Select one of the gallery above to see its exposition(s)."

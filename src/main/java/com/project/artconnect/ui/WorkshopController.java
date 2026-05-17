@@ -74,4 +74,16 @@ public class WorkshopController {
     private void refreshTable() {
         workshopTable.setItems(FXCollections.observableArrayList(workshopService.getAllWorkshops()));
     }
+
+    @FXML
+    private void handleSeeBookings(){
+        CommunityMemberDao communityMemberDao = new JdbcCommunityMemberDao();
+        CommunityMember communityMember = communityMemberDao.findByEmail(DatabaseConfig.getUSER());
+        workshopTable.setItems(FXCollections.observableArrayList(workshopService.getWorkshopsByMember(communityMember)));
+    }
+
+    @FXML
+    private void handleReset(){
+        refreshTable();
+    }
 }

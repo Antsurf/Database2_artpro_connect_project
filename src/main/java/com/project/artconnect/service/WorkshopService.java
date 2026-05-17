@@ -17,5 +17,7 @@ public interface WorkshopService {
 
     List<Booking> getBookingsByMember(CommunityMember member);
 
+    List<Workshop> getWorkshopsByMember(CommunityMember member);
+
     public String getNumberOfBooking(Workshop workshop);
 }

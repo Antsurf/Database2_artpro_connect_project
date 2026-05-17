@@ -92,4 +92,14 @@ public class JdbcWorkshopService implements WorkshopService {
 
         return List.of();
     }
+
+    @Override
+    public List<Workshop> getWorkshopsByMember(CommunityMember member){
+        List<Booking> bookings = getBookingsByMember(member);
+        List<Workshop> workshops = new ArrayList<>();
+        for(Booking booking : bookings){
+            workshops.add(booking.getWorkshop());
+        }
+        return workshops;
+    }
 }
