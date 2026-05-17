@@ -21,4 +21,7 @@
             <TableColumn fx:id="nbUserInWorkshopColumn" text="Places booked" prefWidth="100" />
         </columns>
     </TableView>
+    <HBox spacing="10.0" alignment="CENTER_LEFT" fx:id="buttonField">
+        <Button text="Register" onAction="#handleRegister"/>
+    </HBox>
 </VBox>

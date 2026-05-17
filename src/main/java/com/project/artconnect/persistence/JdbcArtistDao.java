@@ -135,8 +135,6 @@ public class JdbcArtistDao implements ArtistDao {
         return null;
     }
 
-    //TODO : create function check if in database
-    //TODO : if artist in the database -> update, else, insert
     @Override
     public void save(Artist artist) {
         System.out.println("in artist save");

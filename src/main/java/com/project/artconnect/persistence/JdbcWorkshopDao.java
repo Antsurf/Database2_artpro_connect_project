@@ -2,10 +2,12 @@ package com.project.artconnect.persistence;
 
 import com.project.artconnect.dao.WorkshopDao;
 import com.project.artconnect.model.Artist;
+import com.project.artconnect.model.CommunityMember;
 import com.project.artconnect.model.Gallery;
 import com.project.artconnect.model.Workshop;
 import com.project.artconnect.util.ConnectionManager;
 
+import java.net.CookieHandler;
 import java.sql.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -175,4 +177,19 @@ public class JdbcWorkshopDao implements WorkshopDao {
         }
         return -1;
     }
+
+    @Override
+    public void registerToWorkshop(Workshop workshop, CommunityMember communityMember){
+        try(Connection connection = ConnectionManager.getConnection()){
+            String sql = "INSERT INTO booking (workshop_id, cm_id, booking_bookingDate, booking_paymentStatus) VALUES (?, ?, current_date(), 'NOT PAID')";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setInt(1, workshop.getId());
+            preparedStatement.setInt(2, communityMember.getId());
+            preparedStatement.execute();
+        }
+        catch (SQLException e){
+            System.out.println(e.getMessage());
+        }
+    }
+
 }

@@ -1,6 +1,12 @@
 package com.project.artconnect.ui;
 
+import com.project.artconnect.config.DatabaseConfig;
+import com.project.artconnect.dao.CommunityMemberDao;
+import com.project.artconnect.dao.WorkshopDao;
+import com.project.artconnect.model.CommunityMember;
 import com.project.artconnect.model.Workshop;
+import com.project.artconnect.persistence.JdbcCommunityMemberDao;
+import com.project.artconnect.persistence.JdbcWorkshopDao;
 import com.project.artconnect.service.WorkshopService;
 import com.project.artconnect.util.ServiceProvider;
 import javafx.beans.property.SimpleStringProperty;
@@ -51,6 +57,21 @@ public class WorkshopController {
                 cellData.getValue().getInstructor() != null ? cellData.getValue().getInstructor().getName()
                         : "Unknown"));
 
+        workshopTable.setItems(FXCollections.observableArrayList(workshopService.getAllWorkshops()));
+    }
+
+    @FXML
+    private void handleRegister(){
+        Workshop selectedWorkshop = workshopTable.getSelectionModel().getSelectedItem();
+        CommunityMemberDao communityMemberDao = new JdbcCommunityMemberDao();
+        CommunityMember communityMember = communityMemberDao.findByEmail(DatabaseConfig.getUSER());
+
+        WorkshopDao workshopDao = new JdbcWorkshopDao();
+        workshopDao.registerToWorkshop(selectedWorkshop, communityMember);
+        refreshTable();
+    }
+
+    private void refreshTable() {
         workshopTable.setItems(FXCollections.observableArrayList(workshopService.getAllWorkshops()));
     }
 }

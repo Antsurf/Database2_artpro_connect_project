@@ -9,6 +9,7 @@ import java.util.Optional;
 public interface CommunityMemberDao {
     CommunityMember findById(Integer id);
     List<CommunityMember> findAll();
+    CommunityMember findByEmail(String email);
 
     List<Review> findReviewsByMemberId(Integer id);
 

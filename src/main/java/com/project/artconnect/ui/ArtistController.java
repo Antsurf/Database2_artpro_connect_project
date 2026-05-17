@@ -6,11 +6,14 @@ import com.project.artconnect.model.Discipline;
 import com.project.artconnect.service.ArtistService;
 import com.project.artconnect.util.ServiceProvider;
 import javafx.collections.FXCollections;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 
 import java.util.Objects;
 import java.util.Optional;
@@ -36,6 +39,8 @@ public class ArtistController {
     private TableColumn<Artist, Integer> socialColumn;
     @FXML
     private TableColumn<Artist, Integer> webColumn;
+    @FXML
+    private HBox buttonField;
 
 
     private final ArtistService artistService = ServiceProvider.getArtistService();
@@ -50,10 +55,41 @@ public class ArtistController {
         socialColumn.setCellValueFactory(new PropertyValueFactory<>("socialMedia"));
         webColumn.setCellValueFactory(new PropertyValueFactory<>("website"));
 
+        if(Objects.equals(DatabaseConfig.getUSER(), "admin")){
+            Button addButton = new Button("Add");
+            addButton.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent event) {
+                    handleAdd();
+                }
+            });
+
+            Button updateButton = new Button("Update");
+            updateButton.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent event) {
+                    handleUpdate();
+                }
+            });
+
+            Button deleteButton = new Button("Delete");
+            deleteButton.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent event) {
+                    handleDelete();
+                }
+            });
+
+            buttonField.getChildren().add(addButton);
+            buttonField.getChildren().add(updateButton);
+            buttonField.getChildren().add(deleteButton);
+        }
+
+
 //        Add a column phone if admin
 
         if (Objects.equals(DatabaseConfig.getUSER(), "admin")){
-            TableColumn<Artist, String> phoneColumn = new TableColumn<>("phoneColumn");
+            TableColumn<Artist, String> phoneColumn = new TableColumn<>("Phone");
             phoneColumn.setCellValueFactory(new PropertyValueFactory<>("phone"));
 
             artistTable.getColumns().add(phoneColumn);

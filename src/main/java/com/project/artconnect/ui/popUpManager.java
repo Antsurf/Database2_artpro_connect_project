@@ -118,7 +118,7 @@ public class popUpManager {
         dialog.getDialogPane().setContent(grid);
 
         dialog.setResultConverter(dialogButton -> {
-            if (dialogButton == buttonTypeCreateAccount & Objects.equals(password.getText(), confirmPassword.getText())){
+            if (dialogButton == buttonTypeCreateAccount & Objects.equals(password.getText(), confirmPassword.getText()) & !Objects.equals(email.getText(), "admin")){
                 try(Connection connection = ConnectionManager.getConnection()){
                     String sql = "call create_user_communitymember(?, ?)";
                     PreparedStatement preparedStatement = connection.prepareStatement(sql);

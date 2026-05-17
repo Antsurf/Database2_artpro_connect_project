@@ -2,6 +2,7 @@ package com.project.artconnect.dao;
 
 
 import com.project.artconnect.model.Artist;
+import com.project.artconnect.model.CommunityMember;
 import com.project.artconnect.model.Gallery;
 import com.project.artconnect.model.Workshop;
 
@@ -21,4 +22,6 @@ public interface WorkshopDao {
     void delete(Workshop workshop);
 
     int getNumberOfBooking(Workshop workshop);
+
+    void registerToWorkshop(Workshop workshop, CommunityMember communityMember);
 }

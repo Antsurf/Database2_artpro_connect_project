@@ -27,9 +27,10 @@
 
         </columns>
     </TableView>
-    <HBox spacing="10.0" alignment="CENTER_LEFT">
-        <Button text="Add" onAction="#handleAdd"/>
-        <Button text="Update" onAction="#handleUpdate"/>
-        <Button text="Delete" onAction="#handleDelete"/>
+    <HBox spacing="10.0" alignment="CENTER_LEFT" fx:id="buttonField">
+<!--        Those following buttons are displayed only if you are admin-->
+<!--        <Button text="Add" onAction="#handleAdd"/>-->
+<!--        <Button text="Update" onAction="#handleUpdate"/>-->
+<!--        <Button text="Delete" onAction="#handleDelete"/>-->
     </HBox>
 </VBox>

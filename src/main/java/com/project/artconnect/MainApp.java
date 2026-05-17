@@ -25,6 +25,7 @@ public class MainApp extends Application {
     public void start(Stage stage) throws Exception {
         boolean connected = false;
         do {
+            DatabaseConfig.resetConnection();
             Dialog<String> dialog  = popUpManager.getConnectionPopUp();
             Optional<String> result = dialog.showAndWait();
             if(result.get().equals("stop")){

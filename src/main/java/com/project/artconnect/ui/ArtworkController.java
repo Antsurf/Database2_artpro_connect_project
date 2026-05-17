@@ -1,5 +1,6 @@
 package com.project.artconnect.ui;
 
+import com.project.artconnect.config.DatabaseConfig;
 import com.project.artconnect.model.Artist;
 import com.project.artconnect.model.Artwork;
 import com.project.artconnect.model.ArtworkTag;
@@ -8,14 +9,18 @@ import com.project.artconnect.service.ArtworkService;
 import com.project.artconnect.util.ServiceProvider;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 public class ArtworkController {
@@ -41,6 +46,8 @@ public class ArtworkController {
     private TableColumn<Artwork, String> dimensionColumn;
     @FXML
     private TableColumn<Artwork, String> descriptionColumn;
+    @FXML
+    private HBox buttonField;
 
 
     private final ArtworkService artworkService = ServiceProvider.getArtworkService();
@@ -59,6 +66,36 @@ public class ArtworkController {
 
         artistColumn.setCellValueFactory(cellData -> new SimpleStringProperty(
                 cellData.getValue().getArtist() != null ? cellData.getValue().getArtist().getName() : "Unknown"));
+
+        if(Objects.equals(DatabaseConfig.getUSER(), "admin")){
+            Button addButton = new Button("Add");
+            addButton.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent event) {
+                    handleAdd();
+                }
+            });
+
+            Button updateButton = new Button("Update");
+            updateButton.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent event) {
+                    handleUpdate();
+                }
+            });
+
+            Button deleteButton = new Button("Delete");
+            deleteButton.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent event) {
+                    handleDelete();
+                }
+            });
+
+            buttonField.getChildren().add(addButton);
+            buttonField.getChildren().add(updateButton);
+            buttonField.getChildren().add(deleteButton);
+        }
 
         artworkTable.setItems(FXCollections.observableArrayList(artworkService.getAllArtworks()));
     }

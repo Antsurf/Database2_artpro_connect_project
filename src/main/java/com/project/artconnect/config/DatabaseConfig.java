@@ -28,4 +28,10 @@ public class DatabaseConfig {
         return USER;
     }
 
+    public static void resetConnection(){
+        URL = "jdbc:mysql://127.0.0.1:3306/ARTPROJECT";
+        USER = "project";
+        PASSWORD = "projectPW";
+    }
+
 }
