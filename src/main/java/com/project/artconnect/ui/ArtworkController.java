@@ -4,8 +4,11 @@ import com.project.artconnect.config.DatabaseConfig;
 import com.project.artconnect.model.Artist;
 import com.project.artconnect.model.Artwork;
 import com.project.artconnect.model.ArtworkTag;
+import com.project.artconnect.model.Review;
 import com.project.artconnect.service.ArtistService;
 import com.project.artconnect.service.ArtworkService;
+import com.project.artconnect.service.CommunityService;
+import com.project.artconnect.service.ReviewService;
 import com.project.artconnect.util.ServiceProvider;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -18,10 +21,15 @@ import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 
+import java.math.BigDecimal;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+
+
+import java.time.LocalDate;
 
 public class ArtworkController {
     @FXML
@@ -46,11 +54,26 @@ public class ArtworkController {
     private TableColumn<Artwork, String> dimensionColumn;
     @FXML
     private TableColumn<Artwork, String> descriptionColumn;
+
+    // Review Field
+    @FXML
+    private TableView<Review> reviewTable;
+    @FXML
+    private TableColumn<Review, Double> ReviewRatingColumn;
+    @FXML
+    private TableColumn<Review, String> ReviewCommentColumn;
+    @FXML
+    private TableColumn<Review, LocalDate> ReviewDateColumn;
+    @FXML
+    private TableColumn<Review, String> ReviewTypeColumn;
+
     @FXML
     private HBox buttonField;
 
 
     private final ArtworkService artworkService = ServiceProvider.getArtworkService();
+    private final ReviewService reviewService= ServiceProvider.getReviewService();
+    private final CommunityService communityService = ServiceProvider.getCommunityService();
 
     @FXML
     public void initialize() {
@@ -66,6 +89,23 @@ public class ArtworkController {
 
         artistColumn.setCellValueFactory(cellData -> new SimpleStringProperty(
                 cellData.getValue().getArtist() != null ? cellData.getValue().getArtist().getName() : "Unknown"));
+
+        ReviewRatingColumn.setCellValueFactory(new PropertyValueFactory<>("reviewRating"));
+        ReviewCommentColumn.setCellValueFactory(new PropertyValueFactory<>("reviewComment"));
+        ReviewDateColumn.setCellValueFactory(new PropertyValueFactory<>("reviewDate"));
+        ReviewTypeColumn.setCellValueFactory(new PropertyValueFactory<>("reviewType"));
+
+        // listen for the user click's
+        artworkTable.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue != null){
+                // if selected artwork -> update
+                updateReviewTable(newValue);
+            } else {
+                // if no selected gallery -> clear
+                reviewTable.getItems().clear();
+            }
+        });
+
 
         if(Objects.equals(DatabaseConfig.getUSER(), "admin")){
             Button addButton = new Button("Add");
@@ -98,6 +138,7 @@ public class ArtworkController {
         }
 
         artworkTable.setItems(FXCollections.observableArrayList(artworkService.getAllArtworks()));
+        refreshTable();
     }
 
     private void refreshTable(){
@@ -373,4 +414,77 @@ public class ArtworkController {
         });
         return dialog;
     }
+    @FXML
+    private void handleRating() {
+        Artwork artwork = artworkTable.getSelectionModel().getSelectedItem();
+        if (artwork != null) {
+            Dialog<Review> dialog =  rateArtwork();
+            Optional<Review> result = dialog.showAndWait();
+
+
+
+            result.ifPresent( review -> {
+                review.setArtwork(artwork);
+                review.setReviewer(communityService.getByEmail(DatabaseConfig.getUSER()));
+                reviewService.createReview(review);
+            });
+        }
+
+        refreshTable();
+    }
+
+    private Dialog<Review> rateArtwork() {
+
+        Dialog<Review> dialog = new Dialog<>();
+
+        String s = "Add a rating to the Artwork";
+        dialog.setTitle(s);
+        dialog.setHeaderText("Enter the information of the rating");
+
+        TextField ratingField = new TextField();
+        ratingField.setPromptText("5");
+
+        TextField commentField = new TextField();
+        commentField.setPromptText("Beautiful");
+
+        TextField typeField = new TextField();
+        typeField.setPromptText("Professional or Visitor");
+
+        ButtonType buttonTypeSave = new ButtonType("Save", ButtonBar.ButtonData.OK_DONE);
+        dialog.getDialogPane().getButtonTypes().addAll(buttonTypeSave, ButtonType.CANCEL);
+
+        GridPane grid = new GridPane();
+        grid.getColumnConstraints().add(new ColumnConstraints(100));
+
+        grid.add(new Label("Rating :"), 0, 0);
+        grid.add(ratingField, 1, 0);
+        grid.add(new Label("Comment :"), 0, 1);
+        grid.add(commentField, 1, 1);
+        grid.add(new Label("Tag :"), 0, 2);
+        grid.add(typeField, 1, 2);
+
+        dialog.getDialogPane().setContent(grid);
+
+        dialog.setResultConverter(dialogButton -> {
+            if (dialogButton == buttonTypeSave) {
+                return new Review(new BigDecimal(ratingField.getText().trim()), commentField.getText(), LocalDate.now(), typeField.getText());
+            }
+            return null;
+        });
+        return dialog;
+    }
+
+    private void updateReviewTable(Artwork artwork) {
+        List<Review> reviews = communityService.getReviewsByMember(communityService.getByEmail(DatabaseConfig.getUSER()));
+
+        // find the review associated to the artwork
+        for (Review review : reviews) {
+            if ( review.getArtwork().equals(artwork) ) {
+                System.out.println(artwork);
+                reviewTable.setItems(FXCollections.observableArrayList(review));
+            }
+        }
+    }
+
+
 }

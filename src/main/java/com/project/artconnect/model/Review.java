@@ -9,21 +9,34 @@ public class Review {
     private BigDecimal rating; // 1-5
     private String comment;
     private LocalDate reviewDate;
+    private String type;
 
     public Review() {
     }
 
-    public Review(CommunityMember reviewer, Artwork artwork, BigDecimal rating, String comment) {
+    public Review(CommunityMember reviewer, Artwork artwork, BigDecimal rating, String comment, String type) {
         this.reviewer = reviewer;
         this.artwork = artwork;
         this.rating = rating;
         this.comment = comment;
         this.reviewDate = LocalDate.now();
+        this.type = type;
+    }
+
+    public Review(BigDecimal rating, String comment, LocalDate date, String type) {
+        this.rating = rating;
+        this.comment = comment;
+        this.reviewDate = date;
+        this.type = type;
     }
 
     public CommunityMember getReviewer() {
         return reviewer;
     }
+
+    public String getType() {return type;}
+
+    public void setType(String type) {this.type = type;}
 
     public void setReviewer(CommunityMember reviewer) {
         this.reviewer = reviewer;

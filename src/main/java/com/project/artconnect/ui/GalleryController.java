@@ -96,7 +96,6 @@ public class GalleryController {
      */
     private void updateExhibitionTable(Gallery gallery) {
         List<Exhibition> exhibitions = galleryService.getExhibitionsByGallery(gallery);
-
         exhibitionTable.setItems(FXCollections.observableArrayList(exhibitions));
     }
 

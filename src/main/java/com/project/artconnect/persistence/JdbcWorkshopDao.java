@@ -180,6 +180,7 @@ public class JdbcWorkshopDao implements WorkshopDao {
 
     @Override
     public void registerToWorkshop(Workshop workshop, CommunityMember communityMember){
+        if(workshop == null) return;
         try(Connection connection = ConnectionManager.getConnection()){
             String sql = "INSERT INTO booking (workshop_id, cm_id, booking_bookingDate, booking_paymentStatus) VALUES (?, ?, current_date(), 'NOT PAID')";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);

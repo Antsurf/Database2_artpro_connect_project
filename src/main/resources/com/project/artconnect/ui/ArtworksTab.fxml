@@ -22,7 +22,21 @@
             <TableColumn fx:id="avgRatingColumn" text="Average rating" prefWidth="100" />
         </columns>
     </TableView>
+    <Label text="Comment on the the selected artwork" style="-fx-font-weight: bold; -fx-font-size: 14px;"/>
+    <TableView fx:id="reviewTable" VBox.vgrow="ALWAYS">
+        <placeholder>
+            <Label text="Select one of the Artwork above to see your comment on it."
+                   style="-fx-text-fill: gray; -fx-font-style: italic;"/>
+        </placeholder>
+        <columns>
+            <TableColumn fx:id="ReviewRatingColumn" text="Rating out of 5" prefWidth="150" />
+            <TableColumn fx:id="ReviewCommentColumn" text="Your comment" prefWidth="120" />
+            <TableColumn fx:id="ReviewDateColumn" text="Date published" prefWidth="120" />
+            <TableColumn fx:id="ReviewTypeColumn" text="Type" prefWidth="120" />
+        </columns>
+    </TableView>
     <HBox spacing="10.0" alignment="CENTER_LEFT" fx:id="buttonField">
+        <Button text="Add Rating" onAction="#handleRating"/>
 <!--        Buttons displayed only if you are an admin-->
 <!--        <Button text="Add" onAction="#handleAdd"/>-->
 <!--        <Button text="Update" onAction="#handleUpdate"/>-->

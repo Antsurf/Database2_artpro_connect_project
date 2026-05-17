@@ -239,6 +239,10 @@ BEGIN
     SET @sql := CONCAT('GRANT INSERT ON artproject.booking to', _username, _HOST);
     PREPARE stmt FROM @sql;
     EXECUTE stmt;
+    
+    SET @sql := CONCAT('GRANT INSERT ON artproject.review to', _username, _HOST);
+    PREPARE stmt FROM @sql;
+    EXECUTE stmt;
 END //
 
 DELIMITER ;
