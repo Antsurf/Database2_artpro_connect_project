@@ -21,6 +21,7 @@ import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 
+import java.math.BigDecimal;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -420,10 +421,16 @@ public class ArtworkController {
             Dialog<Review> dialog =  rateArtwork();
             Optional<Review> result = dialog.showAndWait();
 
+
+
             result.ifPresent( review -> {
-                reviewService.createReview(review,artwork.getId(),communityService.getByEmail(DatabaseConfig.getUSER()).getId());
+                review.setArtwork(artwork);
+                review.setReviewer(communityService.getByEmail(DatabaseConfig.getUSER()));
+                reviewService.createReview(review);
             });
         }
+
+        refreshTable();
     }
 
     private Dialog<Review> rateArtwork() {
@@ -460,7 +467,7 @@ public class ArtworkController {
 
         dialog.setResultConverter(dialogButton -> {
             if (dialogButton == buttonTypeSave) {
-                return new Review(Integer.parseInt(ratingField.getText().trim()), commentField.getText(), LocalDate.now(), typeField.getText());
+                return new Review(new BigDecimal(ratingField.getText().trim()), commentField.getText(), LocalDate.now(), typeField.getText());
             }
             return null;
         });
@@ -470,7 +477,6 @@ public class ArtworkController {
     private void updateReviewTable(Artwork artwork) {
         List<Review> reviews = communityService.getReviewsByMember(communityService.getByEmail(DatabaseConfig.getUSER()));
 
-        System.out.println("Just before");
         // find the review associated to the artwork
         for (Review review : reviews) {
             if ( review.getArtwork().equals(artwork) ) {

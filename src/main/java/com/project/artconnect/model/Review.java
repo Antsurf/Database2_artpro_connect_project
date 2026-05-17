@@ -23,8 +23,8 @@ public class Review {
         this.type = type;
     }
 
-    public Review(Integer rating, String comment, LocalDate date, String type) {
-        this.rating = new BigDecimal(rating);
+    public Review(BigDecimal rating, String comment, LocalDate date, String type) {
+        this.rating = rating;
         this.comment = comment;
         this.reviewDate = date;
         this.type = type;

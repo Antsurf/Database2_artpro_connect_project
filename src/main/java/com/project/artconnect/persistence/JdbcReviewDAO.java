@@ -43,16 +43,18 @@ public class JdbcReviewDAO implements ReviewDao {
 
 
     @Override
-    public void save(Review review, int artwork_id, int cm_id) {
+    public void save(Review review) {
         try(Connection connection = ConnectionManager.getConnection()){
             String sql = "INSERT INTO review (artwork_id, cm_id, review_rating, review_comment, review_date, review_type) VALUES (?,?,?,?,?,?)";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setInt(1, artwork_id);
-            preparedStatement.setInt(2, cm_id);
+            preparedStatement.setInt(1, review.getArtwork().getId());
+            preparedStatement.setInt(2, review.getReviewer().getId());
             preparedStatement.setBigDecimal(3, review.getRating());
             preparedStatement.setString(4,review.getComment());
             preparedStatement.setObject(5, review.getReviewDate());
             preparedStatement.setString(6,review.getType());
+
+            preparedStatement.execute();
 
         }catch (SQLException e){
             System.out.println(e.getMessage());

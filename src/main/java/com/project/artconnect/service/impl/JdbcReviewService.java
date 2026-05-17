@@ -10,8 +10,8 @@ public class JdbcReviewService implements ReviewService {
     private final ReviewDao reviewDao = new JdbcReviewDAO();
 
     @Override
-    public void createReview(Review review, int art_id, int cm_id){
-        reviewDao.save(review, art_id, cm_id);
+    public void createReview(Review review){
+        reviewDao.save(review);
     }
 
 }

@@ -4,5 +4,5 @@ import com.project.artconnect.model.Review;
 
 public interface ReviewService {
 
-    void createReview(Review review, int art_id, int cm_id);
+    void createReview(Review review);
 }
