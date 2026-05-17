@@ -14,7 +14,9 @@
             <TableColumn fx:id="titleColumn" text="Title" prefWidth="200" />
             <TableColumn fx:id="instructorColumn" text="Instructor" prefWidth="150" />
             <TableColumn fx:id="dateColumn" text="Date" prefWidth="150" />
-            <TableColumn fx:id="priceColumn" text="Price" prefWidth="80" />
+            <TableColumn fx:id="priceColumn" text="Price" />
+            <TableColumn fx:id="timeColumn" text="Time (min)" />
+            <TableColumn fx:id="descriptionColumn" text="Description" prefWidth="150" />
             <TableColumn fx:id="levelColumn" text="Level" prefWidth="100" />
             <TableColumn fx:id="nbUserInWorkshopColumn" text="Places booked" prefWidth="100" />
         </columns>
