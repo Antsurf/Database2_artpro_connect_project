@@ -36,6 +36,12 @@ public class ExhibitionController {
     private TableColumn<Exhibition, String> galleryColumn;
     @FXML
     private TableColumn<Exhibition, String> artworksColumn;
+    @FXML
+    private TableColumn<Exhibition, String> endDateColumn;
+    @FXML
+    private TableColumn<Exhibition, String> CuratorColumn;
+    @FXML
+    private TableColumn<Exhibition, String> descriptionColumn;
 
     private final ExhibitionService exhibitionService = ServiceProvider.getExhibitionService();
 
@@ -44,6 +50,9 @@ public class ExhibitionController {
         titleColumn.setCellValueFactory(new PropertyValueFactory<>("title"));
         dateColumn.setCellValueFactory(new PropertyValueFactory<>("startDate"));
         themeColumn.setCellValueFactory(new PropertyValueFactory<>("theme"));
+        endDateColumn.setCellValueFactory(new PropertyValueFactory<>("endDate"));
+        CuratorColumn.setCellValueFactory(new PropertyValueFactory<>("curatorName"));
+        descriptionColumn.setCellValueFactory(new PropertyValueFactory<>("description"));
 
         galleryColumn.setCellValueFactory(cellData -> new SimpleStringProperty(
                 cellData.getValue().getGallery() != null ? cellData.getValue().getGallery().getName() : "Unknown"));

@@ -19,7 +19,6 @@ import javafx.scene.control.*;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Optional;
-import java.util.Scanner;
 
 public class MainApp extends Application {
     @Override
