@@ -110,7 +110,7 @@ public class JdbcCommunityMemberDao implements CommunityMemberDao{
         try (Connection connection = ConnectionManager.getConnection()) {
             String sql = "SELECT d.discipline_name FROM communitymember AS cm JOIN favorite AS f ON cm.cm_id = f.cm_id JOIN discipline AS d ON f.discipline_id = d.discipline_id WHERE cm.cm_id = ?";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setString(1, String.valueOf(cm.getEmail()));
+            preparedStatement.setString(1, String.valueOf(cm.getId()));
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 Discipline discipline = new Discipline(resultSet.getString("discipline_name"));

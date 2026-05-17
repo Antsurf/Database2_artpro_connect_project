@@ -14,22 +14,6 @@ import java.util.Optional;
  * Each section tests READ, CREATE, UPDATE, DELETE via ServiceProvider.
  */
 public class IntegrationTest {
-
-    static void section(String title) {
-        System.out.println("\n" + "=".repeat(60));
-        System.out.println("  " + title);
-        System.out.println("=".repeat(60));
-    }
-
-    static void check(String label, boolean condition) {
-        System.out.println("  " + (condition ? "✓" : "✗") + " " + label);
-        if (!condition) System.out.println("    ^^^ FAILED");
-    }
-
-    static void info(String msg) {
-        System.out.println("    → " + msg);
-    }
-
     public static void main(String[] args) {
 
         ArtistService    artistService    = ServiceProvider.getArtistService();
@@ -38,36 +22,32 @@ public class IntegrationTest {
         WorkshopService  workshopService  = ServiceProvider.getWorkshopService();
         CommunityService communityService = ServiceProvider.getCommunityService();
 
-
-        section("1. READ — loading data from database");
+        System.out.println("\n1. READ");
 
         List<Artist> artists = artistService.getAllArtists();
-        check("getAllArtists() returns data", !artists.isEmpty());
-        artists.stream().limit(3).forEach(a -> info(a.getName() + " | " + a.getCity()));
+        System.out.println("getAllArtists(): " + !artists.isEmpty());
+        artists.stream().limit(3).forEach(a -> System.out.println(a.getName() + " | " + a.getCity()));
 
         List<Artwork> artworks = artworkService.getAllArtworks();
-        check("getAllArtworks() returns data", !artworks.isEmpty());
-        artworks.stream().limit(3).forEach(a -> info(a.getTitle() + " | " + a.getStatus()
-                + " | artist: " + (a.getArtist() != null ? a.getArtist().getName() : "none")));
+        System.out.println("getAllArtworks(): " + !artworks.isEmpty());
+        artworks.stream().limit(3).forEach(a -> System.out.println(a.getTitle() + " | " + a.getStatus() + " | artist: " + (a.getArtist() != null ? a.getArtist().getName() : "none")));
 
         List<Gallery> galleries = galleryService.getAllGalleries();
-        check("getAllGalleries() returns data", !galleries.isEmpty());
-        galleries.stream().limit(3).forEach(g -> info(g.getName()
-                + " | exhibitions: " + g.getExhibitions().size()));
+        System.out.println("getAllGalleries(): " + !galleries.isEmpty());
+        galleries.stream().limit(3).forEach(g -> System.out.println(g.getName() + " | exhibitions: " + g.getExhibitions().size()));
 
         List<Workshop> workshops = workshopService.getAllWorkshops();
-        check("getAllWorkshops() returns data", !workshops.isEmpty());
-        workshops.stream().limit(3).forEach(w -> info(w.getTitle() + " | " + w.getLevel()
-                + " | instructor: " + (w.getInstructor() != null ? w.getInstructor().getName() : "none")));
+        System.out.println("getAllWorkshops(): " + !workshops.isEmpty());
+        workshops.stream().limit(3).forEach(w -> System.out.println(w.getTitle() + " | " + w.getLevel() + " | instructor: " + (w.getInstructor() != null ? w.getInstructor().getName() : "none")));
 
         List<CommunityMember> members = communityService.getAllMembers();
-        check("getAllMembers() returns data", !members.isEmpty());
-        members.stream().limit(3).forEach(m -> info(m.getName() + " | " + m.getEmail()));
+        System.out.println("getAllMembers(): " + !members.isEmpty());
+        members.stream().limit(3).forEach(m -> System.out.println(m.getName() + " | " + m.getEmail()));
 
-        section("2. CREATE — inserting a new artist");
+        System.out.println("\n2. CREATE");
 
         Artist newArtist = new Artist();
-        newArtist.setName("TEST_INTEGRATION_ARTIST3");
+        newArtist.setName("TEST_INTEGRATION_ARTIST4");
         newArtist.setBio("Created by integration test");
         newArtist.setBirthYear(1990);
         newArtist.setContactEmail("test@integration.com");
@@ -76,82 +56,64 @@ public class IntegrationTest {
         newArtist.setWebsite("www.test.com");
         newArtist.setSocialMedia("@test");
         newArtist.setActive(true);
-        System.out.println(newArtist);
         artistService.createArtist(newArtist);
 
-        Optional<Artist> found = artistService.getArtistByName("TEST_INTEGRATION_ARTIST3");
-        if (found.isPresent()) {
-            System.out.println("Artist found!");
+        Optional<Artist> found = artistService.getArtistByName("TEST_INTEGRATION_ARTIST4");
+        System.out.println("Artist found after create: " + found.isPresent());
+        found.ifPresent(a -> System.out.println("Inserted: " + a.getName() + " | " + a.getCity()));
 
-        } else {
-            System.out.println("Artist not found!");
-        }
-        check("Artist found after createArtist()", found.isPresent());
-        found.ifPresent(a -> info("Inserted: " + a.getName() + " | " + a.getCity()));
+        System.out.println("\n3. UPDATE");
 
-        section("3. UPDATE — changing artist city");
+        found.ifPresent(a -> { a.setCity("UpdatedCity"); artistService.updateArtist(a); });
+        Optional<Artist> afterUpdate = artistService.getArtistByName("TEST_INTEGRATION_ARTIST4");
+        System.out.println("City updated: " + (afterUpdate.isPresent() && "UpdatedCity".equals(afterUpdate.get().getCity())));
+        afterUpdate.ifPresent(a -> System.out.println("After update: " + a.getName() + " | " + a.getCity()));
 
-        found.ifPresent(a -> {
-            a.setCity("UpdatedCity");
-            artistService.updateArtist(a);
-        });
+        System.out.println("\n4. DELETE");
 
-        Optional<Artist> afterUpdate = artistService.getArtistByName("TEST_INTEGRATION_ARTIST3");
-        check("City updated to 'UpdatedCity'",
-                afterUpdate.isPresent() && "UpdatedCity".equals(afterUpdate.get().getCity()));
-        afterUpdate.ifPresent(a -> info("After update: " + a.getName() + " | " + a.getCity()));
+        artistService.deleteArtist("TEST_INTEGRATION_ARTIST4");
+        Optional<Artist> afterDelete = artistService.getArtistByName("TEST_INTEGRATION_ARTIST4");
+        System.out.println("Artist gone after delete: " + afterDelete.isEmpty());
 
-
-        section("4. DELETE — removing test artist");
-
-        artistService.deleteArtist("TEST_INTEGRATION_ARTIST3");
-
-        Optional<Artist> afterDelete = artistService.getArtistByName("TEST_INTEGRATION_ARTIST3");
-        check("Artist gone after deleteArtist()", afterDelete.isEmpty());
-        info(afterDelete.isEmpty() ? "Correctly deleted" : "ERROR: still present!");
-
-
-        section("5. SEARCH — searchArtists()");
+        System.out.println("\n5. SEARCH");
 
         if (!artists.isEmpty()) {
             String city = artists.get(0).getCity();
-            List<Artist> byCity = artistService.searchArtists(null, null, city);
-            check("searchArtists by city '" + city + "' returns results", !byCity.isEmpty());
-            byCity.forEach(a -> info(a.getName() + " | " + a.getCity()));
+            System.out.println(city);
+
+            if (city != null && !city.isEmpty()) {
+                List<Artist> byCity = artistService.searchArtists(null, null, city);
+                System.out.println("searchArtists by city '" + city + "': " + !byCity.isEmpty());
+                byCity.forEach(a -> System.out.println(a.getName() + " | " + a.getCity()));
+            } else {
+                System.out.println("Skipped - first artist has no city set");
+            }
         }
 
-
-        section("6. DISCIPLINES");
+        System.out.println("\n6. DISCIPLINES");
 
         List<Discipline> disciplines = artistService.getAllDisciplines();
-        check("getAllDisciplines() returns data", !disciplines.isEmpty());
-        disciplines.forEach(d -> info(d.getName()));
+        System.out.println("getAllDisciplines(): " + !disciplines.isEmpty());
+        disciplines.forEach(d -> System.out.println(d.getName()));
 
-
-        section("7. GALLERY — exhibitions");
+        System.out.println("\n7. GALLERY");
 
         if (!galleries.isEmpty()) {
             Gallery firstGallery = galleries.get(1);
             List<?> exh = galleryService.getExhibitionsByGallery(firstGallery);
-            check("getExhibitionsByGallery() returns list (can be empty)", exh != null);
-            info(firstGallery.getName() + " has " + exh.size() + " exhibition(s)");
+            System.out.println("getExhibitionsByGallery() not null: " + (exh != null));
+            System.out.println(firstGallery.getName() + " has " + exh.size() + " exhibition(s)");
         }
 
+        System.out.println("\n8. COMMUNITY");
 
-        section("8. COMMUNITY — reviews");
+        CommunityMemberDao communityMemberDao = new JdbcCommunityMemberDao();
+        CommunityMember alice = communityMemberDao.findById(1);
+        List<Review> reviews = communityService.getReviewsByMember(alice);
+        System.out.println("getReviewsByMember() not null: " + (reviews != null));
+        System.out.println(alice.getName() + " has " + reviews.size() + " review(s)");
+        reviews.forEach(r -> System.out.println(r.getComment() + " | " + r.getRating() + " | " + r.getReviewDate()));
 
-        if (!members.isEmpty()) {
-            CommunityMemberDao communityMemberDao = new JdbcCommunityMemberDao();
-            System.out.println(communityMemberDao.findById(1));
-            CommunityMember firstMember = members.get(0);
-            List<?> reviews = communityService.getReviewsByMember(firstMember);
-            check("getReviewsByMember() returns list (can be empty)", reviews != null);
-            info(firstMember.getName() + " has " + reviews.size() + " review(s)");
-        }
-
-        // ============================================================
-        section("ALL TESTS DONE");
-        System.out.println("  ✗ = something failed, check the line above it.");
-        System.out.println("  ✓ = working correctly.\n");
+        System.out.println("\nDONE");
     }
 }
