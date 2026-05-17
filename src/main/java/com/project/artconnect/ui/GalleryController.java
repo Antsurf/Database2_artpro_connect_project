@@ -1,6 +1,7 @@
 package com.project.artconnect.ui;
 
 import com.project.artconnect.model.Gallery;
+import com.project.artconnect.model.Exhibition;
 import com.project.artconnect.service.GalleryService;
 import com.project.artconnect.util.ServiceProvider;
 import javafx.beans.property.SimpleStringProperty;
@@ -9,9 +10,12 @@ import javafx.fxml.FXML;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import java.time.LocalDate;
+import java.util.List;
 
 public class GalleryController {
 
+    // gallery composants
     @FXML
     private TableView<Gallery> galleryTable;
     @FXML
@@ -29,12 +33,27 @@ public class GalleryController {
     @FXML
     private TableColumn<Gallery, String> websiteColumn;
 
+    // exhibition composants
+    @FXML
+    private TableView<Exhibition> exhibitionTable;
+    @FXML
+    private TableColumn<Exhibition, String> exhibitionTitleColumn;
+    @FXML
+    private TableColumn<Exhibition, String> exhibitionThemeColumn;
+    @FXML
+    private TableColumn<Exhibition, LocalDate> exhibitionStartDateColumn;
+    @FXML
+    private TableColumn<Exhibition, LocalDate> exhibitionEndDateColumn;
+    @FXML
+    private TableColumn<Exhibition, String> exhibitionCuratorColumn;
+    @FXML
+    private TableColumn<Exhibition, String> exhibitionDescriptionColumn;
 
     private final GalleryService galleryService = ServiceProvider.getGalleryService();
 
     @FXML
     public void initialize() {
-        // Basic properties
+        // gallery table columns
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
         ownerColumn.setCellValueFactory(new PropertyValueFactory<>("ownerName"));
         ratingColumn.setCellValueFactory(new PropertyValueFactory<>("rating"));
@@ -42,7 +61,6 @@ public class GalleryController {
         phoneColumn.setCellValueFactory(new PropertyValueFactory<>("contactPhone"));
         websiteColumn.setCellValueFactory(new PropertyValueFactory<>("website"));
 
-        // Complex property: Extracting city/street from the Address object
         addressColumn.setCellValueFactory(cellData -> {
             if (cellData.getValue().getAddress() != null) {
                 return new SimpleStringProperty(cellData.getValue().getAddress().getCity_name());
@@ -51,7 +69,35 @@ public class GalleryController {
             }
         });
 
+        // exhibition table columns
+        exhibitionTitleColumn.setCellValueFactory(new PropertyValueFactory<>("title"));
+        exhibitionThemeColumn.setCellValueFactory(new PropertyValueFactory<>("theme"));
+        exhibitionStartDateColumn.setCellValueFactory(new PropertyValueFactory<>("startDate"));
+        exhibitionEndDateColumn.setCellValueFactory(new PropertyValueFactory<>("endDate"));
+        exhibitionCuratorColumn.setCellValueFactory(new PropertyValueFactory<>("curatorName"));
+        exhibitionDescriptionColumn.setCellValueFactory(new PropertyValueFactory<>("description"));
+
+        // listener of user click's
+        galleryTable.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue != null) {
+                // if selected gallery -> update
+                updateExhibitionTable(newValue);
+            } else {
+                // if no selected gallery -> clear
+                exhibitionTable.getItems().clear();
+            }
+        });
+
         refreshData();
+    }
+
+    /**
+    * retrieve info from db and update table
+     */
+    private void updateExhibitionTable(Gallery gallery) {
+        List<Exhibition> exhibitions = galleryService.getExhibitionsByGallery(gallery);
+
+        exhibitionTable.setItems(FXCollections.observableArrayList(exhibitions));
     }
 
     private void refreshData() {

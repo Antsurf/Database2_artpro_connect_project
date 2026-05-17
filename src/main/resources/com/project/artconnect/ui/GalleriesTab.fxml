@@ -9,7 +9,9 @@
         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
     </padding>
 
+    <Label text="Galleries" style="-fx-font-weight: bold; -fx-font-size: 14px;"/>
     <TableView fx:id="galleryTable" VBox.vgrow="ALWAYS">
+
         <columns>
             <TableColumn fx:id="nameColumn" text="Gallery Name" prefWidth="150" />
             <TableColumn fx:id="ownerColumn" text="Owner" prefWidth="120" />
@@ -18,6 +20,24 @@
             <TableColumn fx:id="websiteColumn" text="Website" prefWidth="200" />
             <TableColumn fx:id="addressColumn" text="Location" prefWidth="200" />
             <TableColumn fx:id="ratingColumn" text="Rating" />
+        </columns>
+    </TableView>
+
+    <Separator/>
+
+    <Label text="Expositions at the selected gallery" style="-fx-font-weight: bold; -fx-font-size: 14px;"/>
+    <TableView fx:id="exhibitionTable" VBox.vgrow="ALWAYS">
+        <placeholder>
+            <Label text="Select one of the gallery above to see its exposition(s)."
+                   style="-fx-text-fill: gray; -fx-font-style: italic;"/>
+        </placeholder>
+        <columns>
+            <TableColumn fx:id="exhibitionTitleColumn" text="Title" prefWidth="150" />
+            <TableColumn fx:id="exhibitionThemeColumn" text="Theme" prefWidth="120" />
+            <TableColumn fx:id="exhibitionStartDateColumn" text="Beginning date" prefWidth="120" />
+            <TableColumn fx:id="exhibitionEndDateColumn" text="Ending date" prefWidth="120" />
+            <TableColumn fx:id="exhibitionCuratorColumn" text="Expositioner" prefWidth="120" />
+            <TableColumn fx:id="exhibitionDescriptionColumn" text="Description" prefWidth="250" />
         </columns>
     </TableView>
 </VBox>

@@ -17,20 +17,13 @@ import java.util.Optional;
 
 public class JdbcWorkshopService implements WorkshopService {
     
-    // TODO: check if working after merge
     private final WorkshopDao workshopDao = new JdbcWorkshopDao();
 
-    // ----------------------------------------------------------------
-    // getAllWorkshops
-    // ----------------------------------------------------------------
     @Override
     public List<Workshop> getAllWorkshops()  {
         return workshopDao.findAll();
     }
 
-    // ----------------------------------------------------------------
-    // getWorkshopByTitle
-    // ----------------------------------------------------------------
     @Override
     public Optional<Workshop> getWorkshopByTitle(String title)  {
         return workshopDao.findAll().stream()
@@ -45,11 +38,7 @@ public class JdbcWorkshopService implements WorkshopService {
         return numberOfBookings + "/" + numberMax;
     }
 
-    // ----------------------------------------------------------------
-    // bookWorkshop
-    // Inserts a booking row into the 'booking' table.
-    // Uses a transaction: if the insert fails, nothing is committed.
-    // ----------------------------------------------------------------
+
     @Override
     public void bookWorkshop(Workshop workshop, CommunityMember member) {
         if (workshop == null || member == null) return;
@@ -61,7 +50,6 @@ public class JdbcWorkshopService implements WorkshopService {
                         "VALUES (?, ?, ?, 'pending')";
 
         try (Connection conn = ConnectionManager.getConnection()) {
-            conn.setAutoCommit(false); // begin transaction
 
             int workshopId = -1;
             try (PreparedStatement ps = conn.prepareStatement(sqlId)) {
@@ -84,9 +72,6 @@ public class JdbcWorkshopService implements WorkshopService {
                 ps.executeUpdate();
             }
 
-            conn.commit(); // all good
-
-            // Also update the in-memory member object so the UI stays consistent
             Booking booking = new Booking(workshop, member);
             member.addBooking(booking);
 
@@ -95,11 +80,7 @@ public class JdbcWorkshopService implements WorkshopService {
         }
     }
 
-    // ----------------------------------------------------------------
-    // getBookingsByMember
-    // Returns the member's bookings — already loaded if findById was
-    // called, otherwise fetched directly from DB.
-    // ----------------------------------------------------------------
+
     @Override
     public List<Booking> getBookingsByMember(CommunityMember member) {
         if (member == null) return List.of();
