@@ -12,7 +12,6 @@ import java.util.Optional;
 /**
  * Integration test — runs through the full service layer using JDBC.
  * Each section tests READ, CREATE, UPDATE, DELETE via ServiceProvider.
- * If you see ✓ for every line, your DB integration is working correctly.
  */
 public class IntegrationTest {
 
@@ -39,9 +38,7 @@ public class IntegrationTest {
         WorkshopService  workshopService  = ServiceProvider.getWorkshopService();
         CommunityService communityService = ServiceProvider.getCommunityService();
 
-        // ============================================================
-        // 1. READ — verify data loads from DB
-        // ============================================================
+
         section("1. READ — loading data from database");
 
         List<Artist> artists = artistService.getAllArtists();
@@ -67,9 +64,6 @@ public class IntegrationTest {
         check("getAllMembers() returns data", !members.isEmpty());
         members.stream().limit(3).forEach(m -> info(m.getName() + " | " + m.getEmail()));
 
-        // ============================================================
-        // 2. CREATE — insert a new artist and verify it appears
-        // ============================================================
         section("2. CREATE — inserting a new artist");
 
         Artist newArtist = new Artist();
@@ -95,9 +89,6 @@ public class IntegrationTest {
         check("Artist found after createArtist()", found.isPresent());
         found.ifPresent(a -> info("Inserted: " + a.getName() + " | " + a.getCity()));
 
-        // ============================================================
-        // 3. UPDATE — change the city and verify it persisted
-        // ============================================================
         section("3. UPDATE — changing artist city");
 
         found.ifPresent(a -> {
@@ -110,9 +101,7 @@ public class IntegrationTest {
                 afterUpdate.isPresent() && "UpdatedCity".equals(afterUpdate.get().getCity()));
         afterUpdate.ifPresent(a -> info("After update: " + a.getName() + " | " + a.getCity()));
 
-        // ============================================================
-        // 4. DELETE — remove the test artist and verify it's gone
-        // ============================================================
+
         section("4. DELETE — removing test artist");
 
         artistService.deleteArtist("TEST_INTEGRATION_ARTIST3");
@@ -121,9 +110,7 @@ public class IntegrationTest {
         check("Artist gone after deleteArtist()", afterDelete.isEmpty());
         info(afterDelete.isEmpty() ? "Correctly deleted" : "ERROR: still present!");
 
-        // ============================================================
-        // 5. SEARCH — searchArtists filters correctly
-        // ============================================================
+
         section("5. SEARCH — searchArtists()");
 
         if (!artists.isEmpty()) {
@@ -133,18 +120,14 @@ public class IntegrationTest {
             byCity.forEach(a -> info(a.getName() + " | " + a.getCity()));
         }
 
-        // ============================================================
-        // 6. DISCIPLINES
-        // ============================================================
+
         section("6. DISCIPLINES");
 
         List<Discipline> disciplines = artistService.getAllDisciplines();
         check("getAllDisciplines() returns data", !disciplines.isEmpty());
         disciplines.forEach(d -> info(d.getName()));
 
-        // ============================================================
-        // 7. GALLERY — exhibitions loaded inside gallery object
-        // ============================================================
+
         section("7. GALLERY — exhibitions");
 
         if (!galleries.isEmpty()) {
@@ -154,9 +137,7 @@ public class IntegrationTest {
             info(firstGallery.getName() + " has " + exh.size() + " exhibition(s)");
         }
 
-        // ============================================================
-        // 8. COMMUNITY — reviews by member
-        // ============================================================
+
         section("8. COMMUNITY — reviews");
 
         if (!members.isEmpty()) {
