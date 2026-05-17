@@ -70,7 +70,7 @@ public class ExhibitionController {
             return new SimpleStringProperty(titles);
         });
         filter.setItems(FXCollections.observableArrayList(null, "Title","Theme", "City"));
-        refreshData();
+        refreshTable();
     }
     @FXML
     private void handleSearch() {
@@ -88,11 +88,5 @@ public class ExhibitionController {
 
     private void refreshTable() {
         exhibitionTable.setItems(FXCollections.observableArrayList(exhibitionService.findAll()));
-    }
-
-    private void refreshData() {
-        List<Exhibition> all = exhibitionService.findAll();
-        exhibitionTable.setItems(FXCollections.observableArrayList(all));
-
     }
 }

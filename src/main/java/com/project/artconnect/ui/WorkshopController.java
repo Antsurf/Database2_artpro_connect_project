@@ -12,12 +12,15 @@ import com.project.artconnect.util.ServiceProvider;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import java.time.LocalDateTime;
 
 public class WorkshopController {
+    @FXML
+    private ComboBox<String> filterLevel;
     @FXML
     private TableView<Workshop> workshopTable;
     @FXML
@@ -58,6 +61,7 @@ public class WorkshopController {
                         : "Unknown"));
 
         workshopTable.setItems(FXCollections.observableArrayList(workshopService.getAllWorkshops()));
+        filterLevel.setItems(FXCollections.observableArrayList(null, "Advanced", "Intermediate", "Beginner"));
     }
 
     @FXML
@@ -71,6 +75,20 @@ public class WorkshopController {
         refreshTable();
     }
 
+    @FXML
+    private void handleSearch() {
+        String filter = filterLevel.getValue();
+        if (filter != null) {
+            workshopTable.setItems(FXCollections.observableArrayList(workshopService.filterByLevel(filter)));
+        }
+    }
+
+    @FXML
+    private void handleReset() {
+        filterLevel.setValue(null);
+        refreshTable();
+    }
+
     private void refreshTable() {
         workshopTable.setItems(FXCollections.observableArrayList(workshopService.getAllWorkshops()));
     }
@@ -80,10 +98,5 @@ public class WorkshopController {
         CommunityMemberDao communityMemberDao = new JdbcCommunityMemberDao();
         CommunityMember communityMember = communityMemberDao.findByEmail(DatabaseConfig.getUSER());
         workshopTable.setItems(FXCollections.observableArrayList(workshopService.getWorkshopsByMember(communityMember)));
-    }
-
-    @FXML
-    private void handleReset(){
-        refreshTable();
     }
 }

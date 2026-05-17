@@ -102,4 +102,11 @@ public class JdbcWorkshopService implements WorkshopService {
         }
         return workshops;
     }
+
+    @Override
+    public List<Workshop> filterByLevel(String level){
+        return workshopDao.findAll().stream()
+                .filter(e -> e.getLevel().equals(level))
+                .toList();
+    }
 }

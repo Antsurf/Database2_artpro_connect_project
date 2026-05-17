@@ -1,5 +1,6 @@
 package com.project.artconnect.service;
 
+import com.project.artconnect.model.Exhibition;
 import com.project.artconnect.model.Workshop;
 import com.project.artconnect.model.Booking;
 import com.project.artconnect.model.CommunityMember;
@@ -20,4 +21,6 @@ public interface WorkshopService {
     List<Workshop> getWorkshopsByMember(CommunityMember member);
 
     public String getNumberOfBooking(Workshop workshop);
+
+    List<Workshop> filterByLevel(String level);
 }
