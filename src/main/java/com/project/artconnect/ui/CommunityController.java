@@ -18,6 +18,12 @@ public class CommunityController {
     private TableColumn<CommunityMember, String> emailColumn;
     @FXML
     private TableColumn<CommunityMember, String> cityColumn;
+    @FXML
+    private TableColumn<CommunityMember, String> birthYearColumn;
+    @FXML
+    private TableColumn<CommunityMember, String> phoneColumn;
+    @FXML
+    private TableColumn<CommunityMember, String> MembershipColumn;
 
     private final CommunityService communityService = ServiceProvider.getCommunityService();
 
@@ -26,6 +32,9 @@ public class CommunityController {
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
         emailColumn.setCellValueFactory(new PropertyValueFactory<>("email"));
         cityColumn.setCellValueFactory(new PropertyValueFactory<>("city"));
+        birthYearColumn.setCellValueFactory(new PropertyValueFactory<>("birthYear"));
+        phoneColumn.setCellValueFactory(new PropertyValueFactory<>("phone"));
+        MembershipColumn.setCellValueFactory(new PropertyValueFactory<>("membershipType"));
 
         memberTable.setItems(FXCollections.observableArrayList(communityService.getAllMembers()));
     }

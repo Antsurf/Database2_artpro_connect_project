@@ -13,6 +13,9 @@
             <TableColumn fx:id="nameColumn" text="Name" prefWidth="250" />
             <TableColumn fx:id="emailColumn" text="Email" prefWidth="250" />
             <TableColumn fx:id="cityColumn" text="City" prefWidth="150" />
+            <TableColumn fx:id="birthYearColumn" text="BirthYear" prefWidth="150" />
+            <TableColumn fx:id="phoneColumn" text="Phone" prefWidth="150" />
+            <TableColumn fx:id="MembershipColumn" text="Membership" prefWidth="150" />
         </columns>
     </TableView>
 </VBox>

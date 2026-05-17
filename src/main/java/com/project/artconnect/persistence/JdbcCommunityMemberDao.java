@@ -135,4 +135,22 @@ public class JdbcCommunityMemberDao implements CommunityMemberDao{
         }
         return reviews;
     }
+
+    @Override
+    public void save(CommunityMember communityMember){
+        try(Connection connection = ConnectionManager.getConnection()){
+            String sql ="INSERT INTO CommunityMember (cm_name, cm_email, cm_birthYear, cm_phone, cm_city, cm_membershipType) VALUES (?, ?, ?, ?, ?,'Standard')";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, communityMember.getName());
+            preparedStatement.setString(2, communityMember.getEmail());
+            preparedStatement.setInt(3, communityMember.getBirthYear());
+            preparedStatement.setString(4, communityMember.getPhone());
+            preparedStatement.setString(5, communityMember.getCity());
+
+            preparedStatement.execute();
+        }
+        catch (SQLException e){
+            System.out.println(e.getMessage());
+        }
+    }
 }

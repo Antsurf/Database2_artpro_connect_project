@@ -33,9 +33,10 @@
         <Tab text="Workshops">
             <fx:include source="WorkshopsTab.fxml"/>
         </Tab>
-        <Tab text="Community">
-            <fx:include source="CommunityTab.fxml"/>
-        </Tab>
+<!--        This tab is now added only if you are admin. Usual user won't see it -->
+<!--        <Tab text="Community">-->
+<!--            <fx:include source="CommunityTab.fxml"/>-->
+<!--        </Tab>-->
     </TabPane>
     
     <HBox alignment="CENTER_RIGHT" prefHeight="30.0" style="-fx-background-color: #f0f0f0;">

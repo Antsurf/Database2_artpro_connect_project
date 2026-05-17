@@ -11,4 +11,6 @@ public interface CommunityMemberDao {
     List<CommunityMember> findAll();
 
     List<Review> findReviewsByMemberId(Integer id);
+
+    void save(CommunityMember communityMember);
 }

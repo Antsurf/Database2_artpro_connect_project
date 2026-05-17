@@ -23,6 +23,14 @@ public class CommunityMember {
         this.email = email;
     }
 
+    public CommunityMember(String name, String email, Integer birthYear, String phone, String city) {
+        this.name = name;
+        this.email = email;
+        this.birthYear = birthYear;
+        this.phone = phone;
+        this.city = city;
+    }
+
     public Integer getId() {
         return id;
     }
