@@ -150,6 +150,7 @@ public class JdbcCommunityMemberDao implements CommunityMemberDao{
                 r.setRating(resultSet.getBigDecimal("review_rating"));
                 r.setComment(resultSet.getString("review_comment"));
                 r.setReviewDate(resultSet.getObject("review_date", LocalDate.class));
+                r.setType(resultSet.getString("review_type"));
                 cm.addReview(r);
             }
         }
@@ -199,6 +200,9 @@ public class JdbcCommunityMemberDao implements CommunityMemberDao{
                 review.setComment(rs.getString("review_comment"));
                 review.setRating(rs.getBigDecimal("review_rating"));
                 review.setReviewDate(rs.getDate("review_date").toLocalDate());
+                review.setType(rs.getString("review_type"));
+
+                System.out.println(review);
 
                 reviews.add(review);
             }

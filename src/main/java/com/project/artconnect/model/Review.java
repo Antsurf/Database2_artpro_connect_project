@@ -81,6 +81,7 @@ public class Review {
                 "\nrating=" + rating +
                 "\ncomment='" + comment + '\'' +
                 "\nreviewDate=" + reviewDate +
+                "\ntype=" + type +
                 "\n";
     }
 }

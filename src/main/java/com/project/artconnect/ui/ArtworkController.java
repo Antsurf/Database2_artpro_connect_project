@@ -90,10 +90,10 @@ public class ArtworkController {
         artistColumn.setCellValueFactory(cellData -> new SimpleStringProperty(
                 cellData.getValue().getArtist() != null ? cellData.getValue().getArtist().getName() : "Unknown"));
 
-        ReviewRatingColumn.setCellValueFactory(new PropertyValueFactory<>("reviewRating"));
-        ReviewCommentColumn.setCellValueFactory(new PropertyValueFactory<>("reviewComment"));
+        ReviewRatingColumn.setCellValueFactory(new PropertyValueFactory<>("rating"));
+        ReviewCommentColumn.setCellValueFactory(new PropertyValueFactory<>("comment"));
         ReviewDateColumn.setCellValueFactory(new PropertyValueFactory<>("reviewDate"));
-        ReviewTypeColumn.setCellValueFactory(new PropertyValueFactory<>("reviewType"));
+        ReviewTypeColumn.setCellValueFactory(new PropertyValueFactory<>("type"));
 
         // listen for the user click's
         artworkTable.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
@@ -476,13 +476,17 @@ public class ArtworkController {
 
     private void updateReviewTable(Artwork artwork) {
         List<Review> reviews = communityService.getReviewsByMember(communityService.getByEmail(DatabaseConfig.getUSER()));
-
+        boolean found = false;
         // find the review associated to the artwork
         for (Review review : reviews) {
-            if ( review.getArtwork().equals(artwork) ) {
-                System.out.println(artwork);
+
+            if (Objects.equals(review.getArtwork().getId(), artwork.getId())) {
                 reviewTable.setItems(FXCollections.observableArrayList(review));
+                found = true;
             }
+        }
+        if(!found){
+            reviewTable.getItems().clear();
         }
     }
 
