@@ -4,8 +4,12 @@ import com.project.artconnect.dao.CommunityMemberDao;
 import com.project.artconnect.model.*;
 import com.project.artconnect.persistence.JdbcCommunityMemberDao;
 import com.project.artconnect.service.*;
+import com.project.artconnect.util.ConnectionManager;
 import com.project.artconnect.util.ServiceProvider;
 
+import java.sql.CallableStatement;
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 
@@ -114,6 +118,24 @@ public class IntegrationTest {
         System.out.println(alice.getName() + " has " + reviews.size() + " review(s)");
         reviews.forEach(r -> System.out.println(r.getComment() + " | " + r.getRating() + " | " + r.getReviewDate()));
 
+        System.out.println("\n9. TRANSACTION — register to all future workshops with beginner level");
+
+        try (Connection connection = ConnectionManager.getConnection()) {
+            CallableStatement cs = connection.prepareCall("CALL learn_painting(?)");
+            cs.setInt(1, 1); // Alice cm_id = 1
+            cs.execute();
+            System.out.println("learn_painting(1) executed successfully");
+
+            // verify bookings were created
+            CommunityMemberDao communityMemberDao2 = new JdbcCommunityMemberDao();
+            CommunityMember alice2 = communityMemberDao2.findById(1);
+            System.out.println("Alice now has " + alice2.getBookings().size() + " booking(s)");
+            alice2.getBookings().forEach(b -> System.out.println(
+                    b.getWorkshop().getTitle() + " | " + b.getPaymentStatus()
+            ));
+        } catch (SQLException e) {
+            System.out.println("Transaction failed: " + e.getMessage());
+        }
         System.out.println("\nDONE");
     }
 }
